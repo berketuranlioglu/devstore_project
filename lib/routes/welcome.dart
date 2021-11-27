@@ -15,9 +15,8 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/vec_img.png"),
-            alignment: AlignmentDirectional(0.0, -6.0),
-            fit: BoxFit.fitWidth,
+            image: AssetImage("assets/vec_backg.png"),
+            fit: BoxFit.cover,
           ),
         ),
         child: Center(
