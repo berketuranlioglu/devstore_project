@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:devstore_project/utils/color.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             text: const TextSpan(
               style: TextStyle(
                 fontSize: 28.0,
-                color: Colors.black,
+                color: AppColors.textColor,
               ),
               children: <TextSpan>[
                 TextSpan(text: 'Welcome to '),
@@ -129,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(
                           fontSize: 10.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: AppColors.textColor,
                         ),
                         textAlign: TextAlign.end,
                       ),
@@ -147,12 +148,12 @@ class _LoginPageState extends State<LoginPage> {
             child: const Text(
               'LOG IN',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.secondaryColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 13.0,
               ),
             ),
-            color: const Color(0xff9441e4),
+            color: AppColors.primaryColor,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
             onPressed: buttonClicked,
           ),
@@ -171,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 RawMaterialButton(
                   onPressed: buttonClicked,
-                  fillColor: Colors.white,
+                  fillColor: AppColors.secondaryColor,
                   child: Image.asset(
                     'assets/Gmail Icon.png',
                     width: 12.0,
@@ -183,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 RawMaterialButton(
                   onPressed: buttonClicked,
-                  fillColor: Colors.white,
+                  fillColor: AppColors.secondaryColor,
                   child: Image.asset(
                     'assets/Facebook Icon.png',
                     fit: BoxFit.cover,
@@ -199,16 +200,18 @@ class _LoginPageState extends State<LoginPage> {
             text: TextSpan(
               style: const TextStyle(
                 fontSize: 12.0,
-                color: Colors.black,
+                color: AppColors.textColor,
               ),
               children: <TextSpan>[
                 const TextSpan(text: 'Don\'t have an account? '),
                 TextSpan(
                   text: 'Sign up',
                   recognizer: TapGestureRecognizer()
-                    ..onTap = buttonClicked,
+                    ..onTap = () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
                   style: const TextStyle(
-                    color: Color(0xff9441e4),
+                    color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
