@@ -32,7 +32,9 @@ class _WelcomeState extends State<Welcome> {
                     color: AppColors.secondaryColor,
                   ),
                   children: <TextSpan>[
-                    TextSpan(text: 'dev', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(
+                        text: 'dev',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     TextSpan(text: 'store'),
                   ],
                 ),
@@ -72,7 +74,9 @@ class _WelcomeState extends State<Welcome> {
                 height: 60.0,
                 width: 250.0,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Text(
@@ -95,7 +99,8 @@ class _WelcomeState extends State<Welcome> {
                 ),
               ),
               SizedBox(height: 20.0),
-              TextButton(onPressed: () {},
+              TextButton(
+                onPressed: () {},
                 child: Text(
                   'Continue as a guest.',
                   style: TextStyle(
@@ -113,4 +118,3 @@ class _WelcomeState extends State<Welcome> {
     );
   }
 }
-
