@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:devstore_project/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final loginPage_WelcomeRegular = GoogleFonts.openSans(
@@ -70,6 +71,18 @@ final signupPage_LogInBold = GoogleFonts.openSans(
 final homePage_SearchBar = GoogleFonts.openSans(
     fontSize: 15,
     fontWeight: FontWeight.normal, //homepage search text inside search bar
+);
+
+final welcomePage_LogIn = GoogleFonts.openSans(
+    textStyle: TextStyle(color: AppColors.primaryColor),
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+);
+
+final welcomePage_SignUp = GoogleFonts.openSans(
+    textStyle: TextStyle(color: AppColors.secondaryColor),
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
 );
 
 /*final homePage_Ads = GoogleFonts.roboto(

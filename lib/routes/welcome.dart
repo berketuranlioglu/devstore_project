@@ -1,3 +1,4 @@
+import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 
@@ -52,10 +53,7 @@ class _WelcomeState extends State<Welcome> {
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Text(
                       'Log In',
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontSize: 16,
-                      ),
+                      style: welcomePage_LogIn,
                     ),
                   ),
                   style: OutlinedButton.styleFrom(
@@ -81,10 +79,7 @@ class _WelcomeState extends State<Welcome> {
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(
-                        color: AppColors.secondaryColor,
-                        fontSize: 16,
-                      ),
+                      style: welcomePage_SignUp,
                     ),
                   ),
                   style: OutlinedButton.styleFrom(

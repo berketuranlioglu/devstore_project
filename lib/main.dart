@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/routes/login.dart';
