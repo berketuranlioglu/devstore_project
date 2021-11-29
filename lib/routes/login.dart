@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
+import 'package:devstore_project/utils/styles.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,15 +41,15 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 16.0,),
           RichText(
-            text: const TextSpan(
-              style: TextStyle(
+            text: TextSpan(
+              style: const TextStyle(
                 fontSize: 28.0,
                 color: AppColors.textColor,
               ),
               children: <TextSpan>[
-                TextSpan(text: 'Welcome to '),
-                TextSpan(text: 'dev', style: TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: 'store'),
+                TextSpan(text: 'Welcome to ', style: loginPage_WelcomeRegular),
+                TextSpan(text: 'dev', style: loginPage_WelcomeBold),
+                TextSpan(text: 'store', style: loginPage_WelcomeRegular),
               ],
             ),
             textAlign: TextAlign.center,
