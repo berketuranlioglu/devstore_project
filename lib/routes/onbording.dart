@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/welcome.dart';
@@ -15,17 +14,17 @@ class Content {
 List<Content> contents=[
   Content(
       heading: 'Welcome to devstore!',
-      image: 'images/manshop.png',
+      image: 'assets/manshop.png',
       description: "A new generation shopping platform for all electronic products."
   ),
   Content(
       heading: 'Reliable Shopping',
-      image: 'images/protect.png',
+      image: 'assets/protect.png',
       description: "All products and sellers have been authenticated for safe shopping."
   ),
   Content(
       heading: 'Discounts & Offers',
-      image: 'images/marketing.png',
+      image: 'assets/marketing.png',
       description: "Use the coupons on the product you want, whenever you want."
   ),
 ];
@@ -75,12 +74,7 @@ class _WalkthroughViewState extends State<WalkthroughView> {
                         child:  FittedBox(fit:BoxFit.scaleDown,
                           child: Text(
                             contents[x].heading,
-                            style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                color: Colors.black.withOpacity(0.9),
-                                fontSize: 25,
-                              ),
-                            ),
+                            style: walkthroughHeading,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -115,10 +109,7 @@ class _WalkthroughViewState extends State<WalkthroughView> {
             child: FlatButton(
               child: Text(
                   c == 2 ? "Get Started!" : "Next",
-                  style: GoogleFonts.openSans(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                  ))
+                  style: walkthroughNavButton,
               ),
               onPressed: () {
                 if (c == 2) {
@@ -136,7 +127,7 @@ class _WalkthroughViewState extends State<WalkthroughView> {
               },
 
               color: AppColors.primaryColor,
-              textColor: Colors.white,
+              textColor: AppColors.secondaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

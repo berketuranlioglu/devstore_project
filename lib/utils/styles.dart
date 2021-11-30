@@ -254,3 +254,14 @@ final OrdersPage_DeliveryInfo = GoogleFonts.openSans(
   fontSize: 14,
   fontWeight: FontWeight.w600, //orders delivery status texts
 );
+
+//onboarding pages props
+final walkthroughHeading = GoogleFonts.openSans( //main heading title in the onboarding page
+  color: AppColors.textColor.withOpacity(0.9),
+  fontSize: 25,
+);
+
+final walkthroughNavButton = GoogleFonts.openSans( //main heading title in the onboarding page
+  fontSize: 15,
+  color: AppColors.secondaryColor,
+);
