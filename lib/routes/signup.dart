@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:devstore_project/utils/color.dart';
+import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -17,29 +19,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void buttonClicked() {
-    print('Button Clicked');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 100.0,
-            ),
+            SizedBox(height: 100.0),
             RichText(
-              text: const TextSpan(
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              text: TextSpan(
+                style: signupPage_InfoSentence1,
                 children: <TextSpan>[
                   TextSpan(text: "Let's get started "),
                 ],
@@ -49,14 +40,9 @@ class _SignUpPageState extends State<SignUpPage> {
             Text(
               'Create an account to get all features',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12.0,
-                color: Colors.black,
-              ),
+              style: signupPage_InfoSentence2,
             ),
-            const SizedBox(
-              height: 50.0,
-            ),
+            SizedBox(height: 50.0),
             Padding(
               padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 4.0),
               child: Column(
@@ -116,14 +102,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null) {
-                              return 'E-mail field cannot be empty';
+                              return 'Please enter an e-mail address!';
                             } else {
                               String trimmedValue = value.trim();
                               if (trimmedValue.isEmpty) {
-                                return 'E-mail field cannot be empty';
+                                return 'E-mail address cannot be empty!';
                               }
                               if (!EmailValidator.validate(trimmedValue)) {
-                                return 'Please enter a valid email';
+                                return 'The e-mail you entered does not exist!';
                               }
                             }
                             return null;
@@ -137,9 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
+                  const SizedBox(height: 8.0),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -220,6 +204,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15)),
+                            ),
+                            errorStyle: TextStyle(
+                              color: Colors.black,
                             ),
                           ),
                           keyboardType: TextInputType.visiblePassword,
@@ -307,25 +294,26 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  FlatButton(
-                    child: const Text(
-                      'SIGN UP',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 14.0,
+                  Form(
+                    key: _formKey,
+                    child: FlatButton(
+                      child: Text(
+                        'SIGN IN',
+                        style: signupPage_ButtonTxts,
                       ),
+                      color: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Sign In Successful!')));
+                        }
+                      },
                     ),
-                    color: const Color(0xff9441e4),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Done')),
-                        );
-                      }
-                    },
                   ),
                 ],
               ),
