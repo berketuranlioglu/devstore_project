@@ -51,7 +51,7 @@ final signupPage_InfoSentence1 = GoogleFonts.openSans(
 );
 
 final signupPage_InfoSentence2 = GoogleFonts.openSans(
-  fontSize: 14,
+  fontSize: 12,
   fontWeight: FontWeight
       .normal, //signup page text 'create an account to get all features'
 );
@@ -256,12 +256,14 @@ final OrdersPage_DeliveryInfo = GoogleFonts.openSans(
 );
 
 //onboarding pages props
-final walkthroughHeading = GoogleFonts.openSans( //main heading title in the onboarding page
+final walkthroughHeading = GoogleFonts.openSans(
+  //main heading title in the onboarding page
   color: AppColors.textColor.withOpacity(0.9),
   fontSize: 25,
 );
 
-final walkthroughNavButton = GoogleFonts.openSans( //main heading title in the onboarding page
+final walkthroughNavButton = GoogleFonts.openSans(
+  //main heading title in the onboarding page
   fontSize: 15,
   color: AppColors.secondaryColor,
 );

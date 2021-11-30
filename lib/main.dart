@@ -12,9 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 int initScreen = 0;
 
-
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
@@ -23,9 +21,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
@@ -33,32 +29,31 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
         future: _initialization,
         builder: (context, snapshot) {
-          if(snapshot.hasError) {
-            print('Cannot connect to firebase: '+snapshot.error.toString());
+          if (snapshot.hasError) {
+            print('Cannot connect to firebase: ' + snapshot.error.toString());
             return MaterialApp(
-              initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+                initialRoute:
+                    initScreen == 0 || initScreen == null ? "first" : "/",
                 routes: {
                   '/': (context) => Welcome(),
                   'first': (context) => WalkthroughView(),
                   '/login': (context) => LoginPage(),
                   '/signup': (context) => SignUpPage(),
-                }
-            );
+                });
           }
-          if(snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.done) {
             print('Firebase connected');
           }
 
           return MaterialApp(
-              initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+              initialRoute:
+                  initScreen == 0 || initScreen == null ? "first" : "/",
               routes: {
                 '/': (context) => Welcome(),
                 'first': (context) => WalkthroughView(),
                 '/login': (context) => LoginPage(),
                 '/signup': (context) => SignUpPage(),
-              }
-          );
-        }
-    );
+              });
+        });
   }
 }
