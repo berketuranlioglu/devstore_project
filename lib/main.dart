@@ -7,14 +7,22 @@ import 'package:devstore_project/routes/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:devstore_project/routes/onbording.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+int initScreen = 0;
+
+
+Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp(
-    //home: Welcome(),
-    //initialRoute: '/login',
-  ));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  await prefs.setInt("initScreen", 1);
+  print('initScreen ${initScreen}');
+  runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
 
@@ -28,8 +36,10 @@ class MyApp extends StatelessWidget {
           if(snapshot.hasError) {
             print('Cannot connect to firebase: '+snapshot.error.toString());
             return MaterialApp(
+              initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
                 routes: {
                   '/': (context) => Welcome(),
+                  'first': (context) => WalkthroughView(),
                   '/login': (context) => LoginPage(),
                   '/signup': (context) => SignUpPage(),
                 }
@@ -40,8 +50,10 @@ class MyApp extends StatelessWidget {
           }
 
           return MaterialApp(
+              initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
               routes: {
                 '/': (context) => Welcome(),
+                'first': (context) => WalkthroughView(),
                 '/login': (context) => LoginPage(),
                 '/signup': (context) => SignUpPage(),
               }
