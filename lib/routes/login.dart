@@ -3,6 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:devstore_project/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +16,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  String mail = '';
+  String pass = '';
+  final _formKey = GlobalKey<FormState>();
+
+  AuthService auth = AuthService();
 
   void buttonClicked(){
     print('Button Clicked');
@@ -88,6 +98,25 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please enter an e-mail address!';
+                          } else {
+                            String trimmedValue = value.trim();
+                            if (trimmedValue.isEmpty) {
+                              return 'E-mail address cannot be empty!';
+                            }
+                            if (!EmailValidator.validate(trimmedValue)) {
+                              return 'The e-mail you entered does not exist!';
+                            }
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          if (value != null) {
+                            mail = value;
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -117,6 +146,23 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: true,
                         enableSuggestions: false,
                         autocorrect: false,
+                        validator: (value) {
+                          if(value != null) {
+                            if(value.isEmpty) {
+                              return 'Password cannot be empty!';
+                            }
+                            if(value.length < 8) {
+                              return 'Password must be at least 8 characters!';
+                            }
+                          }
+                          else {
+                            return 'Please enter your password!';
+                          }
+                          return null;
+                        },
+                        onSaved: (String? value) {
+                          pass = value ?? '';
+                        },
                       ),
                     ),
                   ],
@@ -145,18 +191,30 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          FlatButton(
-            child: const Text(
-              'LOG IN',
-              style: TextStyle(
-                color: AppColors.secondaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 13.0,
+          Form(
+            key: _formKey,
+            child: FlatButton(
+              child: const Text(
+                'LOG IN',
+                style: TextStyle(
+                  color: AppColors.secondaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.0,
+                ),
               ),
+              color: AppColors.primaryColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+              onPressed: () {
+                if(_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+
+                  auth.loginWithMailAndPass(mail, pass);
+
+                  ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text('Log in successful!')));
+                }
+              },
             ),
-            color: AppColors.primaryColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-            onPressed: buttonClicked,
           ),
           const SizedBox(height: 16.0,),
           const Text(
