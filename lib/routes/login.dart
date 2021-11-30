@@ -64,13 +64,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             textAlign: TextAlign.center,
           ),
-          const Text(
+          Text(
             'Login to your existing account to continue',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 10.0,
-              color: Color(0xff5f5b5b),
-            ),
+            style: loginPage_ExistingAcc,
           ),
           const SizedBox(height: 8.0,),
           Padding(
@@ -87,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           fillColor: Colors.grey[200],
                           filled: true,
                           hintText: 'E-mail',
-                          hintStyle: const TextStyle(fontSize:14.0),
+                          hintStyle: ShoppingCart_PaymentRegular,
                           prefixIcon: const Icon(Icons.mail),
                           contentPadding: const EdgeInsets.all(12.0),
                           enabledBorder: const OutlineInputBorder(
@@ -132,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                           fillColor: Colors.grey[200],
                           filled: true,
                           hintText: 'Password',
-                          hintStyle: const TextStyle(fontSize:14.0),
+                          hintStyle: ShoppingCart_PaymentRegular,
                           prefixIcon: const Icon(Icons.lock),
                           contentPadding: const EdgeInsets.all(12.0),
                           enabledBorder: const OutlineInputBorder(
@@ -172,13 +169,9 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      child: const Text(
+                      child: Text(
                         'Forgot your password?',
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor,
-                        ),
+                        style: loginPage_ForgotPass,
                         textAlign: TextAlign.end,
                       ),
                       onPressed: buttonClicked,
@@ -217,12 +210,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           const SizedBox(height: 16.0,),
-          const Text(
+          Text(
             'or connect using',
-            style: TextStyle(
-              color: Color(0xff5f5b5b),
-              fontSize: 10.0,
-            ),
+            style: loginPage_OtherConnections,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -257,10 +247,7 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 18.0,),
           RichText(
             text: TextSpan(
-              style: const TextStyle(
-                fontSize: 12.0,
-                color: AppColors.textColor,
-              ),
+              style: loginPage_SignUpRegular,
               children: <TextSpan>[
                 const TextSpan(text: 'Don\'t have an account? '),
                 TextSpan(
@@ -269,10 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                     ..onTap = () {
                     Navigator.pushNamed(context, '/signup');
                   },
-                  style: const TextStyle(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: loginPage_SignUpBold,
                 ),
               ],
             ),

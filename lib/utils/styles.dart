@@ -15,26 +15,31 @@ final loginPage_WelcomeBold = GoogleFonts.openSans(
 final loginPage_ExistingAcc = GoogleFonts.openSans(
     fontSize: 10,
     fontWeight: FontWeight.normal, //login page, for the existing account text
+    color: AppColors.loginSubTextColor,
 );
 
 final loginPage_ForgotPass = GoogleFonts.openSans(
     fontSize: 10,
     fontWeight: FontWeight.bold,   //login page, 'forgot password?' text
+    color: AppColors.textColor,
 );
 
 final loginPage_OtherConnections = GoogleFonts.openSans(
     fontSize: 10,
-    fontWeight: FontWeight.w300,   //login page, 'or connect using text'
+    fontWeight: FontWeight.normal,   //login page, 'or connect using text'
+    color: AppColors.loginSubTextColor,
 );
 
 final loginPage_SignUpRegular = GoogleFonts.openSans(
     fontSize: 12,
     fontWeight: FontWeight.normal, //login page dont have acc option Fontweight is mixed, use it for regular
+    color: AppColors.textColor,
 );
 
 final loginPage_SignUpBold = GoogleFonts.openSans(
     fontSize: 12,
     fontWeight: FontWeight.bold, //login page dont have acc option fontweight is mixed, use it for bold
+    color: AppColors.primaryColor,
 );
 
 final signupPage_InfoSentence1 = GoogleFonts.openSans(

@@ -13,4 +13,5 @@ class AppColors {
   static const Color ratingBlockColor = const Color(0xFF0CCD08); //Seller Rate
   static const Color deliveredTextColor = const Color(0xFF34A853); //Orders Page Delivered Text Color
   static const Color processingTextColor = const Color(0xFFE3CD00); //Orders Page Processing Text Color
+  static const Color loginSubTextColor = Color(0xFF5F5B5B);
 }
