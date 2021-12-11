@@ -1,3 +1,4 @@
+import 'package:devstore_project/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -18,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String pass2 = "";
 
   final _formKey = GlobalKey<FormState>();
+  AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -275,9 +277,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 if (trimmedValue.length < 8) {
                                   return 'Password must be at least 8 characters long';
                                 }
-                                if (pass1 != value) {
-                                  return 'Passwords must be same';
-                                }
                               }
                               return null;
                             },
@@ -306,9 +305,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
+                            auth.signupWithMailAndPass(mail, pass1);
+
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Sign In Successful!')));
+                                const SnackBar(content: Text('Signing in!')));
                           }
                         },
                       ),

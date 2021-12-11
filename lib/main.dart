@@ -17,7 +17,6 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
-  print('initScreen ${initScreen}');
   runApp(MyApp());
 }
 
@@ -31,15 +30,6 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             print('Cannot connect to firebase: ' + snapshot.error.toString());
-            return MaterialApp(
-                initialRoute:
-                    initScreen == 0 || initScreen == null ? "first" : "/",
-                routes: {
-                  '/': (context) => Welcome(),
-                  'first': (context) => WalkthroughView(),
-                  '/login': (context) => LoginPage(),
-                  '/signup': (context) => SignUpPage(),
-                });
           }
           if (snapshot.connectionState == ConnectionState.done) {
             print('Firebase connected');
@@ -50,7 +40,7 @@ class MyApp extends StatelessWidget {
                   initScreen == 0 || initScreen == null ? "first" : "/",
               routes: {
                 '/': (context) => Welcome(),
-                'first': (context) => WalkthroughView(),
+                '/first': (context) => WalkthroughView(),
                 '/login': (context) => LoginPage(),
                 '/signup': (context) => SignUpPage(),
               });
