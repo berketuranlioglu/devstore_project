@@ -1,6 +1,7 @@
 import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/signup.dart';
 import 'package:devstore_project/services/authGoogle.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isSigningIn = false;
 
   void buttonClicked() {
+    //FirebaseCrashlytics.instance.crash();
     print('Button Clicked');
   }
 
