@@ -1,3 +1,4 @@
+import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -290,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      return SignUpPage();
+      return FeedView();
     }
   }
 }
