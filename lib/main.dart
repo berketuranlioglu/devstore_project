@@ -11,6 +11,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:devstore_project/routes/onbording.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 int initScreen = 0;
 
@@ -19,6 +20,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
+  FlutterError.onError =FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
 
