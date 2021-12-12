@@ -10,15 +10,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:devstore_project/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+   const LoginPage({Key? key, required this.analytics, required this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+    //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Login View', screenClassOverride: 'loginView');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics.logEvent(name: 'login_view', parameters: <String, dynamic>{});
+  }
+  //end
   String mail = '';
   String pass = '';
   final _formKey = GlobalKey<FormState>();

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/welcome.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 //three-page onboarding view
 class Content {
@@ -30,7 +32,12 @@ List<Content> contents=[
 ];
 
 class WalkthroughView extends StatefulWidget {
-  const WalkthroughView({Key? key}) : super(key: key);
+   const WalkthroughView({Key? key,required this.analytics, required this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+
   @override
   _WalkthroughViewState createState() => _WalkthroughViewState();
 }
@@ -38,7 +45,16 @@ class WalkthroughView extends StatefulWidget {
 class _WalkthroughViewState extends State<WalkthroughView> {
   int c = 0;
   PageController pc = PageController(initialPage: 0);
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Walkthrough View', screenClassOverride: 'walkthroughView');
+  }
 
+  Future<void> _setLogEvent() async {
+    await widget.analytics.logEvent(name: 'walkthrough_view', parameters: <String, dynamic>{});
+  }
+  //end
   @override
   void initState(){
     super.initState();
@@ -113,12 +129,15 @@ class _WalkthroughViewState extends State<WalkthroughView> {
               ),
               onPressed: () {
                 if (c == 2) {
+                  Navigator.pushNamed(context, '/'); //WELCOME PAGE
+                  /*
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (_) => Welcome(), //WELCOME PAGE
                     ),
                   );
+                  */
                 }
                 pc.nextPage(
                   duration: const Duration(milliseconds: 400),

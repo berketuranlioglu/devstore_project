@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:devstore_project/routes/onbording.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_analytics/observer.dart';
 
 int initScreen = 0;
 
@@ -34,16 +35,30 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             print('Firebase connected');
           }
+          return AppBase(); //bunu if icine atmamiz lazim sanirim
+        });
+  }
+}
 
-          return MaterialApp(
-              initialRoute:
-                  initScreen == 0 || initScreen == null ? "first" : "/",
-              routes: {
-                '/': (context) => Welcome(),
-                '/first': (context) => WalkthroughView(),
-                '/login': (context) => LoginPage(),
-                '/signup': (context) => SignUpPage(),
-              });
+class AppBase extends StatelessWidget {
+  //const AppBase({Key? key}) : super(key: key);
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
+
+        initialRoute:
+          initScreen == 0 || initScreen == null ? "first" : "/",
+        routes: {
+          '/': (context) => Welcome(analytics: analytics, observer: observer),
+          '/first': (context) => WalkthroughView(analytics: analytics, observer: observer),
+          '/login': (context) => LoginPage(analytics: analytics, observer: observer),
+          '/signup': (context) => SignUpPage(analytics: analytics, observer: observer),
         });
   }
 }

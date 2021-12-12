@@ -8,15 +8,33 @@ import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  const SignUpPage({Key? key, required this.analytics, required this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Signup View', screenClassOverride: 'signupView');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics.logEvent(name: 'signup_view', parameters: <String, dynamic>{});
+  }
+  //end
+  
   String mail = "";
   String pass = "";
   String pass2 = "";
