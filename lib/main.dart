@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'package:devstore_project/routes/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/routes/login.dart';
@@ -44,21 +45,23 @@ class AppBase extends StatelessWidget {
   //const AppBase({Key? key}) : super(key: key);
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
-
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         navigatorObservers: <NavigatorObserver>[observer],
-
-        initialRoute:
-          initScreen == 0 || initScreen == null ? "first" : "/",
+        initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
         routes: {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
-          '/first': (context) => WalkthroughView(analytics: analytics, observer: observer),
-          '/login': (context) => LoginPage(analytics: analytics, observer: observer),
-          '/signup': (context) => SignUpPage(analytics: analytics, observer: observer),
+          '/feed': (context) => FeedView(),
+          '/first': (context) =>
+              WalkthroughView(analytics: analytics, observer: observer),
+          '/login': (context) =>
+              LoginPage(analytics: analytics, observer: observer),
+          '/signup': (context) =>
+              SignUpPage(analytics: analytics, observer: observer),
         });
   }
 }

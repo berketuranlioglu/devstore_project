@@ -74,10 +74,8 @@ class AuthService {
 
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {
-      //FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled;
       return e.code.toString();
     } catch (e) {
-      //FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled;
       print(e.toString());
       String message = e.toString();
       return message;

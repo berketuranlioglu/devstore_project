@@ -15,7 +15,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
 class LoginPage extends StatefulWidget {
-   const LoginPage({Key? key, required this.analytics, required this.observer}) : super(key: key);
+  const LoginPage({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
@@ -25,15 +26,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-    //analytics begin
+  //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
         screenName: 'Login View', screenClassOverride: 'loginView');
   }
 
   Future<void> _setLogEvent() async {
-    await widget.analytics.logEvent(name: 'login_view', parameters: <String, dynamic>{});
+    await widget.analytics
+        .logEvent(name: 'login_view', parameters: <String, dynamic>{});
   }
+
   //end
   String mail = '';
   String pass = '';
@@ -117,7 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                                 filled: true,
                                 hintText: 'E-mail',
                                 hintStyle: ShoppingCart_PaymentRegular,
-                                prefixIcon: const Icon(Icons.mail),
+                                prefixIcon:
+                                    const Icon(Icons.mail, color: Colors.grey),
                                 contentPadding: const EdgeInsets.all(12.0),
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -165,7 +169,8 @@ class _LoginPageState extends State<LoginPage> {
                                 filled: true,
                                 hintText: 'Password',
                                 hintStyle: ShoppingCart_PaymentRegular,
-                                prefixIcon: const Icon(Icons.lock),
+                                prefixIcon:
+                                    const Icon(Icons.lock, color: Colors.grey),
                                 contentPadding: const EdgeInsets.all(12.0),
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -237,11 +242,16 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-
-                        auth.loginWithMailAndPass(mail, pass);
-
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Logging in')));
+
+                        auth.loginWithMailAndPass(mail, pass).then((value) {
+                          if (value is String) {
+                            return ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("${value}")));
+                          }
+                          Navigator.popAndPushNamed(context, "/feed");
+                        });
                       }
                     },
                   ),
@@ -260,39 +270,41 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       _isSigningIn
                           ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
                           : RawMaterialButton(
-                        fillColor: AppColors.secondaryColor,
-                        onPressed: () async {
-                          setState(() {
-                            _isSigningIn = true;
-                          });
+                              fillColor: AppColors.secondaryColor,
+                              onPressed: () async {
+                                setState(() {
+                                  _isSigningIn = true;
+                                });
 
-                          User? user =
-                          await Authentication.signInWithGoogle(context: context);
+                                User? user =
+                                    await Authentication.signInWithGoogle(
+                                        context: context);
 
-                          setState(() {
-                            _isSigningIn = false;
-                          });
+                                setState(() {
+                                  _isSigningIn = false;
+                                });
 
-                          if (user != null) {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => FeedView(),
+                                if (user != null) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => FeedView(),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Image.asset(
+                                'assets/Gmail Icon.png',
+                                width: 12.0,
+                                height: 12.0,
+                                fit: BoxFit.cover,
                               ),
-                            );
-                          }
-                        },
-                        child: Image.asset(
-                          'assets/Gmail Icon.png',
-                          width: 12.0,
-                          height: 12.0,
-                          fit: BoxFit.cover,
-                        ),
-                        padding: const EdgeInsets.all(12.0),
-                        shape: const CircleBorder(),
-                      ),
+                              padding: const EdgeInsets.all(12.0),
+                              shape: const CircleBorder(),
+                            ),
                       RawMaterialButton(
                         onPressed: buttonClicked,
                         fillColor: AppColors.secondaryColor,
