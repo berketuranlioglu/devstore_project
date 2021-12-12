@@ -44,6 +44,7 @@ dependencies:
   stacked_firebase_auth: ^0.2.10+2
   stacked: ^2.2.7+1
   stacked_services: ^0.8.16
+  firebase_crashlytics: ^2.4.3
 
 dev_dependencies:
   flutter_test:

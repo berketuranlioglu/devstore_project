@@ -17,10 +17,11 @@ int initScreen = 0;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
-  FlutterError.onError =FirebaseCrashlytics.instance.recordFlutterError;
+  //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
 
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
             print('Cannot connect to firebase: ' + snapshot.error.toString());
           }
           if (snapshot.connectionState == ConnectionState.done) {
+            FlutterError.onError =
+                FirebaseCrashlytics.instance.recordFlutterError;
             print('Firebase connected');
           }
           return AppBase(); //bunu if icine atmamiz lazim sanirim
@@ -54,7 +57,7 @@ class AppBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         navigatorObservers: <NavigatorObserver>[observer],
-        initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+        initialRoute: initScreen == 0 || initScreen == null ? '/first' : '/',
         routes: {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
           '/feed': (context) => FeedView(),
