@@ -13,6 +13,22 @@ class FeedView extends StatefulWidget {
 class _FeedViewState extends State<FeedView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "PLACEHOLDER\nFEED VIEW SCREEN",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

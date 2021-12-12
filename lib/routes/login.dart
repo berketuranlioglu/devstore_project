@@ -1,5 +1,6 @@
 import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/signup.dart';
+import 'package:devstore_project/services/authGoogle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   AuthService auth = AuthService();
+
+  bool _isSigningIn = false;
 
   void buttonClicked() {
     print('Button Clicked');
@@ -255,16 +258,39 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RawMaterialButton(
-                        onPressed: buttonClicked,
+                      _isSigningIn
+                          ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                          : RawMaterialButton(
                         fillColor: AppColors.secondaryColor,
+                        onPressed: () async {
+                          setState(() {
+                            _isSigningIn = true;
+                          });
+
+                          User? user =
+                          await Authentication.signInWithGoogle(context: context);
+
+                          setState(() {
+                            _isSigningIn = false;
+                          });
+
+                          if (user != null) {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => FeedView(),
+                              ),
+                            );
+                          }
+                        },
                         child: Image.asset(
                           'assets/Gmail Icon.png',
                           width: 12.0,
                           height: 12.0,
                           fit: BoxFit.cover,
                         ),
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(12.0),
                         shape: const CircleBorder(),
                       ),
                       RawMaterialButton(
