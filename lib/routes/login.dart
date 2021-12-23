@@ -292,8 +292,9 @@ class _LoginPageState extends State<LoginPage> {
 
                                 if (user != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text(
-                                          'Google Signed In Successfully!')));
+                                      const SnackBar(
+                                          content: Text(
+                                              'Google Signed In Successfully!')));
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => FeedView(),

@@ -1,3 +1,4 @@
+import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,8 +70,9 @@ class AuthService {
           email: mail, password: pass);
       User user = result.user!;
 
-      // Add user to database before returning to profile
+      DBService dbService = DBService();
       String userToken = await user.uid;
+      dbService.addUser(nameSurname, mail, userToken, phone, username, pass);
 
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {
