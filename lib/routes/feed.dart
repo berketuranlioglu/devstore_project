@@ -1,3 +1,4 @@
+import 'package:devstore_project/routes/search.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/persNavBar.dart';
 import 'package:devstore_project/routes/profile.dart';
@@ -68,7 +69,10 @@ class _FeedViewState extends State<FeedView> {
               child: MaterialButton(
                 height: 40.0,
                 minWidth: 340.0,
-                onPressed: buttonClicked,
+                onPressed: () => {
+                  Navigator.push(context,
+                      new MaterialPageRoute(builder: (context) => new Search())),
+                },
                 color: AppColors.secondaryColor,
                 child: Row(
                   children: [

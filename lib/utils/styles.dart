@@ -118,6 +118,16 @@ final homePage_SearchBar = GoogleFonts.openSans(
   fontWeight: FontWeight.normal, //homepage search text inside search bar
 );
 
+final searchPage_EmptySearchBold = GoogleFonts.openSans(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+);
+
+final searchPage_EmptySearchNormal = GoogleFonts.openSans(
+  fontSize: 14,
+  fontWeight: FontWeight.normal,
+);
+
 final welcomePage_LogIn = GoogleFonts.openSans(
   textStyle: TextStyle(color: AppColors.primaryColor),
   fontSize: 16,
