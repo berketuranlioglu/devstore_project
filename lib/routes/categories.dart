@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/profile.dart';
-import 'package:devstore_project/objects/categoryButton.dart';
+import 'package:devstore_project/objects/category_button.dart';
 
 class categories extends StatefulWidget {
   const categories({Key? key}) : super(key: key);
@@ -14,10 +14,8 @@ class categories extends StatefulWidget {
 }
 
 class _categoriesState extends State<categories> {
-
   Widget twoButtonsRow(
-      String image1, String title1, String image2, String title2
-      ) {
+      String image1, String title1, String image2, String title2) {
     return Row(
       children: [
         Expanded(
@@ -55,12 +53,11 @@ class _categoriesState extends State<categories> {
           toolbarHeight: MediaQuery.of(context).size.height / 9,
           leading: SizedBox(),
           leadingWidth: 15,
-          actions: <Widget> [
+          actions: <Widget>[
             FlatButton(
               onPressed: () => {
-                Navigator.push(context, new MaterialPageRoute(
-                    builder: (context) => new Profile())
-                ),
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => new Profile())),
               },
               child: Icon(
                 Icons.account_circle_rounded,
@@ -69,8 +66,7 @@ class _categoriesState extends State<categories> {
               ),
             ),
             SizedBox(width: 10),
-          ]
-      ),
+          ]),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -82,8 +78,7 @@ class _categoriesState extends State<categories> {
                   "assets/category_computers.png",
                   "Computers & Tablets",
                   "assets/category_phones.png",
-                  "Phones"
-              ),
+                  "Phones"),
             ),
             Padding(
               padding: Dimen.twoButtonsRowPadding,
@@ -91,17 +86,12 @@ class _categoriesState extends State<categories> {
                   "assets/category_accessories.png",
                   "Electronic Accessories",
                   "assets/category_tv.png",
-                  "TVs & Sound"
-              ),
+                  "TVs & Sound"),
             ),
             Padding(
               padding: Dimen.twoButtonsRowPadding,
-              child: twoButtonsRow(
-                  "assets/category_gaming.png",
-                  "Gaming",
-                  "assets/category_smart_watch.png",
-                  "Wearables"
-              ),
+              child: twoButtonsRow("assets/category_gaming.png", "Gaming",
+                  "assets/category_smart_watch.png", "Wearables"),
             ),
             Padding(
               padding: Dimen.twoButtonsRowPadding,
@@ -109,8 +99,7 @@ class _categoriesState extends State<categories> {
                   "assets/category_kitchen_appliances.png",
                   "Kitchen Appliances",
                   "assets/category_personal_care.png",
-                  "Personal Care"
-              ),
+                  "Personal Care"),
             ),
             Padding(
               padding: Dimen.twoButtonsRowPadding,
@@ -118,9 +107,11 @@ class _categoriesState extends State<categories> {
                   "assets/category_home_appliances.png",
                   "Home Appliances",
                   "assets/category_camera.png",
-                  "Photography & Camera"
-              ),
+                  "Photography & Camera"),
             ),
+            const SizedBox(
+              height: 30,
+            )
           ],
         ),
       ),
