@@ -1,5 +1,6 @@
 // @dart=2.9
 
+import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/persNavBar.dart';
 import 'package:devstore_project/routes/categories.dart';
@@ -79,6 +80,7 @@ class AppBase extends StatelessWidget {
               LoginPage(analytics: analytics, observer: observer),
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
+          '/checkout': (context) => CheckoutView(),
         });
   }
 }
