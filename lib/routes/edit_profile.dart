@@ -86,7 +86,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RaisedButton(
-                      onPressed: () {}, //GO TO THE PROFILE PAGE
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                      }, //GO TO THE PROFILE PAGE
                       color: Colors.white10,
                       padding: EdgeInsets.symmetric(horizontal: 40),
                       shape: RoundedRectangleBorder(
@@ -102,7 +104,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
 
                     RaisedButton(
-                      onPressed: () {}, //CHANGE THE DATA AND GO TO THE PROFILE PAGE
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                        print("data changed");
+                      }, //CHANGE THE DATA AND GO TO THE PROFILE PAGE
                       color: Color(0xFF9441E4),
                       padding: EdgeInsets.symmetric(horizontal: 40),
                       shape: RoundedRectangleBorder(

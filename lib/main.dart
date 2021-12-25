@@ -19,6 +19,7 @@ import 'package:devstore_project/routes/onbording.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:devstore_project/routes/edit_profile.dart';
 
 int initScreen = 0;
 
@@ -81,6 +82,7 @@ class AppBase extends StatelessWidget {
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
           '/checkout': (context) => CheckoutView(),
+          '/editProfile': (context) => editProfile(),
         });
   }
 }
