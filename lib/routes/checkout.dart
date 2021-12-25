@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/profile.dart';
-import 'package:devstore_project/objects/categoryButton.dart';
+import 'package:devstore_project/objects/category_button.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
