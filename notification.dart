@@ -94,6 +94,22 @@ class _notificationState extends State<notification>
                   Text('Discount Banner3', style: fav_camp_recomEmpty)
               ),
             ),
+
+            Padding(
+              padding: Dimen.regularPadding16,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+              ),
+            ),
+
+            Container (
+              color: const Color(0xFFDADADA),
+              height: 150.0,
+              width: 318.0,
+              child: (
+                  Text('Discount Banner4', style: fav_camp_recomEmpty)
+              ),
+            ),
           ],
         ),
       ),
