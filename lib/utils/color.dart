@@ -14,4 +14,6 @@ class AppColors {
   static const Color deliveredTextColor = const Color(0xFF34A853); //Orders Page Delivered Text Color
   static const Color processingTextColor = const Color(0xFFE3CD00); //Orders Page Processing Text Color
   static const Color loginSubTextColor = Color(0xFF5F5B5B);
+  static const Color backgroundColor = Color(0xFFFAF7F7);
+  static const Color categoryButtonColor = Color(0xFFEDE4F1);
 }
