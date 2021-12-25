@@ -1,6 +1,12 @@
 // @dart=2.9
 
 import 'package:devstore_project/routes/feed.dart';
+import 'package:devstore_project/routes/persNavBar.dart';
+import 'package:devstore_project/routes/categories.dart';
+import 'package:devstore_project/routes/cart.dart';
+import 'package:devstore_project/routes/favorites.dart';
+import 'package:devstore_project/routes/orders.dart';
+import 'package:devstore_project/routes/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/routes/login.dart';
@@ -61,6 +67,12 @@ class AppBase extends StatelessWidget {
         routes: {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
           '/feed': (context) => FeedView(),
+          '/persNavBar': (context) => persNavBar(),
+          '/categories': (context) => categories(),
+          '/cart': (context) => cart(),
+          '/favorites': (context) => favorites(),
+          '/orders': (context) => orders(),
+          '/profile': (context) => Profile(),
           '/first': (context) =>
               WalkthroughView(analytics: analytics, observer: observer),
           '/login': (context) =>

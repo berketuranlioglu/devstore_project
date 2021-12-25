@@ -120,6 +120,11 @@ final categoriesOption2_Categories = GoogleFonts.openSans(
   fontWeight: FontWeight.w600, //categories page-option 2 categories' text
 );
 
+final categoriesTitle = GoogleFonts.openSans(
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);
+
 /*final DiscountsOffers_DiscountBanner = GoogleFonts.openSans(
     fontSize: 12,
     fontWeight: FontWeight.normal, //discounts and offer page banner, commented out because banners will be added

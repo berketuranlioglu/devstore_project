@@ -112,7 +112,7 @@ class _WelcomeState extends State<Welcome> {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, "/feed");
+                  Navigator.popAndPushNamed(context, "/persNavBar");
                 },
                 child: Text(
                   'Continue as a guest.',

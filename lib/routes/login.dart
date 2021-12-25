@@ -1,4 +1,4 @@
-import 'package:devstore_project/routes/feed.dart';
+import 'package:devstore_project/routes/persNavBar.dart';
 import 'package:devstore_project/routes/signup.dart';
 import 'package:devstore_project/services/authGoogle.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                             return ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("${value}")));
                           }
-                          Navigator.popAndPushNamed(context, "/feed");
+                          Navigator.popAndPushNamed(context, "/persNavBar");
                         });
                       }
                     },
@@ -297,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                                               'Google Signed In Successfully!')));
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => FeedView(),
+                                      builder: (context) => persNavBar(),
                                     ),
                                   );
                                 }
@@ -350,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      return FeedView();
+      return persNavBar();
     }
   }
 }
