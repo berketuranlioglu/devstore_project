@@ -2,6 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final categoriesText = GoogleFonts.openSans(
+  fontSize: 10,
+  fontWeight: FontWeight.normal, //favorites, campaigns, recommended banner
+  color: AppColors.primaryColor,
+);
+
+final fav_camp_recomBanner = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.normal, //favorites, campaigns, recommended banner
+  color: AppColors.textColor,
+);
+
+final fav_camp_recomEmpty = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.bold, //favorites, campaigns, recommended if empty
+  color: AppColors.textColor,
+);
+
+final feed_searchBar = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.normal, //search bar text
+  color: AppColors.feedPageSearchBar,
+);
+
+final feed_devstoreBold = GoogleFonts.openSans(
+  fontSize: 28,
+  fontWeight: FontWeight.bold, //feed page, dev store bold version
+  color: AppColors.primaryColor,
+);
+
+final feed_devstore = GoogleFonts.openSans(
+  fontSize: 28,
+  fontWeight: FontWeight.normal, //feed page, dev store normal
+  color: AppColors.primaryColor,
+);
+
 final loginPage_WelcomeRegular = GoogleFonts.openSans(
   fontSize: 28,
   fontWeight: FontWeight.normal, //login page welcome text

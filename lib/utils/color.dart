@@ -16,4 +16,5 @@ class AppColors {
   static const Color loginSubTextColor = Color(0xFF5F5B5B);
   static const Color backgroundColor = Color(0xFFFAF7F7);
   static const Color categoryButtonColor = Color(0xFFEDE4F1);
+  static const Color feedPageSearchBar = Color(0xFFDADADA);
 }
