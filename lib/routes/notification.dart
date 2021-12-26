@@ -54,15 +54,24 @@ class _notificationState extends State<notification>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+
+            Padding(
+              padding: Dimen.regularPadding8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+              ),
+            ),
+
             Container (
-              color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
               decoration: BoxDecoration(
+                color: const Color(0xFFDADADA),
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/'
+                      'assets/discount1.jpg',
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -75,14 +84,15 @@ class _notificationState extends State<notification>
             ),
 
             Container (
-              color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
               decoration: BoxDecoration(
+                color: const Color(0xFFDADADA),
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/'
+                      'assets/discount2.png',
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -95,14 +105,15 @@ class _notificationState extends State<notification>
             ),
 
             Container (
-              color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
               decoration: BoxDecoration(
+                color: const Color(0xFFDADADA),
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/'
+                      'assets/discount3.png',
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -115,15 +126,23 @@ class _notificationState extends State<notification>
             ),
 
             Container (
-              color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
               decoration: BoxDecoration(
+                color: const Color(0xFFDADADA),
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/'
+                      'assets/discount4.jpg',
                   ),
+                  fit: BoxFit.fill,
                 ),
+              ),
+            ),
+
+            Padding(
+              padding: Dimen.regularPadding16,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
               ),
             ),
           ],
