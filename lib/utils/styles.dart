@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final productText = GoogleFonts.openSans(
+  fontSize: 10,
+  fontWeight: FontWeight.bold,
+  color: AppColors.textColor,
+);
+
 final categoriesText = GoogleFonts.openSans(
   fontSize: 10,
   fontWeight: FontWeight.normal, //favorites, campaigns, recommended banner

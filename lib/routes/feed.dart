@@ -24,7 +24,7 @@ void buttonClicked() {
 }
 
 class _FeedViewState extends State<FeedView> {
-  bool offers_isEmpty = true;
+  bool offers_isEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _FeedViewState extends State<FeedView> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   RichText(
                     text: TextSpan(
@@ -57,31 +57,26 @@ class _FeedViewState extends State<FeedView> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      FlatButton(
-                        onPressed: () => {
-                          pushNewScreen(context, screen: Profile()),
-                        },
-                        child: const Icon(
-                          Icons.account_circle_rounded,
-                          color: AppColors.primaryColor,
-                          size: 40,
-                        ),
-                      ),
-                      FlatButton(
-                        onPressed: () async {
-                          pushNewScreen(context, screen: FeedView());
-                        },
-                        child: const Icon(
-                          Icons.notifications_active_rounded,
-                          color: AppColors.primaryColor,
-                          size: 40,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(width: 65.0),
+                  FlatButton(
+                    onPressed: () => {
+                      pushNewScreen(context, screen: Profile()),
+                    },
+                    child: const Icon(
+                      Icons.account_circle_rounded,
+                      color: AppColors.primaryColor,
+                      size: 40,
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      pushNewScreen(context, screen: notification());
+                    },
+                    child: const Icon(
+                      Icons.notifications_active_rounded,
+                      color: AppColors.primaryColor,
+                      size: 40,
+                    ),
                   ),
                 ],
               ),
@@ -123,8 +118,14 @@ class _FeedViewState extends State<FeedView> {
                           )
                         : Align(
                             alignment: Alignment.center,
-                            child: Text('Campaign 1!',
-                                style: fav_camp_recomEmpty)),
+                            child: FittedBox(
+                              child: Image.asset(
+                              'assets/campaign1.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                            fit: BoxFit.fill,
+                            ),
+                        ),
                   ),
                 ],
               ),
@@ -199,20 +200,55 @@ class _FeedViewState extends State<FeedView> {
             Center(
               child: Column(
                 children: [
-                  Container(
-                    color: const Color(0xFFDADADA),
+                  (offers_isEmpty)
+                      ? Container(
+                      color: const Color(0xFFDADADA),
+                      height: 100.0,
+                      width: 351.0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text('You haven\'t visited any items!',
+                            style: fav_camp_recomEmpty),
+                      )): SizedBox(
                     height: 100.0,
-                    width: 351.0,
-                    child: (offers_isEmpty)
-                        ? Align(
-                            alignment: Alignment.center,
-                            child: Text('You haven\'t visited any items!',
-                                style: fav_camp_recomEmpty),
-                          )
-                        : Align(
-                            alignment: Alignment.center,
-                            child: Text('Favorite Item 1!',
-                                style: fav_camp_recomEmpty)),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal, // <-- Like so
+                      children: <Widget>[
+                        Container(
+                          width: 125.0,
+                          decoration: const BoxDecoration(
+                            color: AppColors.settingIconsColor,
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Column(
+                            children: [
+                              const Image(
+                                image: AssetImage("assets/iphone13-1.png"),
+                                height: 75.0,
+                              ),
+                              Text('iPhone 13 Pro', style: productText),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width:5.0),
+                        Container(
+                          width: 125.0,
+                          decoration: const BoxDecoration(
+                            color: AppColors.settingIconsColor,
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          ),
+                          child: Column(
+                            children: [
+                              const Image(
+                                image: AssetImage("assets/iphone13-3.png"),
+                                height: 75.0,
+                              ),
+                              Text('iPhone 13 Pro Max', style: productText),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -229,21 +265,92 @@ class _FeedViewState extends State<FeedView> {
             Center(
               child: Column(
                 children: [
-                  Container(
+                  (offers_isEmpty)
+                  ? Container(
                     color: const Color(0xFFDADADA),
                     height: 100.0,
                     width: 351.0,
-                    child: (offers_isEmpty)
-                        ? Align(
+                    child: Align(
                             alignment: Alignment.center,
                             child: Text('There is nothing to recommend!',
                                 style: fav_camp_recomEmpty),
-                          )
-                        : Align(
-                            alignment: Alignment.center,
-                            child: Text('Recommended Item 1!',
-                                style: fav_camp_recomEmpty)),
-                  ),
+                          )): SizedBox(
+                          height: 100.0,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal, // <-- Like so
+                            children: <Widget>[
+                              Container(
+                                width: 125.0,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.settingIconsColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage("assets/samsung-tv.png"),
+                                      width: 75.0,
+                                      height: 75.0,
+                                    ),
+                                    Text('QLED 4K Samsung TV', style: productText),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width:5.0),
+                              Container(
+                                width: 125.0,
+                                decoration: const BoxDecoration(
+                                    color: AppColors.settingIconsColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                    ),
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage("assets/iphone13-1.png"),
+                                      height: 75.0,
+                                    ),
+                                    Text('iPhone 13 Pro', style: productText),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width:5.0),
+                              Container(
+                                width: 125.0,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.settingIconsColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage("assets/nofrost.png"),
+                                      height: 75.0,
+                                    ),
+                                    Text('Samsung Family Hub', style: productText),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width:5.0),
+                              Container(
+                                width: 125.0,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.settingIconsColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage("assets/category_smart_watch.png"),
+                                      width: 65.0,
+                                      height: 75.0,
+                                    ),
+                                    Text('Apple Watch Series 2', style: productText),
+                                  ],
+                                ),
+                              ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
