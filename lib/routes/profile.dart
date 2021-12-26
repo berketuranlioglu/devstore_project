@@ -91,7 +91,7 @@ class Profile extends StatelessWidget {
               press: () {},
             ),
             ProfileMenu(
-              text: "Profile Settings",
+              text: "Edit Profile",
               icon: "assets/set.png",
               press: () {
                 Navigator.pushNamed(context, '/editProfile');
