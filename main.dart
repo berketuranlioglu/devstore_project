@@ -8,6 +8,7 @@ import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/profile.dart';
+import 'package:devstore_project/routes/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/routes/login.dart';
@@ -83,6 +84,8 @@ class AppBase extends StatelessWidget {
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
           '/checkout': (context) => CheckoutView(),
+          '/editProfile': (context) => editProfile(),
+          
         });
   }
 }
