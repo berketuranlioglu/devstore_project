@@ -1,4 +1,6 @@
-import 'package:devstore_project/routes/productView.dart';
+// ignore_for_file: avoid_print
+
+import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,18 +50,17 @@ class productButton {
             fixedSize: Size(150, 200),
           ),
         ),
-        SizedBox(height:5),
+        SizedBox(height: 5),
         OutlinedButton(
           onPressed: () => {
             print('Button Clicked'),
           },
-          child: Text(
-              "Add to Cart",
+          child: Text("Add to Cart",
               style: GoogleFonts.openSans(
                 color: AppColors.primaryColor,
                 fontSize: 15,
-                fontWeight: FontWeight.w600,)
-          ),
+                fontWeight: FontWeight.w600,
+              )),
           style: OutlinedButton.styleFrom(
               fixedSize: Size(150, 20),
               side: BorderSide(
@@ -68,8 +69,7 @@ class productButton {
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-              )
-          ),
+              )),
         )
       ],
     );

@@ -29,15 +29,14 @@ class DBService {
         .catchError((error) => print('Error: ${error.toString()}'));
   }
 
-  Future editDetails(String nameSurname, String token, String imageUrl,
-      String phone, String password) async {
+  Future editDetails(String token, String password, String imageUrl) async {
     userCollection
         .doc(token)
         .update({
           'password': password,
           'imageUrl': imageUrl,
         })
-        .then((value) => print('User added'))
+        .then((value) => print('Data Changed'))
         .catchError((error) => print('Error: ${error.toString()}'));
   }
 }

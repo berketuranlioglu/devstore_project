@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/account_info.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -116,7 +117,12 @@ class Profile extends StatelessWidget {
                 ProfileMenu(
                   text: "Account Information",
                   icon: "assets/man.png",
-                  press: () {},
+                  press: () {
+                    pushNewScreen(
+                      context,
+                      screen: accountView(),
+                    );
+                  },
                 ),
                 ProfileMenu(
                   text: "Edit Profile",

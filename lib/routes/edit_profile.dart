@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/account_info.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/services/db.dart';
+import 'package:devstore_project/utils/color.dart';
+import 'package:devstore_project/utils/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -27,6 +30,11 @@ final User user = auth.currentUser!;
 final uid = user.uid;
 
 DBService db = DBService();
+
+String pass1 = "";
+String pass2 = "";
+String imageUrl = "";
+final _formKey = GlobalKey<FormState>();
 
 Future<String> userNameFinal = getUserName(uid);
 final firestoreInstance = FirebaseFirestore.instance;
@@ -70,153 +78,258 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
                 child: ListView(
                   children: [
-                    Text(
+                    const Text(
                       "Edit Profile",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(
-                      height: 20,
+                    Container(
+                      height: 150,
+                      width: 150,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image.network("${userClass.imageUrl}"),
                     ),
-                    Center(
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            height: 115,
-                            width: 115,
-                            child: Stack(
-                              fit: StackFit.expand,
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
+                    SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(24, 24, 24, 4),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Image URL',
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(Icons.image,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                                const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Image URL field cannot be empty!';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Image URL field cannot be empty!';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              imageUrl = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              imageUrl = value;
+                                            }
+                                          },
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  child: Image.network("${userClass.imageUrl}"),
-                                ),
-                              ],
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Password',
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.lock_outlined,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                                const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          obscureText: true,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Password field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Password field cannot be empty';
+                                              }
+                                              if (trimmedValue.length < 8) {
+                                                return 'Password must be at least 8 characters long';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              pass1 = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              pass1 = value;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Confirm Password',
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.lock_outline,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                                const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          obscureText: true,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Password field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Password field cannot be empty';
+                                              }
+                                              if (trimmedValue.length < 8) {
+                                                return 'Password must be at least 8 characters long';
+                                              }
+                                              if (value != pass1) {
+                                                return 'Please enter the same password';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              pass2 = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              pass2 = value;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  Form(
+                                    child: FlatButton(
+                                      child: Text(
+                                        'Edit Profile ',
+                                        style: signupPage_ButtonTxts,
+                                      ),
+                                      color: AppColors.primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0)),
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Editing the Profile!')));
+                                          db.editDetails(uid, pass1, imageUrl);
+                                        }
+                                        pushNewScreen(context,
+                                            screen: accountView());
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 0.8,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  color: Color(0xFF9441E4),
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    buildTextField(
-                        "Name Surname", "${userClass.nameSurname}", false),
-                    buildTextField("Username", "${userClass.username}", false),
-                    buildTextField("E-mail", "bobbyrich@gmail.com", false),
-                    buildTextField("Password", "${userClass.password}", true),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(45, 0, 45, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RaisedButton(
-                            onPressed: () {
-                              pushNewScreen(context, screen: Profile());
-                            }, //GO TO THE PROFILE PAGE
-                            color: Colors.white10,
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Text(
-                              "CANCEL",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  letterSpacing: 2.2,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black54),
-                            ),
-                          ),
-                          RaisedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/profile');
-                              print("data changed");
-                            }, //CHANGE THE DATA AND GO TO THE PROFILE PAGE
-                            color: Color(0xFF9441E4),
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Text(
-                              "SAVE",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  letterSpacing: 2.2,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
           );
-          ;
         }
         return Scaffold();
       },
-    );
-  }
-
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                    ),
-                  )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-            )),
-      ),
     );
   }
 }
