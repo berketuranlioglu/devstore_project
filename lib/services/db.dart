@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DBService {
-  final firestoreInstance = FirebaseFirestore.instance;
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
 
   Future addUserAutoID(String nameSurname, String mail, String token) async {
-    firestoreInstance
-        .collection("users")
+    userCollection
         .add({'nameSurname': nameSurname, 'userToken': token, 'email': mail})
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -13,8 +13,7 @@ class DBService {
 
   Future addUser(String nameSurname, String mail, String token, String phone,
       String username, String password) async {
-    firestoreInstance
-        .collection("users")
+    userCollection
         .doc(token)
         .set({
           'nameSurname': nameSurname,
@@ -32,8 +31,7 @@ class DBService {
 
   Future editDetails(String nameSurname, String token, String imageUrl,
       String phone, String password) async {
-    firestoreInstance
-        .collection("users")
+    userCollection
         .doc(token)
         .update({
           'password': password,

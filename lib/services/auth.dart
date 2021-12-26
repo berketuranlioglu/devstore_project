@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +8,20 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final googleSignIn = GoogleSignIn();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   User? _userFromFirebase(User? user) {
     return user ?? null;
   }
 
   Stream<User?> get user {
-    return _auth.authStateChanges().map(_userFromFirebase);
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
   Future signInAnon(StackTrace stackTrace) async {
     try {
-      UserCredential result = await _auth.signInAnonymously();
+      UserCredential result = await _firebaseAuth.signInAnonymously();
       User user = result.user!;
       return _userFromFirebase(user);
     } catch (e) {
@@ -29,7 +31,7 @@ class AuthService {
   }
 
   Future getUserCredentials() async {
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
     // Obtain the auth details from the request
     try {
@@ -66,8 +68,8 @@ class AuthService {
   Future signupWithMailAndPass(String mail, String pass, String phone,
       String username, String nameSurname) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: mail, password: pass);
+      UserCredential result = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: mail, password: pass);
       User user = result.user!;
 
       DBService dbService = DBService();
@@ -86,8 +88,8 @@ class AuthService {
 
   Future loginWithMailAndPass(String mail, String pass) async {
     try {
-      UserCredential result =
-          await _auth.signInWithEmailAndPassword(email: mail, password: pass);
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
+          email: mail, password: pass);
       User user = result.user!;
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {

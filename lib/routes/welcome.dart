@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -5,26 +6,28 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
 class Welcome extends StatefulWidget {
-  const Welcome({Key? key, required this.analytics, required this.observer}) : super(key: key);
+  const Welcome({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-
 
   @override
   _WelcomeState createState() => _WelcomeState();
 }
 
 class _WelcomeState extends State<Welcome> {
-    //analytics begin
+  //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
         screenName: 'Welcome View', screenClassOverride: 'welcomeView');
   }
 
   Future<void> _setLogEvent() async {
-    await widget.analytics.logEvent(name: 'welcome_view', parameters: <String, dynamic>{});
+    await widget.analytics
+        .logEvent(name: 'welcome_view', parameters: <String, dynamic>{});
   }
+
   //end
   @override
   Widget build(BuildContext context) {

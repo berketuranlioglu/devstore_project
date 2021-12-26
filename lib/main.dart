@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
+import 'package:provider/provider.dart';
 
 int initScreen = 0;
 
