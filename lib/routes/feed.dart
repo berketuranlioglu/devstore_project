@@ -107,19 +107,15 @@ class _FeedViewState extends State<FeedView> {
                 children: [
                   Container(
                     color: const Color(0xFFDADADA),
-                    height: 100.0,
-                    width: 351.0,
-                    child: (offers_isEmpty)
-                        ? Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                                'New irresistible campaigns coming soon!',
-                                style: fav_camp_recomEmpty),
-                          )
-                        : Align(
-                            alignment: Alignment.center,
-                            child: Text('Campaign 1!',
-                                style: fav_camp_recomEmpty)),
+                    height: 150.0,
+                    width: 300.0,
+                    child: FittedBox(
+                      child: Image.asset(
+                        'assets/campaign1.jpg',
+                        fit: BoxFit.fill,
+                      ),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ],
               ),
@@ -196,18 +192,15 @@ class _FeedViewState extends State<FeedView> {
                 children: [
                   Container(
                     color: const Color(0xFFDADADA),
-                    height: 100.0,
-                    width: 351.0,
-                    child: (offers_isEmpty)
-                        ? Align(
-                            alignment: Alignment.center,
-                            child: Text('You haven\'t visited any items!',
-                                style: fav_camp_recomEmpty),
-                          )
-                        : Align(
-                            alignment: Alignment.center,
-                            child: Text('Favorite Item 1!',
-                                style: fav_camp_recomEmpty)),
+                    height: 150.0,
+                    width: 300.0,
+                    child: FittedBox(
+                      child: Image.asset(
+                        'assets/recently1.png',
+                        fit: BoxFit.fill,
+                      ),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ],
               ),
@@ -226,20 +219,23 @@ class _FeedViewState extends State<FeedView> {
                 children: [
                   Container(
                     color: const Color(0xFFDADADA),
-                    height: 100.0,
-                    width: 351.0,
-                    child: (offers_isEmpty)
-                        ? Align(
-                            alignment: Alignment.center,
-                            child: Text('There is nothing to recommend!',
-                                style: fav_camp_recomEmpty),
-                          )
-                        : Align(
-                            alignment: Alignment.center,
-                            child: Text('Recommended Item 1!',
-                                style: fav_camp_recomEmpty)),
+                    height: 150.0,
+                    width: 300.0,
+                    child: FittedBox(
+                      child: Image.asset(
+                        'assets/recommend1.png',
+                        fit: BoxFit.fill,
+                      ),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: Dimen.regularPadding16,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
               ),
             ),
           ],
