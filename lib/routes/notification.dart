@@ -58,8 +58,12 @@ class _notificationState extends State<notification>
               color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
-              child: (
-                  Text('Discount Banner1', style: fav_camp_recomEmpty)
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/assets/'
+                  ),
+                ),
               ),
             ),
 
@@ -74,8 +78,12 @@ class _notificationState extends State<notification>
               color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
-              child: (
-                  Text('Discount Banner2', style: fav_camp_recomEmpty)
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/assets/'
+                  ),
+                ),
               ),
             ),
 
@@ -90,8 +98,12 @@ class _notificationState extends State<notification>
               color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
-              child: (
-                  Text('Discount Banner3', style: fav_camp_recomEmpty)
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/assets/'
+                  ),
+                ),
               ),
             ),
 
@@ -106,8 +118,12 @@ class _notificationState extends State<notification>
               color: const Color(0xFFDADADA),
               height: 150.0,
               width: 318.0,
-              child: (
-                  Text('Discount Banner4', style: fav_camp_recomEmpty)
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      'assets/assets/'
+                  ),
+                ),
               ),
             ),
           ],
