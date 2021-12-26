@@ -12,7 +12,6 @@ class phones extends StatefulWidget {
 }
 
 class _phonesState extends State<phones> {
-
   Widget twoButtonsRow(BuildContext context) {
     return Row(
       children: [
@@ -41,8 +40,7 @@ class _phonesState extends State<phones> {
         leading: IconButton(
             onPressed: () => {Navigator.pop(context)},
             icon: Icon(Icons.arrow_back_ios_rounded,
-                color: AppColors.secondaryColor)
-        ),
+                color: AppColors.secondaryColor)),
         title: Text(
           "Phones",
           style: GoogleFonts.openSans(

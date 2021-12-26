@@ -10,28 +10,19 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({Key? key, required this.analytics, required this.observer}) : super(key: key);
-
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  const CheckoutView({Key? key}) : super(key: key);
 
   @override
   _CheckoutViewState createState() => _CheckoutViewState();
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     print("CheckoutView build is called.");
-    Future<void> _currentScreen() async {
-      await widget.analytics.setCurrentScreen(
-          screenName: 'Checkout View', screenClassOverride: 'checkoutView');
-    }
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -86,9 +77,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                               decoration: const InputDecoration(
                                 hintText: "MM/YY",
                               ),
-                            )
+                            )),
+                        const SizedBox(
+                          width: 15,
                         ),
-                        const SizedBox(width: 15,),
                         Expanded(
                             flex: 1,
                             child: TextFormField(
@@ -98,13 +90,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                               decoration: const InputDecoration(
                                 hintText: "CVV",
                               ),
-                            )
-                        ),
+                            )),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -127,11 +120,12 @@ class _CheckoutViewState extends State<CheckoutView> {
                           style: TextStyle(
                             color: Colors.black,
                           ),
-                        )
-                    ),
+                        )),
                   ],
                 ),
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
@@ -148,7 +142,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                 const Divider(
                   thickness: 2,
                 ),
-                Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       "Total:",
@@ -159,17 +154,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                     Row(
                       children: [
-                        const Text(
-                            "0₺"
+                        const Text("0₺"),
+                        const SizedBox(
+                          width: 10,
                         ),
-                        const SizedBox(width: 10,),
                         ElevatedButton(
                           onPressed: () {
                             FirebaseCrashlytics.instance.crash();
                           },
-                          child: const Text(
-                              "Confirm"
-                          ),
+                          child: const Text("Confirm"),
                         ),
                       ],
                     ),

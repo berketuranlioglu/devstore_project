@@ -40,8 +40,8 @@ class _cartState extends State<cart> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            "My Cart",
-            style: GoogleFonts.openSans(
+          "My Cart",
+          style: GoogleFonts.openSans(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -52,9 +52,7 @@ class _cartState extends State<cart> {
         toolbarHeight: MediaQuery.of(context).size.height / 9,
         leading: SizedBox(),
         leadingWidth: 15,
-
       ),
-
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -62,19 +60,17 @@ class _cartState extends State<cart> {
           children: [
             Padding(
               padding: Dimen.regularPadding16,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Image.asset(
-                      'assets/iphone13pro.png',
-                      height: 100,
-                      width: 100,
-                    ),
-                  ],
+                children: <Widget>[
+                  Image.asset(
+                    'assets/iphone13pro.png',
+                    height: 100,
+                    width: 100,
+                  ),
+                ],
               ),
             ),
-
             Text(
               "iPhone 13 Pro Max 256 GB Sierra Blue",
               textAlign: TextAlign.left,
@@ -84,7 +80,6 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             Text(
               'Apple',
               textAlign: TextAlign.left,
@@ -94,7 +89,6 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-
             Text(
               '991,30\$',
               textAlign: TextAlign.left,
@@ -104,10 +98,8 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-
             Padding(
               padding: Dimen.regularPadding16,
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -116,12 +108,9 @@ class _cartState extends State<cart> {
                     height: 100,
                     width: 100,
                   ),
-
-
                 ],
               ),
             ),
-
             Text(
               "iPhone 13 Pro Max 1 TB Sierra Blue",
               textAlign: TextAlign.center,
@@ -131,7 +120,6 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             Text(
               'Apple',
               textAlign: TextAlign.center,
@@ -141,7 +129,6 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-
             Text(
               '1.099,00\$',
               textAlign: TextAlign.center,
@@ -151,21 +138,18 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-
             Padding(
               padding: Dimen.regularPadding16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
               ),
             ),
-
             Padding(
               padding: Dimen.regularPadding16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
               ),
             ),
-
             Container(
               child: Text(
                 'Subtotal 2.090,3\$',
@@ -177,7 +161,6 @@ class _cartState extends State<cart> {
                 ),
               ),
             ),
-
             Container(
               child: Text(
                 'Shipping 8,99\$',
@@ -189,7 +172,6 @@ class _cartState extends State<cart> {
                 ),
               ),
             ),
-
             Container(
               child: Text(
                 'TOTAL 2.099,29\$',
@@ -201,21 +183,19 @@ class _cartState extends State<cart> {
                 ),
               ),
             ),
-
             Padding(
               padding: Dimen.regularPadding16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
             ),
-
             Container(
               color: const Color(0xFFFFFFFF),
               height: 38.0,
               width: 115.0,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/checkout');
+                  pushNewScreen(context, screen: CheckoutView());
                 },
                 child: Text(
                   'CHECKOUT',
