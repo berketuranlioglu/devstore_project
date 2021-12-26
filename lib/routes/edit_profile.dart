@@ -83,16 +83,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: 35,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(45,0,45,0),
+                padding: const EdgeInsets.fromLTRB(45, 0, 45, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        pushNewScreen(
-                            context,
-                            screen: Profile()
-                        );
+                        pushNewScreen(context, screen: Profile());
                       }, //GO TO THE PROFILE PAGE
                       color: Colors.white10,
                       padding: EdgeInsets.symmetric(horizontal: 40),
@@ -107,7 +104,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             color: Colors.black54),
                       ),
                     ),
-
                     RaisedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/profile');
@@ -120,7 +116,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       child: Text(
                         "SAVE",
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             letterSpacing: 2.2,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
@@ -145,16 +141,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
                 ? IconButton(
-              onPressed: () {
-                setState(() {
-                  showPassword = !showPassword;
-                });
-              },
-              icon: Icon(
-                Icons.remove_red_eye,
-                color: Colors.grey,
-              ),
-            )
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: Colors.grey,
+                    ),
+                  )
                 : null,
             contentPadding: EdgeInsets.only(bottom: 3),
             labelText: labelText,

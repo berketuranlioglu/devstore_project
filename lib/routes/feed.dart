@@ -1,3 +1,5 @@
+import 'package:devstore_project/routes/categories.dart';
+import 'package:devstore_project/routes/notification.dart';
 import 'package:devstore_project/routes/search.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/persNavBar.dart';
@@ -23,7 +25,6 @@ class _FeedViewState extends State<FeedView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -51,18 +52,31 @@ class _FeedViewState extends State<FeedView> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  FlatButton(
-                    onPressed: () => {
-                      pushNewScreen(
-                          context,
-                          screen: Profile()
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FlatButton(
+                        onPressed: () => {
+                          pushNewScreen(context, screen: Profile()),
+                        },
+                        child: const Icon(
+                          Icons.account_circle_rounded,
+                          color: AppColors.primaryColor,
+                          size: 40,
+                        ),
                       ),
-                    },
-                    child: const Icon(
-                      Icons.account_circle_rounded,
-                      color: AppColors.primaryColor,
-                      size: 40,
-                    ),
+                      FlatButton(
+                        onPressed: () => {
+                          pushNewScreen(context, screen: notification()),
+                        },
+                        child: const Icon(
+                          Icons.notifications_active_rounded,
+                          color: AppColors.primaryColor,
+                          size: 40,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -73,10 +87,7 @@ class _FeedViewState extends State<FeedView> {
                 height: 40.0,
                 minWidth: 340.0,
                 onPressed: () => {
-                  pushNewScreen(
-                      context,
-                      screen: Search()
-                  ),
+                  pushNewScreen(context, screen: Search()),
                 },
                 color: AppColors.secondaryColor,
                 child: Row(
@@ -86,24 +97,29 @@ class _FeedViewState extends State<FeedView> {
                     Text('Search', style: feed_searchBar),
                   ],
                 ),
-                shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(15.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
               ),
             ),
             const SizedBox(height: 18.0),
             Center(
               child: Column(
                 children: [
-                  Container (
+                  Container(
                     color: const Color(0xFFDADADA),
                     height: 100.0,
                     width: 351.0,
                     child: (offers_isEmpty)
                         ? Align(
-                        alignment: Alignment.center,
-                        child: Text('New irresistible campaigns coming soon!', style: fav_camp_recomEmpty),
-                        ) : Align(
-                        alignment: Alignment.center,
-                        child: Text('Campaign 1!', style: fav_camp_recomEmpty)),
+                            alignment: Alignment.center,
+                            child: Text(
+                                'New irresistible campaigns coming soon!',
+                                style: fav_camp_recomEmpty),
+                          )
+                        : Align(
+                            alignment: Alignment.center,
+                            child: Text('Campaign 1!',
+                                style: fav_camp_recomEmpty)),
                   ),
                 ],
               ),
@@ -122,7 +138,8 @@ class _FeedViewState extends State<FeedView> {
                       fit: BoxFit.cover,
                     ),
                     padding: Dimen.regularPadding11,
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(15.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
@@ -133,7 +150,8 @@ class _FeedViewState extends State<FeedView> {
                       fit: BoxFit.cover,
                     ),
                     padding: Dimen.regularPadding11,
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(15.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
@@ -144,18 +162,21 @@ class _FeedViewState extends State<FeedView> {
                       fit: BoxFit.cover,
                     ),
                     padding: Dimen.regularPadding11,
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(15.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
-                    onPressed: buttonClicked,
+                    onPressed: () =>
+                        pushNewScreen(context, screen: categories()),
                     fillColor: AppColors.secondaryColor,
                     child: Image.asset(
                       'assets/More.png',
                       fit: BoxFit.cover,
                     ),
                     padding: Dimen.regularPadding11,
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(15.0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                   ),
                 ],
               ),
@@ -166,24 +187,27 @@ class _FeedViewState extends State<FeedView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Recently Visited', style:fav_camp_recomBanner),
+                  Text('Recently Visited', style: fav_camp_recomBanner),
                 ],
               ),
             ),
             Center(
               child: Column(
                 children: [
-                  Container (
+                  Container(
                     color: const Color(0xFFDADADA),
                     height: 100.0,
                     width: 351.0,
                     child: (offers_isEmpty)
                         ? Align(
-                        alignment: Alignment.center,
-                        child: Text('You haven\'t visited any items!', style: fav_camp_recomEmpty),
-                        ) : Align(
-                        alignment: Alignment.center,
-                        child: Text('Favorite Item 1!', style: fav_camp_recomEmpty)),
+                            alignment: Alignment.center,
+                            child: Text('You haven\'t visited any items!',
+                                style: fav_camp_recomEmpty),
+                          )
+                        : Align(
+                            alignment: Alignment.center,
+                            child: Text('Favorite Item 1!',
+                                style: fav_camp_recomEmpty)),
                   ),
                 ],
               ),
@@ -193,24 +217,27 @@ class _FeedViewState extends State<FeedView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text('Recommended to You',style:fav_camp_recomBanner),
+                  Text('Recommended to You', style: fav_camp_recomBanner),
                 ],
               ),
             ),
             Center(
               child: Column(
                 children: [
-                  Container (
+                  Container(
                     color: const Color(0xFFDADADA),
                     height: 100.0,
                     width: 351.0,
                     child: (offers_isEmpty)
                         ? Align(
-                        alignment: Alignment.center,
-                        child: Text('There is nothing to recommend!', style: fav_camp_recomEmpty),
-                        ) : Align(
-                        alignment: Alignment.center,
-                        child: Text('Recommended Item 1!',style: fav_camp_recomEmpty)),
+                            alignment: Alignment.center,
+                            child: Text('There is nothing to recommend!',
+                                style: fav_camp_recomEmpty),
+                          )
+                        : Align(
+                            alignment: Alignment.center,
+                            child: Text('Recommended Item 1!',
+                                style: fav_camp_recomEmpty)),
                   ),
                 ],
               ),
