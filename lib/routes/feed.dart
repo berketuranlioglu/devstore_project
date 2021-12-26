@@ -58,25 +58,30 @@ class _FeedViewState extends State<FeedView> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(width: 65.0),
-                  FlatButton(
-                    onPressed: () => {
-                      pushNewScreen(context, screen: Profile()),
-                    },
-                    child: const Icon(
-                      Icons.account_circle_rounded,
-                      color: AppColors.primaryColor,
-                      size: 40,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () async {
-                      pushNewScreen(context, screen: notification());
-                    },
-                    child: const Icon(
-                      Icons.notifications_active_rounded,
-                      color: AppColors.primaryColor,
-                      size: 40,
-                    ),
+                  Wrap(
+                    spacing: -36.0,
+                    children: [
+                      FlatButton(
+                        onPressed: () => {
+                          pushNewScreen(context, screen: Profile()),
+                        },
+                        child: const Icon(
+                          Icons.account_circle_rounded,
+                          color: AppColors.primaryColor,
+                          size: 40,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () async {
+                          pushNewScreen(context, screen: notification());
+                        },
+                        child: const Icon(
+                          Icons.notifications_active_rounded,
+                          color: AppColors.primaryColor,
+                          size: 40,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
