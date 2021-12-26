@@ -3,13 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/routes/phones.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class categoryButton {
   Widget button(BuildContext context, String image, String title) {
     return ElevatedButton(
       onPressed: () => {
-        Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => new phones())),
+        pushNewScreen(
+            context,
+            screen: phones(),
+        ),
       },
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

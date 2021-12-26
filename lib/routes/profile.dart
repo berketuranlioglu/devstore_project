@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/objects/profile_menu.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -94,7 +95,10 @@ class Profile extends StatelessWidget {
               text: "Edit Profile",
               icon: "assets/set.png",
               press: () {
-                Navigator.pushNamed(context, '/editProfile');
+                pushNewScreen(
+                    context,
+                    screen: editProfile(),
+                );
               },
             ),
           ],

@@ -5,6 +5,7 @@ import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class FeedView extends StatefulWidget {
   const FeedView({Key? key}) : super(key: key);
@@ -52,8 +53,10 @@ class _FeedViewState extends State<FeedView> {
                   ),
                   FlatButton(
                     onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Profile())),
+                      pushNewScreen(
+                          context,
+                          screen: Profile()
+                      ),
                     },
                     child: const Icon(
                       Icons.account_circle_rounded,
@@ -70,8 +73,10 @@ class _FeedViewState extends State<FeedView> {
                 height: 40.0,
                 minWidth: 340.0,
                 onPressed: () => {
-                  Navigator.push(context,
-                      new MaterialPageRoute(builder: (context) => new Search())),
+                  pushNewScreen(
+                      context,
+                      screen: Search()
+                  ),
                 },
                 color: AppColors.secondaryColor,
                 child: Row(

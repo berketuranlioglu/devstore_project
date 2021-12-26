@@ -1,4 +1,6 @@
+import 'package:devstore_project/routes/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class editProfile extends StatelessWidget {
   @override
@@ -87,7 +89,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/profile');
+                        pushNewScreen(
+                            context,
+                            screen: Profile()
+                        );
                       }, //GO TO THE PROFILE PAGE
                       color: Colors.white10,
                       padding: EdgeInsets.symmetric(horizontal: 40),

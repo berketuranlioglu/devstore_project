@@ -5,6 +5,7 @@ import 'package:devstore_project/utils/dimension.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/objects/category_button.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class categories extends StatefulWidget {
   const categories({Key? key}) : super(key: key);
@@ -56,8 +57,10 @@ class _categoriesState extends State<categories> {
           actions: <Widget>[
             FlatButton(
               onPressed: () => {
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => new Profile())),
+                pushNewScreen(
+                    context,
+                    screen: Profile(),
+                ),
               },
               child: Icon(
                 Icons.account_circle_rounded,
