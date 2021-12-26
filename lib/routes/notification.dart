@@ -61,7 +61,7 @@ class _notificationState extends State<notification>
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/assets/'
+                      'assets/'
                   ),
                 ),
               ),
@@ -81,7 +81,7 @@ class _notificationState extends State<notification>
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/assets/'
+                      'assets/'
                   ),
                 ),
               ),
@@ -101,7 +101,7 @@ class _notificationState extends State<notification>
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/assets/'
+                      'assets/'
                   ),
                 ),
               ),
@@ -121,7 +121,7 @@ class _notificationState extends State<notification>
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/assets/'
+                      'assets/'
                   ),
                 ),
               ),
