@@ -24,6 +24,7 @@ class Profile extends StatelessWidget {
                   CircleAvatar(
                     backgroundImage: AssetImage("assets/pro_image.png"),
                   ),
+                  /*
                   Positioned(
                     right: -16,
                     bottom: 0,
@@ -44,6 +45,7 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                   )
+                  */
                 ],
               ),
             ),
