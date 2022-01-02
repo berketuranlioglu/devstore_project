@@ -6,15 +6,33 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/objects/category_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class categories extends StatefulWidget {
-  const categories({Key? key}) : super(key: key);
+  const categories({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _categoriesState createState() => _categoriesState();
 }
 
 class _categoriesState extends State<categories> {
+
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Category Page', screenClassOverride: 'categories');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: 'categories_page', parameters: <String, dynamic>{});
+  }
+
   Widget twoButtonsRow(
       String image1, String title1, String image2, String title2) {
     return Row(
@@ -52,7 +70,7 @@ class _categoriesState extends State<categories> {
           backgroundColor: AppColors.backgroundColor,
           shadowColor: Colors.transparent,
           toolbarHeight: MediaQuery.of(context).size.height / 9,
-          leading: SizedBox(),
+          leading: const SizedBox(),
           leadingWidth: 15,
           actions: <Widget>[
             FlatButton(
@@ -62,13 +80,13 @@ class _categoriesState extends State<categories> {
                     screen: Profile(),
                 ),
               },
-              child: Icon(
+              child: const Icon(
                 Icons.account_circle_rounded,
                 color: AppColors.primaryColor,
                 size: 40,
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
           ]),
       body: SingleChildScrollView(
         child: Column(

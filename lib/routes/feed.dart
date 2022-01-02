@@ -2,19 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/routes/categories.dart';
 import 'package:devstore_project/routes/notification.dart';
 import 'package:devstore_project/routes/search.dart';
+import 'package:devstore_project/routes/welcome.dart';
+import 'package:devstore_project/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:devstore_project/routes/persNavBar.dart';
+import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/routes/profile.dart';
+import 'package:devstore_project/routes/login.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class FeedView extends StatefulWidget {
-  const FeedView({Key? key}) : super(key: key);
+  const FeedView({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
 
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+  
   @override
   _FeedViewState createState() => _FeedViewState();
 }
@@ -24,7 +33,22 @@ void buttonClicked() {
 }
 
 class _FeedViewState extends State<FeedView> {
+
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Feed View', screenClassOverride: 'feedView');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: 'feed_view', parameters: <String, dynamic>{});
+  }
+
   bool offers_isEmpty = false;
+  User? firebaseUser = FirebaseAuth.instance.currentUser;
+
+  AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +87,16 @@ class _FeedViewState extends State<FeedView> {
                     children: [
                       FlatButton(
                         onPressed: () => {
-                          pushNewScreen(context, screen: Profile()),
+                          print(AuthService().user.first.toString()),
+                          if(AuthService().user == null){
+                            pushNewScreen(context,
+                            screen: Welcome(analytics: widget.analytics, observer: widget.observer),
+                            withNavBar: false
+                            )
+                          } else {
+                                pushNewScreen(context, screen: Profile()
+                              ),
+                            }
                         },
                         child: const Icon(
                           Icons.account_circle_rounded,
@@ -179,7 +212,7 @@ class _FeedViewState extends State<FeedView> {
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
                     onPressed: () =>
-                        pushNewScreen(context, screen: categories()),
+                        pushNewScreen(context, screen: categories(analytics: widget.analytics, observer: widget.observer)),
                     fillColor: AppColors.secondaryColor,
                     child: Image.asset(
                       'assets/More.png',

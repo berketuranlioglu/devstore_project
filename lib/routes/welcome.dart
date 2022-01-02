@@ -5,6 +5,8 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
+import 'login.dart';
+
 class Welcome extends StatefulWidget {
   const Welcome({Key? key, required this.analytics, required this.observer})
       : super(key: key);
@@ -66,7 +68,7 @@ class _WelcomeState extends State<Welcome> {
                 width: 250.0,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(analytics: widget.analytics, observer: widget.observer)));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),

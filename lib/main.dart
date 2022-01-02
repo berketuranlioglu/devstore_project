@@ -2,7 +2,7 @@
 
 import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
-import 'package:devstore_project/routes/persNavBar.dart';
+import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/routes/categories.dart';
 import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';

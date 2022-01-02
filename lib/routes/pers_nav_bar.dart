@@ -7,9 +7,15 @@ import 'package:devstore_project/routes/categories.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/feed.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class persNavBar extends StatefulWidget {
-  const persNavBar({Key? key}) : super(key: key);
+  const persNavBar({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _persNavBarState createState() => _persNavBarState();
@@ -18,14 +24,25 @@ class persNavBar extends StatefulWidget {
 class _persNavBarState extends State<persNavBar> {
   PersistentTabController _controller =PersistentTabController(initialIndex: 0);
 
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Navigation Bar', screenClassOverride: 'navBar');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: 'nav_bar', parameters: <String, dynamic>{});
+  }
+
 //Screens for each nav items.
   List<Widget> _NavScreens() {
     return [
-      FeedView(),
-      categories(),
-      cart(),
-      favorites(),
-      orders(),
+      FeedView(analytics: widget.analytics, observer: widget.observer),
+      categories(analytics: widget.analytics, observer: widget.observer),
+      cart(analytics: widget.analytics, observer: widget.observer),
+      favorites(analytics: widget.analytics, observer: widget.observer),
+      orders(analytics: widget.analytics, observer: widget.observer),
     ];
   }
 

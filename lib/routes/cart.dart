@@ -1,6 +1,6 @@
 import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
-import 'package:devstore_project/routes/persNavBar.dart';
+import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/routes/categories.dart';
 import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
@@ -28,13 +28,29 @@ import 'package:devstore_project/objects/category_button.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class cart extends StatefulWidget {
-  const cart({Key? key}) : super(key: key);
+  const cart({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _cartState createState() => _cartState();
 }
 
 class _cartState extends State<cart> {
+
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Shopping Cart', screenClassOverride: 'cart');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: 'cart', parameters: <String, dynamic>{});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

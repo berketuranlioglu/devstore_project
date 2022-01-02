@@ -1,4 +1,5 @@
 import 'package:devstore_project/routes/feed.dart';
+import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -444,7 +445,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     } else {
-      return FeedView();
+      return persNavBar(analytics: widget.analytics, observer: widget.observer);
     }
   }
 }

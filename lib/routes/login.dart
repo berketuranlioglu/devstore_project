@@ -1,4 +1,4 @@
-import 'package:devstore_project/routes/persNavBar.dart';
+import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/routes/signup.dart';
 import 'package:devstore_project/services/authGoogle.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -297,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                                               'Google Signed In Successfully!')));
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => persNavBar(),
+                                      builder: (context) => persNavBar(analytics: widget.analytics, observer: widget.observer),
                                     ),
                                   );
                                 }
@@ -350,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      return persNavBar();
+      return persNavBar(analytics: widget.analytics, observer: widget.observer);
     }
   }
 }
