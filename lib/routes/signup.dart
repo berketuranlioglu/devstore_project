@@ -419,7 +419,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               _formKey.currentState!.save();
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Signing in!')));
+                                  const SnackBar(content: Text('User successfully created!')));
                               auth
                                   .signupWithMailAndPass(
                                       mail, pass, phone, username, nameSurname)
@@ -429,7 +429,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       .showSnackBar(
                                           SnackBar(content: Text("${value}")));
                                 }
-                                Navigator.popAndPushNamed(context, "/feed");
+                                Navigator.popAndPushNamed(context, "/login");
                               });
                             }
                           },
