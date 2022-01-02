@@ -1,4 +1,6 @@
 import 'package:devstore_project/utils/styles.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/dimension.dart';
@@ -7,14 +9,27 @@ import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/objects/category_button.dart';
 
 class notification extends StatefulWidget {
-  const notification({Key? key}) : super(key: key);
+  const notification({Key? key, required this.analytics, required this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _notificationState createState() => _notificationState();
 }
 
-class _notificationState extends State<notification>
-{
+class _notificationState extends State<notification> {
+
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: 'Feed View', screenClassOverride: 'feedView');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: 'feed_view', parameters: <String, dynamic>{});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +53,7 @@ class _notificationState extends State<notification>
             FlatButton(
               onPressed: () => {
                 Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => new Profile())),
+                    new MaterialPageRoute(builder: (context) => new Profile(analytics: widget.analytics, observer: widget.observer))),
               },
               child: Icon(
                 Icons.account_circle_rounded,

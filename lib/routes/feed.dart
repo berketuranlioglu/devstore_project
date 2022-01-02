@@ -94,7 +94,7 @@ class _FeedViewState extends State<FeedView> {
                             withNavBar: false
                             )
                           } else {
-                                pushNewScreen(context, screen: Profile()
+                                pushNewScreen(context, screen: Profile(analytics: widget.analytics, observer: widget.observer)
                               ),
                             }
                         },
@@ -106,7 +106,12 @@ class _FeedViewState extends State<FeedView> {
                       ),
                       FlatButton(
                         onPressed: () async {
-                          pushNewScreen(context, screen: notification());
+                          pushNewScreen(context,
+                              screen: notification(
+                                  analytics: widget.analytics,
+                                  observer: widget.observer
+                              )
+                          );
                         },
                         child: const Icon(
                           Icons.notifications_active_rounded,

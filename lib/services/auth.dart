@@ -99,4 +99,13 @@ class AuthService {
       return null;
     }
   }
+
+  Future signOut() async {
+    try {
+      return await _firebaseAuth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 }

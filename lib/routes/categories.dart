@@ -77,7 +77,7 @@ class _categoriesState extends State<categories> {
               onPressed: () => {
                 pushNewScreen(
                     context,
-                    screen: Profile(),
+                    screen: Profile(analytics: widget.analytics, observer: widget.observer),
                 ),
               },
               child: const Icon(

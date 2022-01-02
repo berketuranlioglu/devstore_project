@@ -69,13 +69,13 @@ class AppBase extends StatelessWidget {
         initialRoute: initScreen == 0 || initScreen == null ? '/first' : '/',
         routes: {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
-          '/feed': (context) => FeedView(),
-          '/persNavBar': (context) => persNavBar(),
-          '/categories': (context) => categories(),
-          '/cart': (context) => cart(),
-          '/favorites': (context) => favorites(),
-          '/orders': (context) => orders(),
-          '/profile': (context) => Profile(),
+          '/feed': (context) => FeedView(analytics: analytics, observer: observer),
+          '/persNavBar': (context) => persNavBar(analytics: analytics, observer: observer),
+          '/categories': (context) => categories(analytics: analytics, observer: observer),
+          '/cart': (context) => cart(analytics: analytics, observer: observer),
+          '/favorites': (context) => favorites(analytics: analytics, observer: observer),
+          '/orders': (context) => orders(analytics: analytics, observer: observer),
+          '/profile': (context) => Profile(analytics: analytics, observer: observer),
           '/first': (context) =>
               WalkthroughView(analytics: analytics, observer: observer),
           '/login': (context) =>
