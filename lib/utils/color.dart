@@ -4,6 +4,7 @@ class AppColors {
   static const Color primaryColor = Color(0xFF9441E4); // main purple
   static const Color secondaryColor = Color(0xFFFFFFFF);
   static const Color thirdColor = Color(0xFFEEE5F8);
+  static const Color mainBackgroundColor = Color(0xFFF7F9FA);
   static const Color buttonBackgroundColor = Color(0xFF9441E4); //Added - Add To Cart - Log in - Sign up buttons
   static const Color settingIconsColor = Color(0xFFBFA2DB);
   static const Color settingsTabBarIconsColor = Color(0xFF929095);

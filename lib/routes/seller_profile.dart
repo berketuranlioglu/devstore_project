@@ -1,5 +1,5 @@
 import 'package:devstore_project/objects/productButton.dart';
-import 'package:devstore_project/objects/seller_products.dart';
+import 'package:devstore_project/objects/selling_products.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
@@ -124,12 +124,11 @@ class _SellerProfileState extends State<SellerProfile> {
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
-                color: Colors.black,
-                selectedColor: Colors.black,
-                disabledColor: Colors.black12,
-                fillColor: const Color(0xFFECECEC),
-                splashColor: Colors.grey,
-                hoverColor: Colors.grey,
+                color: Colors.black45, //unselected text
+                selectedColor: Colors.black, //selected text
+                fillColor: const Color(0xFFECECEC), //selected cell
+                splashColor: Colors.grey, // when pressing
+                highlightColor: const Color(0xFFECECEC),
                 borderRadius: BorderRadius.circular(50.0),
                 isSelected: isSelected,
                 onPressed: (int index) {
@@ -165,13 +164,14 @@ class _SellerProfileState extends State<SellerProfile> {
             ),
             SizedBox(height:15),
             if(isSelected[0] == true)
-              SellingProducts(),
+              SellingProducts(isSelling: true),
             if(isSelected[1] == true)
-              Container(color:Colors.black,width:100,height:100),
+              SellingProducts(isSelling: false),
             SizedBox(height:30),
           ],
         ),
-      )
+      ),
+        backgroundColor: AppColors.mainBackgroundColor,
     );
   }
 }

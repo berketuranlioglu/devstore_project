@@ -1,8 +1,11 @@
+import 'package:devstore_project/objects/inner_category_products.dart';
 import 'package:devstore_project/objects/productButton.dart';
+import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class phones extends StatefulWidget {
   const phones({Key? key}) : super(key: key);
@@ -12,26 +15,6 @@ class phones extends StatefulWidget {
 }
 
 class _phonesState extends State<phones> {
-  Widget twoButtonsRow(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: Dimen.regularPadding16,
-            child: productButton().button(context),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: Dimen.regularPadding16,
-            child: productButton().button(context),
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +25,7 @@ class _phonesState extends State<phones> {
             icon: Icon(Icons.arrow_back_ios_rounded,
                 color: AppColors.secondaryColor)),
         title: Text(
-          "Phones",
+          "Inner Category Page",
           style: GoogleFonts.openSans(
             color: AppColors.secondaryColor,
             fontSize: 20,
@@ -58,18 +41,17 @@ class _phonesState extends State<phones> {
               bottomRight: Radius.circular(25)),
         ),
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(30, 20, 20, 30),
-                child: productButton().button(context),
-              )
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Center(
+            child: Column(
+              children: [
+                InnerCategoryProducts(),
+                SizedBox(height:20),
+              ],
+            ),
         ),
       ),
+      backgroundColor: AppColors.mainBackgroundColor,
     );
   }
 }
