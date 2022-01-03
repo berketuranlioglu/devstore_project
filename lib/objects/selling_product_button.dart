@@ -39,15 +39,24 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    "RATING",
-                    style: GoogleFonts.openSans(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/star.png",
+                        fit: BoxFit.fitHeight,
+                      ),
+                      Text(
+                        "4.2",
+                        style: GoogleFonts.openSans(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -55,7 +64,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                     "PRODUCT NAME",
                     style: GoogleFonts.openSans(
                       color: Colors.black,
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center,
@@ -95,9 +104,12 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                             child: Text(
                               "\$1099.00",
                               style: GoogleFonts.openSans(
-                                color: AppColors.primaryColor,
-                                fontSize: 12,
+                                color: Colors.grey,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.lineThrough,
+                                decorationThickness: 2,
+                                decorationColor: AppColors.primaryColor,
                               ),
                               textAlign: TextAlign.center,
                             ),

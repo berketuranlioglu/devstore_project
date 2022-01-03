@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
-import 'package:devstore_project/routes/phones.dart';
+import 'package:devstore_project/routes/inner_category.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class categoryButton {
@@ -11,7 +11,7 @@ class categoryButton {
       onPressed: () => {
         pushNewScreen(
             context,
-            screen: phones(),
+            screen: InnerCategory(title: title),
         ),
       },
       child: Column(

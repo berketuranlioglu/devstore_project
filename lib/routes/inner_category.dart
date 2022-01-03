@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class phones extends StatefulWidget {
-  const phones({Key? key}) : super(key: key);
+class InnerCategory extends StatefulWidget {
+  const InnerCategory({Key? key, required this.title}) : super(key: key);
+  final String title;
 
   @override
-  _phonesState createState() => _phonesState();
+  _InnerCategoryState createState() => _InnerCategoryState();
 }
 
-class _phonesState extends State<phones> {
+class _InnerCategoryState extends State<InnerCategory> {
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _phonesState extends State<phones> {
             icon: Icon(Icons.arrow_back_ios_rounded,
                 color: AppColors.secondaryColor)),
         title: Text(
-          "Inner Category Page",
+          widget.title,
           style: GoogleFonts.openSans(
             color: AppColors.secondaryColor,
             fontSize: 20,
@@ -45,6 +46,7 @@ class _phonesState extends State<phones> {
         child: Center(
             child: Column(
               children: [
+                SizedBox(height:15),
                 InnerCategoryProducts(),
                 SizedBox(height:20),
               ],
