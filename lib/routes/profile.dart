@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
+import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -147,6 +148,19 @@ class _ProfileState extends State<Profile> {
                       )),
                 ),
                 SizedBox(height: 30),
+                ProfileMenu(
+                  text: "Selling Page",
+                  icon: "assets/discount1.jpg",
+                  press: () {
+                    pushNewScreen(
+                        context,
+                        screen: SellerProfile(
+                          analytics: widget.analytics,
+                          observer: widget.observer,
+                        )
+                    );
+                  }
+                ),
                 ProfileMenu(
                   text: "Orders",
                   icon: "assets/box.jpg",
