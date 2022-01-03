@@ -35,6 +35,7 @@ class _SellerProfileState extends State<SellerProfile> {
   }
 
   final isSelected = <bool>[true, false, false, false];
+  dynamic sellingPage = true;
 
   @override
   Widget build(BuildContext context) {
@@ -110,60 +111,66 @@ class _SellerProfileState extends State<SellerProfile> {
               bottomRight: Radius.circular(25)),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            padding: Dimen.regularPadding16,
-            width: MediaQuery.of(context).size.width,
-            child: ToggleButtons(
-              textStyle: GoogleFonts.openSans(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height:15),
+            Center(
+              child: ToggleButtons(
+                textStyle: GoogleFonts.openSans(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
                 color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-              color: Colors.black,
-              selectedColor: Colors.black,
-              disabledColor: Colors.black12,
-              fillColor: const Color(0xFFECECEC),
-              splashColor: Colors.grey,
-              hoverColor: Colors.grey,
-              borderRadius: BorderRadius.circular(50.0),
-              isSelected: isSelected,
-              onPressed: (int index) {
-                setState(() {
-                  for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                    if (buttonIndex == index) {
-                      isSelected[buttonIndex] = true;
-                    } else {
-                      isSelected[buttonIndex] = false;
+                selectedColor: Colors.black,
+                disabledColor: Colors.black12,
+                fillColor: const Color(0xFFECECEC),
+                splashColor: Colors.grey,
+                hoverColor: Colors.grey,
+                borderRadius: BorderRadius.circular(50.0),
+                isSelected: isSelected,
+                onPressed: (int index) {
+                  setState(() {
+                    for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                      if (buttonIndex == index) {
+                        isSelected[buttonIndex] = true;
+                      } else {
+                        isSelected[buttonIndex] = false;
+                      }
                     }
-                  }
-                });
-              },
-              children: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text('Selling'),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text('Sold'),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Icon(Icons.sort_rounded),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Icon(Icons.filter_list_outlined),
-                ),
-              ],
+                  });
+                },
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Text('Selling'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Text('Sold'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Icon(Icons.sort_rounded),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Icon(Icons.filter_list_outlined),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SellerProducts(),
-        ],
+            SizedBox(height:15),
+            if(isSelected[0] == true)
+              SellingProducts(),
+            if(isSelected[1] == true)
+              Container(color:Colors.black,width:100,height:100),
+            SizedBox(height:30),
+          ],
+        ),
       )
     );
   }

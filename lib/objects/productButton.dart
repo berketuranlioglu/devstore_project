@@ -24,9 +24,8 @@ class productButton {
                 Container(
                   alignment: Alignment.center,
                   child: (Image.asset(
-                    "/assets/category_phones.png",
-                    height: 60.0,
-                    width: 0.0,
+                    "assets/category_phones.png",
+                    fit: BoxFit.fitWidth,
                   )),
                 ),
                 const SizedBox(
