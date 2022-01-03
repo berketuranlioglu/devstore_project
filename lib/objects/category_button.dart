@@ -4,14 +4,30 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/routes/inner_category.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
-class categoryButton {
-  Widget button(BuildContext context, String image, String title) {
+class categoryButton extends StatefulWidget {
+  const categoryButton({Key? key, required this.image, required this.title, required this.analytics, required this.observer})
+      : super(key: key);
+  final String title;
+  final String image;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  @override
+  _categoryButtonState createState() => _categoryButtonState();
+}
+
+class _categoryButtonState extends State<categoryButton> {
+
+  @override
+  Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => {
         pushNewScreen(
-            context,
-            screen: InnerCategory(title: title),
+          context,
+          screen: InnerCategory(title: widget.title, analytics: widget.analytics, observer: widget.observer),
         ),
       },
       child: Column(
@@ -21,7 +37,7 @@ class categoryButton {
             Container(
               alignment: Alignment.center,
               child: (Image.asset(
-                image,
+                widget.image,
                 height: 60.0,
                 width: 60.0,
               )),
@@ -32,7 +48,7 @@ class categoryButton {
             Container(
               alignment: Alignment.center,
               child: Text(
-                title,
+                widget.title,
                 style: GoogleFonts.openSans(
                   color: AppColors.primaryColor,
                   fontSize: 10,
@@ -49,3 +65,4 @@ class categoryButton {
     );
   }
 }
+

@@ -33,22 +33,21 @@ class _categoriesState extends State<categories> {
         .logEvent(name: 'categories_page', parameters: <String, dynamic>{});
   }
 
-  Widget twoButtonsRow(
-      String image1, String title1, String image2, String title2) {
+  Widget twoButtonsRow(String image1, String title1, String image2, String title2) {
     return Row(
       children: [
         Expanded(
           flex: 1,
           child: Padding(
             padding: Dimen.twoButtonsRowPadding,
-            child: categoryButton().button(context, image1, title1),
+            child: categoryButton(image: image1, title: title1, analytics: widget.analytics, observer: widget.observer),
           ),
         ),
         Expanded(
           flex: 1,
           child: Padding(
             padding: Dimen.twoButtonsRowPadding,
-            child: categoryButton().button(context, image2, title2),
+            child: categoryButton(image: image2, title: title2, analytics: widget.analytics, observer: widget.observer),
           ),
         ),
       ],

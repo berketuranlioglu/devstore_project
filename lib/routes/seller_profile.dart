@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devstore_project/objects/productButton.dart';
+import 'package:devstore_project/objects/product_button.dart';
 import 'package:devstore_project/objects/selling_products.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
@@ -202,9 +202,9 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   SizedBox(height:15),
                   if(isSelected[0] == true)
-                    SellingProducts(isSelling: true),
+                    SellingProducts(isSelling: true, analytics: widget.analytics, observer: widget.observer),
                   if(isSelected[1] == true)
-                    SellingProducts(isSelling: false),
+                    SellingProducts(isSelling: false, analytics: widget.analytics, observer: widget.observer),
                   SizedBox(height:30),
                 ],
               ),

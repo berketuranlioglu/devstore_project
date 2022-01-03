@@ -2,6 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final toggleButtonText = GoogleFonts.openSans(
+  fontSize: 12,
+  fontWeight: FontWeight.bold,
+  color: AppColors.toggleButton,
+);
+
+final finalPrice = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+  color: AppColors.textColor,
+);
+
+final prevPrice = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+  color: AppColors.discountPrice.withOpacity(0.75),
+  decoration: TextDecoration.lineThrough,
+  decorationColor: AppColors.discountLine,
+  decorationThickness: 1.0,
+);
+
+final productDiscount = GoogleFonts.openSans(
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+  color: AppColors.secondaryColor,
+);
+
+final productDescription = GoogleFonts.openSans(
+  fontSize: 12,
+  fontWeight: FontWeight.normal,
+  color: AppColors.textColor,
+);
+
+final productPageRating = GoogleFonts.openSans(
+  fontSize: 9,
+  fontWeight: FontWeight.normal,
+  color: AppColors.textColor,
+);
+
+final productPageSellerText1 = GoogleFonts.openSans(
+  fontSize: 12,
+  fontWeight: FontWeight.normal,
+  color: AppColors.sellerText,
+);
+
+final productPageSellerText2 = GoogleFonts.openSans(
+  fontSize: 12,
+  fontWeight: FontWeight.bold,
+  color: AppColors.primaryColor,
+);
+
 final productText = GoogleFonts.openSans(
   fontSize: 10,
   fontWeight: FontWeight.bold,

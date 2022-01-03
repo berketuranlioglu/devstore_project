@@ -5,16 +5,30 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
-class productButton {
-  Widget button(BuildContext context) {
+class productButton extends StatefulWidget {
+  const productButton({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  @override
+  _productButtonState createState() => _productButtonState();
+}
+
+class _productButtonState extends State<productButton> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         ElevatedButton(
           onPressed: () => {
             pushNewScreen(
               context,
-              screen: productView(),
+              screen: productView(analytics: widget.analytics, observer: widget.observer),
+              withNavBar: false,
             ),
           },
           child: Column(
@@ -32,25 +46,25 @@ class productButton {
                   height: 10,
                 ),
                 Container(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/star.png",
-                        fit: BoxFit.fitHeight,
-                      ),
-                      Text(
-                        "4.2",
-                        style: GoogleFonts.openSans(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/star.png",
+                          fit: BoxFit.fitHeight,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  )
+                        Text(
+                          "4.2",
+                          style: GoogleFonts.openSans(
+                            color: Colors.grey,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -156,3 +170,4 @@ class productButton {
     );
   }
 }
+

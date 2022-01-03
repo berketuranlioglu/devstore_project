@@ -19,4 +19,8 @@ class AppColors {
   static const Color categoryButtonColor = Color(0xFFEDE4F1);
   static const Color feedPageSearchBar = Color(0xFFDADADA);
   static const Color loginSearchShadow = Color(0xFFD9D9DA);
+  static const Color sellerText = Color(0xFFAEA9B5);
+  static const Color discountPrice = Color(0xFF7F7C82);
+  static const Color discountLine = Color(0xFF5A0682);
+  static const Color toggleButton = Color(0xFF5B278D);
 }

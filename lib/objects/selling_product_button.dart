@@ -3,9 +3,15 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class SellingProductButton extends StatefulWidget {
-  const SellingProductButton({Key? key}) : super(key: key);
+  const SellingProductButton({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _SellingProductButtonState createState() => _SellingProductButtonState();
@@ -20,7 +26,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
           onPressed: () => {
             pushNewScreen(
               context,
-              screen: productView(),
+              screen: productView(analytics: widget.analytics, observer: widget.observer),
             ),
           },
           child: Column(

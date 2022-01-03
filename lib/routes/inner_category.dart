@@ -1,15 +1,20 @@
 import 'package:devstore_project/objects/inner_category_products.dart';
-import 'package:devstore_project/objects/productButton.dart';
+import 'package:devstore_project/objects/product_button.dart';
 import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class InnerCategory extends StatefulWidget {
-  const InnerCategory({Key? key, required this.title}) : super(key: key);
+  const InnerCategory({Key? key, required this.title,  required this.analytics, required this.observer})
+      : super(key: key);
   final String title;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _InnerCategoryState createState() => _InnerCategoryState();
@@ -47,7 +52,7 @@ class _InnerCategoryState extends State<InnerCategory> {
             child: Column(
               children: [
                 SizedBox(height:15),
-                InnerCategoryProducts(),
+                InnerCategoryProducts(analytics: widget.analytics, observer: widget.observer),
                 SizedBox(height:20),
               ],
             ),
