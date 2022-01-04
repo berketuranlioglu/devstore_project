@@ -3,7 +3,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/routes/cart.dart';
-import 'package:devstore_project/routes/categories.dart';
+import 'package:devstore_project/routes/categories_view.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/feed.dart';
@@ -39,7 +39,7 @@ class _persNavBarState extends State<persNavBar> {
   List<Widget> _NavScreens() {
     return [
       FeedView(analytics: widget.analytics, observer: widget.observer),
-      categories(analytics: widget.analytics, observer: widget.observer),
+      CategoriesView(analytics: widget.analytics, observer: widget.observer),
       cart(analytics: widget.analytics, observer: widget.observer),
       favorites(analytics: widget.analytics, observer: widget.observer),
       orders(analytics: widget.analytics, observer: widget.observer),

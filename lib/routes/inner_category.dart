@@ -22,6 +22,17 @@ class InnerCategory extends StatefulWidget {
 
 class _InnerCategoryState extends State<InnerCategory> {
 
+  //analytics begin
+  Future<void> _currentScreen() async {
+    await widget.analytics.setCurrentScreen(
+        screenName: '${widget.title} View', screenClassOverride: '${widget.title}View');
+  }
+
+  Future<void> _setLogEvent() async {
+    await widget.analytics
+        .logEvent(name: '${widget.title}_view', parameters: <String, dynamic>{});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

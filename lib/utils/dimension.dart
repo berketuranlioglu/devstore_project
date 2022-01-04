@@ -17,6 +17,6 @@ class Dimen {
   static get searchBarPadding => EdgeInsets.fromLTRB(0, 20, searchBar, 0);
   static get emptyIllustPadding => EdgeInsets.all(emptyIllust);
   static get topRowCategories => EdgeInsets.fromLTRB(30, 25, 30, 25);
-  static get twoButtonsRowPadding => EdgeInsets.fromLTRB(15, 5, 15, 5);
+  static get twoButtonsRowPadding => EdgeInsets.fromLTRB(10, 5, 10, 5);
   static get searchBarPadding2 => const EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 2.0);
 }

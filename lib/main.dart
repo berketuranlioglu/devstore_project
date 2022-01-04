@@ -3,7 +3,7 @@
 import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/pers_nav_bar.dart';
-import 'package:devstore_project/routes/categories.dart';
+import 'package:devstore_project/routes/categories_view.dart';
 import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
@@ -71,7 +71,7 @@ class AppBase extends StatelessWidget {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
           '/feed': (context) => FeedView(analytics: analytics, observer: observer),
           '/persNavBar': (context) => persNavBar(analytics: analytics, observer: observer),
-          '/categories': (context) => categories(analytics: analytics, observer: observer),
+          '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
           '/cart': (context) => cart(analytics: analytics, observer: observer),
           '/favorites': (context) => favorites(analytics: analytics, observer: observer),
           '/orders': (context) => orders(analytics: analytics, observer: observer),

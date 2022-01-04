@@ -25,6 +25,7 @@ class _categoryButtonState extends State<categoryButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => {
+        print(MediaQuery.of(context).size.width),
         pushNewScreen(
           context,
           screen: InnerCategory(title: widget.title, analytics: widget.analytics, observer: widget.observer),
@@ -36,14 +37,13 @@ class _categoryButtonState extends State<categoryButton> {
           children: [
             Container(
               alignment: Alignment.center,
-              child: (Image.asset(
+              child: (Image.network(
                 widget.image,
-                height: 60.0,
-                width: 60.0,
+                width: 70, height: 70,
               )),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Container(
               alignment: Alignment.center,
@@ -60,7 +60,10 @@ class _categoryButtonState extends State<categoryButton> {
           ]),
       style: ElevatedButton.styleFrom(
         primary: AppColors.categoryButtonColor,
-        fixedSize: Size(20, 100),
+        fixedSize: Size(
+            MediaQuery.of(context).size.width / 2.5,
+            120
+        ),
       ),
     );
   }

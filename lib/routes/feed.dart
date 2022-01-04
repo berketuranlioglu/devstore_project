@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devstore_project/routes/categories.dart';
+import 'package:devstore_project/routes/categories_view.dart';
 import 'package:devstore_project/routes/notification.dart';
 import 'package:devstore_project/routes/search.dart';
 import 'package:devstore_project/routes/welcome.dart';
@@ -217,7 +217,7 @@ class _FeedViewState extends State<FeedView> {
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
                     onPressed: () =>
-                        pushNewScreen(context, screen: categories(analytics: widget.analytics, observer: widget.observer)),
+                        pushNewScreen(context, screen: CategoriesView(analytics: widget.analytics, observer: widget.observer)),
                     fillColor: AppColors.secondaryColor,
                     child: Image.asset(
                       'assets/More.png',
