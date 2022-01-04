@@ -23,4 +23,5 @@ class AppColors {
   static const Color discountPrice = Color(0xFF7F7C82);
   static const Color discountLine = Color(0xFF5A0682);
   static const Color toggleButton = Color(0xFF5B278D);
+  static const Color starColor = Color(0xFFC9A72F);
 }

@@ -36,6 +36,8 @@ final List<String> contents=[
 ];
 
 final isSelected = <bool>[true, false, false];
+bool _isFavoritePressed = false;
+bool _isBookmarkPressed = false;
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -177,14 +179,42 @@ class _productViewState extends State<productView> {
                             spacing: -12.0,
                             children: [
                               IconButton(
-                                icon: Image.asset("assets/kalp.png"),
+                                icon: Icon(_isFavoritePressed
+                                    ? Icons.favorite
+                                    : Icons.favorite_outline),
+                                iconSize: 28,
                                 splashRadius: 21.0,
-                                onPressed: buttonClicked,
+                                onPressed: () {
+                                  setState(() {
+                                    _isFavoritePressed = !_isFavoritePressed;
+                                  });
+                                  if (_isFavoritePressed) {
+                                    //TODO: FAV'A EKLE
+                                    print('Added to Favorites');
+                                  } else {
+                                    //TODO: FAV'DAN CIKAR
+                                    print('Removed from Favorites');
+                                  }
+                                },
                               ),
                               IconButton(
-                                icon: Image.asset("assets/mark.png"),
+                                icon: Icon(_isBookmarkPressed
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border_outlined),
+                                iconSize: 28,
                                 splashRadius: 21.0,
-                                onPressed: buttonClicked,
+                                onPressed: () {
+                                  setState(() {
+                                    _isBookmarkPressed = !_isBookmarkPressed;
+                                  });
+                                  if (_isBookmarkPressed) {
+                                    //TODO: BOOKMARK'A EKLE
+                                    print('Added to Bookmark');
+                                  } else {
+                                    //TODO: BOOKMARK'TAN CIKAR
+                                    print('Removed from Bookmark');
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -199,7 +229,7 @@ class _productViewState extends State<productView> {
                       children: [
                         const Icon(
                           Icons.star,
-                          color: AppColors.textColor,
+                          color: AppColors.starColor,
                           size: 16.0,
                         ),
                         const SizedBox(width: 2.0),
@@ -343,6 +373,7 @@ class _productViewState extends State<productView> {
                     const SizedBox(width: 32.0),
                     ElevatedButton(
                       onPressed: () {
+                        //TODO: CART'A EKLE
                         pushNewScreen(
                           context,
                           screen: cart(analytics: widget.analytics, observer: widget.observer),

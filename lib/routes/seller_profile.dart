@@ -83,18 +83,26 @@ class _SellerProfileState extends State<SellerProfile> {
                   onPressed: () => {Navigator.pop(context)},
                   icon: Icon(Icons.arrow_back_ios_rounded,
                       color: AppColors.secondaryColor)),
-              title: Row(
-                children: [
-                  Text(
-                    "${userClass.nameSurname}",
-                    style: GoogleFonts.openSans(
-                      color: AppColors.secondaryColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+              title: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Text(
+                      "${userClass.nameSurname}",
+                      style: GoogleFonts.openSans(
+                        color: AppColors.secondaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  SizedBox(width:12),
-                  Container(
+                    SizedBox(width:12),
+                  ],
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+                  child: Container(
                     width: 50,
                     decoration: BoxDecoration(
                       color: AppColors.ratingBlockColor,
@@ -112,7 +120,7 @@ class _SellerProfileState extends State<SellerProfile> {
                     ),
                     child: Center(
                       child: Text(
-                        "  ${userClass.rating}  ",
+                        "${userClass.rating}",
                         style: GoogleFonts.openSans(
                           color: AppColors.secondaryColor,
                           fontSize: 18,
@@ -121,9 +129,8 @@ class _SellerProfileState extends State<SellerProfile> {
                       ),
                     ),
                   ),
-                ],
-              ),
-              actions: [
+                ),
+                SizedBox(width:10),
                 IconButton(
                     onPressed: () {
                       pushNewScreen(
@@ -156,48 +163,55 @@ class _SellerProfileState extends State<SellerProfile> {
                 children: [
                   SizedBox(height:15),
                   Center(
-                    child: ToggleButtons(
-                      textStyle: GoogleFonts.openSans(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.secondaryColor,
+                        borderRadius: BorderRadius.circular(50.0),
                       ),
-                      color: Colors.black45, //unselected text
-                      selectedColor: Colors.black, //selected text
-                      fillColor: const Color(0xFFECECEC), //selected cell
-                      splashColor: Colors.grey, // when pressing
-                      highlightColor: const Color(0xFFECECEC),
-                      borderRadius: BorderRadius.circular(50.0),
-                      isSelected: isSelected,
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                            if (buttonIndex == index) {
-                              isSelected[buttonIndex] = true;
-                            } else {
-                              isSelected[buttonIndex] = false;
+                      child: ToggleButtons(
+                        textStyle: GoogleFonts.openSans(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        color: Colors.black45, //unselected text
+                        selectedColor: Colors.black, //selected text
+                        fillColor: const Color(0xFFECECEC), //selected cell
+                        splashColor: Colors.grey, // when pressing
+                        highlightColor: const Color(0xFFECECEC),
+                        renderBorder: false,
+                        borderRadius: BorderRadius.circular(50.0),
+                        isSelected: isSelected,
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+                              if (buttonIndex == index) {
+                                isSelected[buttonIndex] = true;
+                              } else {
+                                isSelected[buttonIndex] = false;
+                              }
                             }
-                          }
-                        });
-                      },
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text('Selling'),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text('Sold'),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Icon(Icons.sort_rounded),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Icon(Icons.filter_list_outlined),
-                        ),
-                      ],
+                          });
+                        },
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Text('Selling'),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Text('Sold'),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Icon(Icons.sort_rounded),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Icon(Icons.filter_list_outlined),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height:15),

@@ -48,9 +48,10 @@ class _SoldProductButtonState extends State<SoldProductButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                          "assets/star.png",
-                          fit: BoxFit.fitHeight,
+                      const Icon(
+                        Icons.star,
+                        color: AppColors.starColor,
+                        size: 16.0,
                       ),
                       Text(
                         "4.2",
@@ -148,16 +149,17 @@ class _SoldProductButtonState extends State<SoldProductButton> {
           onPressed: () {
             //TODO: EDIT VE DELETE YAPILACAK (EMIR)
           },
-          child: Text("Edit",
+          child: Text("Sold",
               style: GoogleFonts.openSans(
-                color: AppColors.primaryColor,
+                color: Colors.black,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               )),
           style: OutlinedButton.styleFrom(
+            backgroundColor: const Color(0xFFECECEC),
               fixedSize: Size(150, 20),
               side: BorderSide(
-                color: AppColors.primaryColor,
+                color: const Color(0xFFECECEC),
                 width: 2,
               ),
               shape: RoundedRectangleBorder(

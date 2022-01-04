@@ -24,6 +24,7 @@ class DBService {
           'password': password,
           'imageUrl': 'https://i.stack.imgur.com/l60Hf.png',
           'isActive': true,
+          'rating': 0.0,
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));

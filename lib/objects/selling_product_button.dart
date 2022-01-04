@@ -48,9 +48,10 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        "assets/star.png",
-                        fit: BoxFit.fitHeight,
+                      const Icon(
+                        Icons.star,
+                        color: AppColors.starColor,
+                        size: 16.0,
                       ),
                       Text(
                         "4.2",

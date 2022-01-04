@@ -18,6 +18,8 @@ class productButton extends StatefulWidget {
   _productButtonState createState() => _productButtonState();
 }
 
+bool _isPressed = false;
+
 class _productButtonState extends State<productButton> {
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,10 @@ class _productButtonState extends State<productButton> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          "assets/star.png",
-                          fit: BoxFit.fitHeight,
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.starColor,
+                          size: 16.0,
                         ),
                         Text(
                           "4.2",
@@ -148,15 +151,36 @@ class _productButtonState extends State<productButton> {
         SizedBox(height: 5),
         OutlinedButton(
           onPressed: () {
-            //TODO: SEPETE GIDECEK
+            setState(() {
+              _isPressed = !_isPressed;
+            });
+            if (_isPressed) {
+              //TODO: CART'A EKLE
+              print('Added to Cart');
+            } else {
+              //TODO: CART'TAN CIKAR
+              print('Removed from Cart');
+            }
           },
-          child: Text("Add to Cart",
+          child: _isPressed
+              ? Text(
+              "Added",
+              style: GoogleFonts.openSans(
+                color: AppColors.secondaryColor,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              )
+          )
+              : Text(
+              "Add to Cart",
               style: GoogleFonts.openSans(
                 color: AppColors.primaryColor,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               )),
-          style: OutlinedButton.styleFrom(
+          style: _isPressed
+              ? OutlinedButton.styleFrom(
+              backgroundColor: AppColors.primaryColor,
               fixedSize: Size(150, 20),
               side: BorderSide(
                 color: AppColors.primaryColor,
@@ -164,7 +188,16 @@ class _productButtonState extends State<productButton> {
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-              )),
+              ))
+              : OutlinedButton.styleFrom(
+              fixedSize: Size(150, 20),
+              side: BorderSide(
+                color: AppColors.primaryColor,
+                width: 2,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ))
         ),
       ],
     );
