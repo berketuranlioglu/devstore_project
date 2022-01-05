@@ -8,6 +8,7 @@ import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/profile.dart';
+import 'package:devstore_project/services/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/routes/login.dart';
@@ -55,12 +56,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AppBase extends StatelessWidget {
-  //const AppBase({Key? key}) : super(key: key);
+class AppBase extends StatefulWidget {
+  const AppBase({Key key}) : super(key: key);
 
+  @override
+  _AppBaseState createState() => _AppBaseState();
+}
+
+class _AppBaseState extends State<AppBase> {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  FirebaseAnalyticsObserver(analytics: analytics);
+
+  String notificationTitle = 'No Title';
+  String notificationBody = 'No Body';
+  String notificationData = 'No Data';
+
+  @override
+  void initState() {
+    final firebaseMessaging = FCM();
+    firebaseMessaging.setNotifications();
+
+    firebaseMessaging.streamCtlr.stream.listen(_changeData);
+    firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
+    firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
+
+    super.initState();
+  }
+
+  _changeData(String msg) => setState(() => notificationData = msg);
+  _changeBody(String msg) => setState(() => notificationBody = msg);
+  _changeTitle(String msg) => setState(() => notificationTitle = msg);
 
   @override
   Widget build(BuildContext context) {
@@ -87,3 +113,4 @@ class AppBase extends StatelessWidget {
         });
   }
 }
+
