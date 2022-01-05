@@ -5,6 +5,8 @@ class DBService {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference categoriesCollection =
       FirebaseFirestore.instance.collection('categories');
+  final CollectionReference productsCollection =
+      FirebaseFirestore.instance.collection("products");
 
   Future addUserAutoID(String nameSurname, String mail, String token) async {
     userCollection

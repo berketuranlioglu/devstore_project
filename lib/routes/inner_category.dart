@@ -63,7 +63,7 @@ class _InnerCategoryState extends State<InnerCategory> {
             child: Column(
               children: [
                 SizedBox(height:15),
-                InnerCategoryProducts(analytics: widget.analytics, observer: widget.observer),
+                InnerCategoryProducts(title: widget.title, analytics: widget.analytics, observer: widget.observer),
                 SizedBox(height:20),
               ],
             ),
