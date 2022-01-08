@@ -47,7 +47,6 @@ class _FeedViewState extends State<FeedView> {
   }
 
   bool offers_isEmpty = false;
-  User? firebaseUser = FirebaseAuth.instance.currentUser;
 
   AuthService auth = AuthService();
 
@@ -108,8 +107,7 @@ class _FeedViewState extends State<FeedView> {
                     children: [
                       FlatButton(
                         onPressed: () => {
-                          print(AuthService().user.first.toString()),
-                          if(AuthService().user == null){
+                          if(user == null){
                             pushNewScreen(context,
                             screen: Welcome(analytics: widget.analytics, observer: widget.observer),
                             withNavBar: false
