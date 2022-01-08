@@ -1,3 +1,4 @@
+// @dart=2.9
 
 import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
@@ -7,7 +8,6 @@ import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/profile.dart';
-import 'package:devstore_project/services/auth.dart';
 import 'package:devstore_project/services/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/routes/welcome.dart';
@@ -29,7 +29,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = (await prefs.getInt("initScreen"))!;
+  initScreen = await prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
   //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
 }
 
 class AppBase extends StatefulWidget {
-  const AppBase({Key? key}) : super(key: key);
+  const AppBase({Key key}) : super(key: key);
 
   @override
   _AppBaseState createState() => _AppBaseState();
@@ -70,31 +70,27 @@ class _AppBaseState extends State<AppBase> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User?>.value(
-      value: AuthService().user,
-      initialData: null,
-      child: MaterialApp(
-          navigatorObservers: <NavigatorObserver>[observer],
-          initialRoute: initScreen == 0 || initScreen == null ? '/first' : '/',
-          routes: {
-            '/': (context) => Welcome(analytics: analytics, observer: observer),
-            '/feed': (context) => FeedView(analytics: analytics, observer: observer),
-            '/persNavBar': (context) => persNavBar(analytics: analytics, observer: observer),
-            '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
-            '/cart': (context) => cart(analytics: analytics, observer: observer),
-            '/favorites': (context) => favorites(analytics: analytics, observer: observer),
-            '/orders': (context) => orders(analytics: analytics, observer: observer),
-            '/profile': (context) => Profile(analytics: analytics, observer: observer),
-            '/first': (context) =>
-                WalkthroughView(analytics: analytics, observer: observer),
-            '/login': (context) =>
-                LoginPage(analytics: analytics, observer: observer),
-            '/signup': (context) =>
-                SignUpPage(analytics: analytics, observer: observer),
-            '/checkout': (context) => CheckoutView(),
-            '/editProfile': (context) => editProfile(),
-          }),
-    );
+    return MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
+        initialRoute: initScreen == 0 || initScreen == null ? '/first' : '/',
+        routes: {
+          '/': (context) => Welcome(analytics: analytics, observer: observer),
+          '/feed': (context) => FeedView(analytics: analytics, observer: observer),
+          '/persNavBar': (context) => persNavBar(analytics: analytics, observer: observer),
+          '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
+          '/cart': (context) => cart(analytics: analytics, observer: observer),
+          '/favorites': (context) => favorites(analytics: analytics, observer: observer),
+          '/orders': (context) => orders(analytics: analytics, observer: observer),
+          '/profile': (context) => Profile(analytics: analytics, observer: observer),
+          '/first': (context) =>
+              WalkthroughView(analytics: analytics, observer: observer),
+          '/login': (context) =>
+              LoginPage(analytics: analytics, observer: observer),
+          '/signup': (context) =>
+              SignUpPage(analytics: analytics, observer: observer),
+          '/checkout': (context) => CheckoutView(),
+          '/editProfile': (context) => editProfile(),
+        });
   }
 }
 
