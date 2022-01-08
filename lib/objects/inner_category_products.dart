@@ -36,8 +36,8 @@ class _InnerCategoryProductsState extends State<InnerCategoryProducts> {
             spacing: 30,
             runSpacing: 10,
             children: [
-              for(int i = 0; i < categoriesClass.products.length; i++)
-                productButton(title: widget.title, analytics: widget.analytics, observer: widget.observer),
+              for(int i = 0; i < categoriesClass.productReference.length; i++)
+                productButton(title: categoriesClass.productReference[i], analytics: widget.analytics, observer: widget.observer),
             ],
           );
         }

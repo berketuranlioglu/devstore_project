@@ -18,7 +18,7 @@ DBService db = DBService();
 class productButton extends StatefulWidget {
   const productButton({Key? key, required this.title, required this.analytics, required this.observer})
       : super(key: key);
-  final String title;
+  final dynamic title;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -31,13 +31,14 @@ bool _isPressed = false;
 class _productButtonState extends State<productButton> {
   @override
   Widget build(BuildContext context) {
+    String id = widget.title.id.toString();
     return FutureBuilder(
-      future: db.categoriesCollection.doc(widget.title).get(),
+      future: db.productsCollection.doc(id).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Categories categoriesClass =
-          Categories.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          Products productsClass =
+          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           return Column(
             children: [
               ElevatedButton(
@@ -54,9 +55,9 @@ class _productButtonState extends State<productButton> {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        child: (Image.asset(
-                          "assets/category_phones.png",
-                          fit: BoxFit.fitHeight,
+                        child: (Image.network(
+                          "${productsClass.imageURL[0]}",
+                          width: 70, height: 70,
                         )),
                       ),
                       const SizedBox(
@@ -73,9 +74,19 @@ class _productButtonState extends State<productButton> {
                                 size: 16.0,
                               ),
                               Text(
-                                "4.2",
+                                "${productsClass.rating}",
                                 style: GoogleFonts.openSans(
-                                  color: Colors.grey,
+                                  color: Colors.black54,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(width:2),
+                              Text(
+                                "(${productsClass.ratingCount})",
+                                style: GoogleFonts.openSans(
+                                  color: Colors.black54,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -87,7 +98,7 @@ class _productButtonState extends State<productButton> {
                       Container(
                         alignment: Alignment.center,
                         child: Text(
-                          "PRODUCT NAME",
+                          "${productsClass.productName}",
                           style: GoogleFonts.openSans(
                             color: Colors.black,
                             fontSize: 12,
@@ -97,66 +108,86 @@ class _productButtonState extends State<productButton> {
                         ),
                       ),
                       SizedBox(height:8),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              height: 20,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(5.0)
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "10%",
-                                style: GoogleFonts.openSans(
-                                  color: AppColors.secondaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
+                      productsClass.previousPrice != productsClass.salePrice
+                          ? Row(
                               children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "\$1099.00",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.lineThrough,
-                                      decorationThickness: 2,
-                                      decorationColor: AppColors.primaryColor,
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    height: 20,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
                                     ),
-                                    textAlign: TextAlign.center,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "${((productsClass.previousPrice - productsClass.salePrice) / productsClass.previousPrice * 100).toInt()}%",
+                                      style: GoogleFonts.openSans(
+                                        color: AppColors.secondaryColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "\$999.00",
-                                    style: GoogleFonts.openSans(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
+                                Expanded(
+                                  flex: 4,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "\$${productsClass.previousPrice}.00",
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            decorationThickness: 2,
+                                            decorationColor:
+                                                AppColors.primaryColor,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "\$${productsClass.salePrice}.00",
+                                          style: GoogleFonts.openSans(
+                                            color: AppColors.primaryColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "\$${productsClass.salePrice}.00",
+                                      style: GoogleFonts.openSans(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
                     ]),
                 style: ElevatedButton.styleFrom(
                   primary: AppColors.secondaryColor,

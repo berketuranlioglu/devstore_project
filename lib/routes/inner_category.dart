@@ -62,9 +62,10 @@ class _InnerCategoryState extends State<InnerCategory> {
         child: Center(
             child: Column(
               children: [
-                SizedBox(height:15),
-                InnerCategoryProducts(title: widget.title, analytics: widget.analytics, observer: widget.observer),
-                SizedBox(height:20),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 20),
+                  child: InnerCategoryProducts(title: widget.title, analytics: widget.analytics, observer: widget.observer),
+                ),
               ],
             ),
         ),

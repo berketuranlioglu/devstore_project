@@ -1,32 +1,32 @@
 class Products {
   late String productBrand;
   late String category;
-  late Map<String, Map<String, dynamic>> comments;
+  late dynamic comments;
   late String details;
   late dynamic imageURL;
   late dynamic location;
   late String overview;
-  late double previousPrice;
+  late int previousPrice;
   late String productName;
   late double rating;
   late int ratingCount;
-  late double salePrice;
+  late int salePrice;
   late String sellerName;
 
 
   Products(
       String productBrand,
       String category,
-      Map<String, Map<String, dynamic>> comments,
+      dynamic comments,
       String details,
       dynamic imageURL,
       dynamic location,
       String overview,
-      double previousPrice,
+      int previousPrice,
       String productName,
       double rating,
       int ratingCount,
-      double salePrice,
+      int salePrice,
       String sellerName,
   ) {
     this.productBrand = productBrand;
