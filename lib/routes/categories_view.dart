@@ -58,7 +58,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                   ),
                 ),
                 backgroundColor: AppColors.backgroundColor,
-                shadowColor: Colors.transparent,
+                elevation: 0,
                 toolbarHeight: MediaQuery.of(context).size.height / 9,
                 leading: const SizedBox(),
                 leadingWidth: 15,
