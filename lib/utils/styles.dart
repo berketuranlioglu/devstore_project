@@ -36,7 +36,7 @@ final productDescription = GoogleFonts.openSans(
 );
 
 final productPageRating = GoogleFonts.openSans(
-  fontSize: 9,
+  fontSize: 12,
   fontWeight: FontWeight.normal,
   color: AppColors.textColor,
 );

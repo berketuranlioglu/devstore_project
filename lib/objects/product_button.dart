@@ -45,7 +45,7 @@ class _productButtonState extends State<productButton> {
                 onPressed: () => {
                   pushNewScreen(
                     context,
-                    screen: productView(analytics: widget.analytics, observer: widget.observer),
+                    screen: productView(id: id, analytics: widget.analytics, observer: widget.observer),
                     withNavBar: false,
                   ),
                 },

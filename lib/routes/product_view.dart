@@ -15,9 +15,10 @@ import 'package:firebase_analytics/observer.dart';
 import 'cart.dart';
 
 class productView extends StatefulWidget {
-  const productView({Key? key, required this.analytics, required this.observer})
+  const productView({Key? key, required this.id, required this.analytics, required this.observer})
       : super(key: key);
 
+  final String id;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -29,49 +30,23 @@ void buttonClicked() {
   print('Button Clicked');
 }
 
+/*
 final List<String> contents=[
   'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/apple/thumb/129911-9_large.jpg',
   'https://photos5.appleinsider.com/gallery/44650-87056-Edge-of-iPhone-13-Pro-on-Edge-xl.jpg',
   'https://thumbor.forbes.com/thumbor/fit-in/1200x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f8e0aaafeac9889106b860f%2F0x0.png%3FcropX1%3D0%26cropX2%3D1462%26cropY1%3D115%26cropY2%3D1211',
 ];
+ */
 
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
 bool _isBookmarkPressed = false;
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
-
 DBService db = DBService();
-
-Future<String> userNameFinal = getUserName(uid);
-final firestoreInstance = FirebaseFirestore.instance;
-void printData() {
-  firestoreInstance.collection('users').doc("password").get();
-}
-
-Future<Map<String, dynamic>?> getUser(String uid) async {
-  var data =
-      await firestoreInstance.collection("users").doc(uid).get().then((value) {
-    return value.data();
-  });
-  return data;
-}
-
-Future<String> getUserName(String uid) async {
-  var userData = {};
-  userData = (await getUser(uid))!;
-  var a = await getUser(uid);
-  print(userData["username"]);
-  return userData["username"];
-}
 
 class _productViewState extends State<productView> {
   final int _current = 0;
   final CarouselController _controller = CarouselController();
-  bool isOnSale = true;
 
   //analytics begin
   Future<void> _currentScreen() async {
@@ -87,12 +62,13 @@ class _productViewState extends State<productView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: db.userCollection.doc(user.uid).get(),
+      future: db.productsCollection.doc(widget.id).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Products userClass =
+          Products productsClass =
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -160,12 +136,12 @@ class _productViewState extends State<productView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('iPhone 13 Pro Max 256 GB', style: fav_camp_recomBanner),
+                            Text(productsClass.productName, style: fav_camp_recomBanner),
                             RichText(
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(text: 'By ', style: productPageSellerText1),
-                                  TextSpan(text: 'Apple', style: productPageSellerText2),
+                                  TextSpan(text: productsClass.productBrand, style: productPageSellerText2),
                                 ],
                               ),
                             ),
@@ -236,9 +212,8 @@ class _productViewState extends State<productView> {
                         RichText(
                           text: TextSpan(
                             children: <TextSpan>[
-                              TextSpan(text: '(Rating: ', style: productPageRating),
-                              TextSpan(text: '3.4', style: productPageRating),
-                              TextSpan(text: ')', style: productPageRating),
+                              TextSpan(text: productsClass.rating.toString(), style: productPageRating),
+                              TextSpan(text: " (${productsClass.ratingCount.toString()})", style: productPageRating),
                             ],
                           ),
                         ),
@@ -297,7 +272,7 @@ class _productViewState extends State<productView> {
                     Padding(
                       padding: Dimen.regularPadding12,
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip \n \n Ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
+                        productsClass.overview,
                         textAlign: TextAlign.left,
                         style: productDescription,
                       ),
@@ -307,7 +282,7 @@ class _productViewState extends State<productView> {
                     Padding(
                       padding: Dimen.regularPadding12,
                       child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip \n \n Ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
+                        productsClass.details,
                         textAlign: TextAlign.left,
                         style: productDescription,
                       ),
@@ -316,10 +291,17 @@ class _productViewState extends State<productView> {
                   if (isSelected[2] == true)
                     Padding(
                       padding: Dimen.regularPadding12,
-                      child: Text(
-                        "Comments",
-                        textAlign: TextAlign.left,
-                        style: productDescription,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          for(int i=0; i < productsClass.comments.length; i++)
+                            Text(
+                              productsClass.comments[i].toString(),
+                              textAlign: TextAlign.left,
+                              style: productDescription,
+                            ),
+                        ],
                       ),
                     ),
                 ],
@@ -338,33 +320,49 @@ class _productViewState extends State<productView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if(isOnSale)
-                      Container(
-                        width: 71.43,
-                        height: 30.36,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFBFA2DB),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          '-9.8%',
-                          textAlign: TextAlign.center,
-                          style: productDiscount,
-                        ),
+                    productsClass.previousPrice != productsClass.salePrice
+                    ? Container(
+                      width: 71.43,
+                      height: 30.36,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFBFA2DB),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "${((productsClass.previousPrice -
+                            productsClass.salePrice) /
+                            productsClass.previousPrice * 100).toStringAsFixed(
+                            1)}%",
+                        textAlign: TextAlign.center,
+                        style: productDiscount,
+                      ),
+                    )
+                    : Container(
+                      width: 1, height: 1,
+                    ),
                     const SizedBox(width: 32.0),
-                    Column(
+                    productsClass.previousPrice != productsClass.salePrice
+                    ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if(isOnSale)
-                          Text(
-                            '\$1099.00',
-                            textAlign: TextAlign.center,
-                            style: prevPrice,
-                          ),
                         Text(
-                          '\$991.30',
+                          '\$${productsClass.previousPrice}.00',
+                          textAlign: TextAlign.center,
+                          style: prevPrice,
+                        ),
+                        Text(
+                          '\$${productsClass.salePrice}.00',
+                          textAlign: TextAlign.center,
+                          style: finalPrice,
+                        ),
+                      ],
+                    )
+                    : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '\$${productsClass.salePrice}.00',
                           textAlign: TextAlign.center,
                           style: finalPrice,
                         ),

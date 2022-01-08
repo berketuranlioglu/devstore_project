@@ -24,10 +24,12 @@ class _SellingProductButtonState extends State<SellingProductButton> {
       children: [
         ElevatedButton(
           onPressed: () => {
+            /*
             pushNewScreen(
               context,
-              screen: productView(analytics: widget.analytics, observer: widget.observer),
+              screen: productView(id: id, analytics: widget.analytics, observer: widget.observer),
             ),
+             */
           },
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
