@@ -70,6 +70,7 @@ class _productViewState extends State<productView> {
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
+            backgroundColor: AppColors.mainBackgroundColor,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0.0,
@@ -272,7 +273,7 @@ class _productViewState extends State<productView> {
                     Padding(
                       padding: Dimen.regularPadding12,
                       child: Text(
-                        productsClass.overview,
+                        productsClass.overview.replaceAll('\\n', '\n\n'),
                         textAlign: TextAlign.left,
                         style: productDescription,
                       ),
@@ -282,7 +283,7 @@ class _productViewState extends State<productView> {
                     Padding(
                       padding: Dimen.regularPadding12,
                       child: Text(
-                        productsClass.details,
+                        productsClass.details.replaceAll('\\n', '\n\n'),
                         textAlign: TextAlign.left,
                         style: productDescription,
                       ),
@@ -296,10 +297,50 @@ class _productViewState extends State<productView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           for(int i=0; i < productsClass.comments.length; i++)
-                            Text(
-                              productsClass.comments[i].toString(),
-                              textAlign: TextAlign.left,
-                              style: productDescription,
+                            Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.secondaryColor,
+                                    border: Border.all(
+                                      width: 1.0,
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15.0)
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            productsClass.comments[i]['username'],
+                                            style: productPageSellerText2,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            productsClass.comments[i]['comment'],
+                                            style: productPageRating,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            productsClass.comments[i]['rating'].toString(),
+                                            style: productPageRating,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height:10),
+                              ],
                             ),
                         ],
                       ),
