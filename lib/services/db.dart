@@ -29,6 +29,7 @@ class DBService {
           'imageUrl': 'https://i.stack.imgur.com/l60Hf.png',
           'isActive': true,
           'rating': 0.0,
+          'productReference': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));

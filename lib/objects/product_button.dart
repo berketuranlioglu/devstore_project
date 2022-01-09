@@ -5,6 +5,7 @@ import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -13,12 +14,39 @@ import 'package:firebase_analytics/observer.dart';
 
 import 'categories.dart';
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
+Future<String> userNameFinal = getUserName(uid);
+final firestoreInstance = FirebaseFirestore.instance;
+void printData() {
+  firestoreInstance.collection('users').doc("password").get();
+}
+
+Future<Map<String, dynamic>?> getUser(String uid) async {
+  var data =
+  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+    return value.data();
+  });
+  return data;
+}
+
+Future<String> getUserName(String uid) async {
+  var userData = {};
+  userData = (await getUser(uid))!;
+  var a = await getUser(uid);
+  print(userData["username"]);
+  return userData["username"];
+}
+
 DBService db = DBService();
 
 class productButton extends StatefulWidget {
-  const productButton({Key? key, required this.title, required this.analytics, required this.observer})
+  const productButton({Key? key, required this.reference, required this.analytics, required this.observer})
       : super(key: key);
-  final dynamic title;
+  final dynamic reference;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -27,11 +55,12 @@ class productButton extends StatefulWidget {
 }
 
 bool _isPressed = false;
+String username = "";
 
 class _productButtonState extends State<productButton> {
   @override
   Widget build(BuildContext context) {
-    String id = widget.title.id.toString();
+    String id = widget.reference.id.toString();
     return FutureBuilder(
       future: db.productsCollection.doc(id).get(),
       builder:
@@ -39,13 +68,16 @@ class _productButtonState extends State<productButton> {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
           Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          getUserName(uid).then((value) {
+            username = value;
+          });
           return Column(
             children: [
               ElevatedButton(
                 onPressed: () => {
                   pushNewScreen(
                     context,
-                    screen: productView(id: id, analytics: widget.analytics, observer: widget.observer),
+                    screen: productView(id: id, username: username, analytics: widget.analytics, observer: widget.observer),
                     withNavBar: false,
                   ),
                 },

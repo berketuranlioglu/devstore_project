@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+FirebaseAuth auth = FirebaseAuth.instance;
+
 final User user = auth.currentUser!;
 final uid = user.uid;
 
@@ -65,8 +67,8 @@ class _SellerProfileState extends State<SellerProfile> {
         .logEvent(name: 'sellerProfile', parameters: <String, dynamic>{});
   }
 
-  final isSelected = <bool>[true, false, false, false];
-  dynamic sellingPage = true;
+  final isSelectedOne = <bool>[true, false];
+  final isSelectedTwo = <bool>[false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -163,61 +165,101 @@ class _SellerProfileState extends State<SellerProfile> {
                 children: [
                   SizedBox(height:15),
                   Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.secondaryColor,
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      child: ToggleButtons(
-                        textStyle: GoogleFonts.openSans(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.secondaryColor,
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: ToggleButtons(
+                            textStyle: GoogleFonts.openSans(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            color: Colors.black45, //unselected text
+                            selectedColor: Colors.black, //selected text
+                            fillColor: const Color(0xFFECECEC), //selected cell
+                            splashColor: Colors.grey, // when pressing
+                            highlightColor: const Color(0xFFECECEC),
+                            renderBorder: false,
+                            borderRadius: BorderRadius.circular(50.0),
+                            isSelected: isSelectedOne,
+                            onPressed: (int index) {
+                              setState(() {
+                                for (int buttonIndex = 0; buttonIndex < isSelectedOne.length; buttonIndex++) {
+                                  if (buttonIndex == index) {
+                                    isSelectedOne[buttonIndex] = true;
+                                  } else {
+                                    isSelectedOne[buttonIndex] = false;
+                                  }
+                                }
+                              });
+                            },
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Text('Selling'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Text('Sold'),
+                              ),
+                            ],
+                          ),
                         ),
-                        color: Colors.black45, //unselected text
-                        selectedColor: Colors.black, //selected text
-                        fillColor: const Color(0xFFECECEC), //selected cell
-                        splashColor: Colors.grey, // when pressing
-                        highlightColor: const Color(0xFFECECEC),
-                        renderBorder: false,
-                        borderRadius: BorderRadius.circular(50.0),
-                        isSelected: isSelected,
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
-                              if (buttonIndex == index) {
-                                isSelected[buttonIndex] = true;
-                              } else {
-                                isSelected[buttonIndex] = false;
-                              }
-                            }
-                          });
-                        },
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Text('Selling'),
+                        SizedBox(width:15),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.secondaryColor,
+                            borderRadius: BorderRadius.circular(50.0),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Text('Sold'),
+                          child: ToggleButtons(
+                            textStyle: GoogleFonts.openSans(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            color: Colors.black45, //unselected text
+                            selectedColor: Colors.black, //selected text
+                            fillColor: const Color(0xFFECECEC), //selected cell
+                            splashColor: Colors.grey, // when pressing
+                            highlightColor: const Color(0xFFECECEC),
+                            renderBorder: false,
+                            borderRadius: BorderRadius.circular(50.0),
+                            isSelected: isSelectedTwo,
+                            onPressed: (int index) {
+                              setState(() {
+                                for (int buttonIndex = 0; buttonIndex < isSelectedTwo.length; buttonIndex++) {
+                                  if (buttonIndex == index) {
+                                    isSelectedTwo[buttonIndex] = true;
+                                  } else {
+                                    isSelectedTwo[buttonIndex] = false;
+                                  }
+                                }
+                              });
+                            },
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Icon(Icons.sort_rounded),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Icon(Icons.filter_alt_outlined),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Icon(Icons.sort_rounded),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Icon(Icons.filter_list_outlined),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height:15),
-                  if(isSelected[0] == true)
+                  if(isSelectedOne[0] == true)
                     SellingProducts(isSelling: true, analytics: widget.analytics, observer: widget.observer),
-                  if(isSelected[1] == true)
+                  if(isSelectedOne[1] == true)
                     SellingProducts(isSelling: false, analytics: widget.analytics, observer: widget.observer),
                   SizedBox(height:30),
                 ],

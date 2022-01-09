@@ -14,11 +14,41 @@ import 'package:firebase_analytics/observer.dart';
 
 import 'cart.dart';
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
+Future<String> userNameFinal = getUserName(uid);
+final firestoreInstance = FirebaseFirestore.instance;
+void printData() {
+  firestoreInstance.collection('users').doc("password").get();
+}
+
+Future<Map<String, dynamic>?> getUser(String uid) async {
+  var data =
+  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+    return value.data();
+  });
+  return data;
+}
+
+Future<String> getUserName(String uid) async {
+  var userData = {};
+  userData = (await getUser(uid))!;
+  var a = await getUser(uid);
+  print(userData["username"]);
+  return userData["username"];
+}
+
+DBService db = DBService();
+
 class productView extends StatefulWidget {
-  const productView({Key? key, required this.id, required this.analytics, required this.observer})
+  const productView({Key? key, required this.id, required this.username, required this.analytics, required this.observer})
       : super(key: key);
 
   final String id;
+  final String username;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -41,8 +71,6 @@ final List<String> contents=[
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
 bool _isBookmarkPressed = false;
-
-DBService db = DBService();
 
 class _productViewState extends State<productView> {
   final int _current = 0;
@@ -410,29 +438,51 @@ class _productViewState extends State<productView> {
                       ],
                     ),
                     const SizedBox(width: 32.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        //TODO: CART'A EKLE
-                        pushNewScreen(
-                          context,
-                          screen: cart(analytics: widget.analytics, observer: widget.observer),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(154,39),
-                          primary: const Color(0xFF9441E4),
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                          )),
-                      child: Row(
-                        children: [
-                          Text('Add To Cart', style: productDiscount),
-                          const SizedBox(width: 8.0),
-                          const Icon(Icons.shopping_cart_outlined),
-                        ],
-                      ),
-                    ),
+                    productsClass.sellerName != widget.username
+                        ? ElevatedButton(
+                            onPressed: () {
+                              //TODO: CART'A EKLE
+                              pushNewScreen(
+                                context,
+                                screen: cart(
+                                    analytics: widget.analytics,
+                                    observer: widget.observer),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(154, 39),
+                                primary: const Color(0xFF9441E4),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                )),
+                            child: Row(
+                              children: [
+                                Text("Add to Cart", style: productDiscount),
+                                const SizedBox(width: 8.0),
+                                const Icon(Icons.shopping_cart_outlined),
+                              ],
+                            ),
+                          )
+                        : ElevatedButton(
+                            onPressed: () {
+                              //TODO: EDIT SAYFASINA GIDIYOR
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(110, 39),
+                                primary: const Color(0xFF9441E4),
+                                elevation: 0.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                )),
+                            child: Row(
+                              children: [
+                                Text('Edit', style: productDiscount),
+                                const SizedBox(width: 8.0),
+                                const Icon(Icons.edit_outlined),
+                              ],
+                            ),
+                          ),
                   ],
                 ),
               ),
