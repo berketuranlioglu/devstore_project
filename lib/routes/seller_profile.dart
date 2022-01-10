@@ -15,41 +15,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
-
 DBService db = DBService();
 
-Future<String> userNameFinal = getUserName(uid);
-final firestoreInstance = FirebaseFirestore.instance;
-void printData() {
-  firestoreInstance.collection('users').doc("password").get();
-}
-
-Future<Map<String, dynamic>?> getUser(String uid) async {
-  var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
-    return value.data();
-  });
-  return data;
-}
-
-Future<String> getUserName(String uid) async {
-  var userData = {};
-  userData = (await getUser(uid))!;
-  var a = await getUser(uid);
-  print(userData["username"]);
-  return userData["username"];
-}
-
 class SellerProfile extends StatefulWidget {
-  const SellerProfile({Key? key, required this.analytics, required this.observer})
+  const SellerProfile({Key? key, required this.uid, required this.analytics, required this.observer})
       : super(key: key);
-
+  final String uid;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
+
+  Future<Map<String, dynamic>?> getUser(String uid) async {
+    var data =
+    await FirebaseFirestore.instance.collection("users").doc(uid).get().then((value) {
+      return value.data();
+    });
+    return data;
+  }
+
+  Future<String> getUserName(String uid) async {
+    var userData = {};
+    userData = (await getUser(uid))!;
+    var a = await getUser(uid);
+    print(userData["username"]);
+    return userData["username"];
+
+  }
 
 
   @override
@@ -74,7 +64,7 @@ class _SellerProfileState extends State<SellerProfile> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: db.userCollection.doc(user.uid).get(),
+      future: db.userCollection.doc(widget.uid).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {

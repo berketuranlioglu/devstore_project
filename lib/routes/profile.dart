@@ -155,6 +155,7 @@ class _ProfileState extends State<Profile> {
                     pushNewScreen(
                         context,
                         screen: SellerProfile(
+                          uid: uid,
                           analytics: widget.analytics,
                           observer: widget.observer,
                         )

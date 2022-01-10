@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,33 +14,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
 import 'cart.dart';
-
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
-
-Future<String> userNameFinal = getUserName(uid);
-final firestoreInstance = FirebaseFirestore.instance;
-void printData() {
-  firestoreInstance.collection('users').doc("password").get();
-}
-
-Future<Map<String, dynamic>?> getUser(String uid) async {
-  var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
-    return value.data();
-  });
-  return data;
-}
-
-Future<String> getUserName(String uid) async {
-  var userData = {};
-  userData = (await getUser(uid))!;
-  var a = await getUser(uid);
-  print(userData["username"]);
-  return userData["username"];
-}
 
 DBService db = DBService();
 
@@ -87,6 +61,8 @@ class _productViewState extends State<productView> {
         .logEvent(name: 'product_page', parameters: <String, dynamic>{});
   }
 
+  String uid = "";
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -96,6 +72,7 @@ class _productViewState extends State<productView> {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+
           List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             backgroundColor: AppColors.mainBackgroundColor,
@@ -166,13 +143,28 @@ class _productViewState extends State<productView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(productsClass.productName, style: fav_camp_recomBanner),
-                            RichText(
-                              text: TextSpan(
-                                children: <TextSpan>[
-                                  TextSpan(text: 'By ', style: productPageSellerText1),
-                                  TextSpan(text: productsClass.productBrand, style: productPageSellerText2),
-                                ],
-                              ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text('By ', style: productPageSellerText1),
+                                InkWell(
+                                  onTap: () {
+                                    /*
+                                    pushNewScreen(
+                                      context,
+                                      screen: SellerProfile(
+                                          uid: uid,
+                                          analytics: widget.analytics,
+                                          observer: widget.observer),
+                                    );
+                                     */
+                                  },
+                                  child: Text(
+                                    productsClass.sellerName,
+                                    style: productPageSellerText2,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
