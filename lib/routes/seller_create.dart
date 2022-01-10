@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
 final User user = auth.currentUser!;
 final uid = user.uid;
 

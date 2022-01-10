@@ -3,6 +3,7 @@ import 'package:devstore_project/objects/product_button.dart';
 import 'package:devstore_project/objects/selling_products.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
+import 'package:devstore_project/routes/seller_create.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
@@ -68,7 +69,7 @@ class _SellerProfileState extends State<SellerProfile> {
   }
 
   final isSelectedOne = <bool>[true, false];
-  final isSelectedTwo = <bool>[false, false];
+  final isSelectedTwo = <bool>[false];
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +144,13 @@ class _SellerProfileState extends State<SellerProfile> {
                 ),
                 IconButton(
                   onPressed: () {
-                    //TODO: CREATE SAYFASI GELECEK (EMIR)
+                    pushNewScreen(
+                        context,
+                        screen: SellerItemCreate(
+                            analytics: widget.analytics,
+                            observer: widget.observer,
+                        ),
+                    );
                   },
                   icon: Icon(Icons.add_outlined),
                 ),
@@ -163,7 +170,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height:15),
+                  const SizedBox(height:15),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -231,24 +238,73 @@ class _SellerProfileState extends State<SellerProfile> {
                             borderRadius: BorderRadius.circular(50.0),
                             isSelected: isSelectedTwo,
                             onPressed: (int index) {
-                              setState(() {
-                                for (int buttonIndex = 0; buttonIndex < isSelectedTwo.length; buttonIndex++) {
-                                  if (buttonIndex == index) {
-                                    isSelectedTwo[buttonIndex] = true;
-                                  } else {
-                                    isSelectedTwo[buttonIndex] = false;
-                                  }
-                                }
-                              });
+                              {
+                                showModalBottomSheet(
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25)),
+                                    ),
+                                    backgroundColor: AppColors.secondaryColor,
+                                    builder: (context) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.sort_by_alpha_rounded),
+                                            title: const Text('A to Z'),
+                                            onTap: () {
+                                              //TODO: ALFABETIK SIRA
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.sort_by_alpha_rounded),
+                                            title: const Text('Z to A'),
+                                            onTap: () {
+                                              //TODO: TERS ALFABETIK SIRA
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.monetization_on_outlined),
+                                            title:
+                                                const Text('Increasing Price'),
+                                            onTap: () {
+                                              //TODO: UCUZDAN PAHALIYA
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.monetization_on_outlined),
+                                            title:
+                                                const Text('Decreasing Price'),
+                                            onTap: () {
+                                              //TODO: PAHALIDAN UCUZA
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          const SizedBox(height: 16),
+                                        ],
+                                      );
+                                    });
+                              }
                             },
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(Icons.sort_rounded),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(Icons.filter_alt_outlined),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.sort_rounded),
+                                    SizedBox(width:8),
+                                    Text('Sort'),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
