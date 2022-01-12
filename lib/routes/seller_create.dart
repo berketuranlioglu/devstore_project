@@ -95,6 +95,21 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                   onPressed: () => {Navigator.pop(context)},
                   icon: Icon(Icons.arrow_back_ios_rounded,
                       color: AppColors.secondaryColor)),
+              title: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Text(
+                      "Post Free Ad",
+                      style: GoogleFonts.openSans(
+                        color: AppColors.secondaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               actions: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
@@ -127,12 +142,6 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                   },
                   child: ListView(
                     children: [
-                      const Text(
-                        "Sell Item",
-                        textAlign: TextAlign.center,
-                        style:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                      ),
                       Container(
                         height: 150,
                         width: 150,
@@ -300,12 +309,12 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             autocorrect: false,
                                             validator: (value) {
                                               if (value == null) {
-                                                return 'Details field cannot be empty';
+                                                return 'Price field cannot be empty';
                                               } else {
                                                 String trimmedValue =
                                                 value.trim();
                                                 if (trimmedValue.isEmpty) {
-                                                  return 'Details field cannot be empty';
+                                                  return 'Price field cannot be empty';
                                                 }
                                               }
                                               return null;
@@ -359,12 +368,12 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             autocorrect: false,
                                             validator: (value) {
                                               if (value == null) {
-                                                return 'Price field cannot be empty';
+                                                return 'Details field cannot be empty';
                                               } else {
                                                 String trimmedValue =
                                                 value.trim();
                                                 if (trimmedValue.isEmpty) {
-                                                  return 'Price field cannot be empty';
+                                                  return 'Details field cannot be empty';
                                                 }
                                               }
                                               return null;
@@ -405,8 +414,6 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                                 'Posting The Item!')));
                                             //Products.fromJson(name, price, description, imageUrl);
                                           }
-                                          pushNewScreen(context,
-                                              screen: accountView());
                                         },
                                       ),
                                     ),
