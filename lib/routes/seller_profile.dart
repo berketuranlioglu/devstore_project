@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
+import 'package:devstore_project/routes/seller_create.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -143,6 +144,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 ),
                 IconButton(
                   onPressed: () {
+                    pushNewScreen(context, screen: SellerItemCreate(analytics: widget.analytics, observer: widget.observer));
                     //TODO: CREATE SAYFASI GELECEK (EMIR)
                   },
                   icon: Icon(Icons.add_outlined),
