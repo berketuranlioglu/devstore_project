@@ -61,8 +61,6 @@ class _productViewState extends State<productView> {
         .logEvent(name: 'product_page', parameters: <String, dynamic>{});
   }
 
-  String uid = "";
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -149,15 +147,13 @@ class _productViewState extends State<productView> {
                                 Text('By ', style: productPageSellerText1),
                                 InkWell(
                                   onTap: () {
-                                    /*
                                     pushNewScreen(
                                       context,
                                       screen: SellerProfile(
-                                          uid: uid,
+                                          reference: productsClass.sellerReference,
                                           analytics: widget.analytics,
                                           observer: widget.observer),
                                     );
-                                     */
                                   },
                                   child: Text(
                                     productsClass.sellerName,

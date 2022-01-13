@@ -1,43 +1,118 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devstore_project/objects/order_button.dart';
+import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/profile.dart';
+import 'package:devstore_project/services/db.dart';
+import 'package:devstore_project/utils/color.dart';
+import 'package:devstore_project/utils/styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:intl/intl.dart';
 
-class orders extends StatefulWidget {
-  const orders({Key? key, required this.analytics, required this.observer})
+DBService db = DBService();
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
+class OrdersView extends StatefulWidget {
+  const OrdersView({Key? key, required this.analytics, required this.observer})
       : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
   @override
-  _ordersState createState() => _ordersState();
+  _OrdersViewState createState() => _OrdersViewState();
 }
 
-class _ordersState extends State<orders> {
+class _OrdersViewState extends State<OrdersView> {
 
   //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
-        screenName: 'Orders', screenClassOverride: 'orders');
+        screenName: 'Orders View', screenClassOverride: 'ordersView');
   }
 
   Future<void> _setLogEvent() async {
     await widget.analytics
-        .logEvent(name: 'orders', parameters: <String, dynamic>{});
+        .logEvent(name: 'orders_view', parameters: <String, dynamic>{});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          "ORDERS SCREEN",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-      ),
+    return FutureBuilder(
+      future: db.userCollection.doc(uid).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          Users usersClass =
+          Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+
+          return Scaffold(
+            appBar: AppBar(
+                title: Text(
+                  "Orders",
+                  style: GoogleFonts.openSans(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                backgroundColor: AppColors.mainBackgroundColor,
+                elevation: 0,
+                toolbarHeight: MediaQuery.of(context).size.height / 9,
+                leading: const SizedBox(),
+                leadingWidth: 15,
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () => {
+                      pushNewScreen(
+                        context,
+                        screen: Profile(analytics: widget.analytics, observer: widget.observer),
+                      ),
+                    },
+                    child: const Icon(
+                      Icons.account_circle_rounded,
+                      color: AppColors.primaryColor,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ]),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for(int i = 0; i < usersClass.orders.length; i++)
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            DateFormat('d MMMM y').format(
+                                usersClass.orders[i]["date"].toDate()
+                            ),
+                            style: OrdersPage_Date,
+                          ),
+                        ),
+                        OrderButton(analytics: widget.analytics, observer: widget.observer),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+            backgroundColor: AppColors.mainBackgroundColor,
+          );
+        }
+        return Scaffold();
+      },
     );
   }
 }

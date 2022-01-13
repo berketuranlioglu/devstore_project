@@ -18,9 +18,9 @@ import 'package:stacked/stacked_annotations.dart';
 DBService db = DBService();
 
 class SellerProfile extends StatefulWidget {
-  const SellerProfile({Key? key, required this.uid, required this.analytics, required this.observer})
+  const SellerProfile({Key? key, required this.reference, required this.analytics, required this.observer})
       : super(key: key);
-  final String uid;
+  final DocumentReference reference;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -63,8 +63,9 @@ class _SellerProfileState extends State<SellerProfile> {
 
   @override
   Widget build(BuildContext context) {
+    String id = widget.reference.id.toString();
     return FutureBuilder(
-      future: db.userCollection.doc(widget.uid).get(),
+      future: db.userCollection.doc(id).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -304,9 +305,9 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   SizedBox(height:15),
                   if(isSelectedOne[0] == true)
-                    SellingProducts(isSelling: true, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(isSelling: true, id: id, analytics: widget.analytics, observer: widget.observer),
                   if(isSelectedOne[1] == true)
-                    SellingProducts(isSelling: false, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(isSelling: false, id: id, analytics: widget.analytics, observer: widget.observer),
                   SizedBox(height:30),
                 ],
               ),
