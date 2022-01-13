@@ -93,16 +93,28 @@ class _OrdersViewState extends State<OrdersView> {
                   for(int i = 0; i < usersClass.orders.length; i++)
                     Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            DateFormat('d MMMM y').format(
-                                usersClass.orders[i]["date"].toDate()
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                              child: Text(
+                                DateFormat('d MMMM y').format(
+                                    usersClass.orders[i]["date"].toDate()
+                                ),
+                                style: OrdersPage_Date,
+                              ),
                             ),
-                            style: OrdersPage_Date,
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                          child: OrderButton(
+                            status: usersClass.orders[i]['status'],
+                            reference: usersClass.orders[i]['product'],
+                            analytics: widget.analytics,
+                            observer: widget.observer,
                           ),
                         ),
-                        OrderButton(analytics: widget.analytics, observer: widget.observer),
                       ],
                     ),
                 ],

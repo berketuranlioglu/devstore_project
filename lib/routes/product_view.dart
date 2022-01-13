@@ -317,7 +317,6 @@ class _productViewState extends State<productView> {
                             Column(
                               children: [
                                 Container(
-                                  height: 52.0,
                                   decoration: BoxDecoration(
                                     color: AppColors.secondaryColor,
                                     border: Border.all(
@@ -330,12 +329,14 @@ class _productViewState extends State<productView> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       children: [
-                                        /*
-                                        Image.network(
-                                          "${productsClass.ppUrl}",
-                                          width: 5.0,
-                                          height: 5.0,
-                                        ),*/
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(0, 6, 6, 6),
+                                          child: Image.network(
+                                            productsClass.comments[i]['ppUrl'],
+                                            width: 40.0,
+                                            height: 40.0,
+                                          ),
+                                        ),
                                         Expanded(
                                           flex: 1,
                                           child: Column(
