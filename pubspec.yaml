@@ -50,6 +50,7 @@ dependencies:
   firebase_storage: ^10.2.4
   carousel_slider: ^4.0.0
   firebase_messaging: ^11.2.4
+  intl: ^0.17.0
   
 dev_dependencies:
   flutter_test:

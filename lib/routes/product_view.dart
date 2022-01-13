@@ -9,10 +9,12 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
+import 'account_info.dart';
 import 'cart.dart';
 
 DBService db = DBService();
@@ -30,17 +32,16 @@ class productView extends StatefulWidget {
   _productViewState createState() => _productViewState();
 }
 
+String formatTimestamp(Timestamp timestamp) {
+  assert (timestamp != null);
+  String convertedDate;
+  convertedDate = DateFormat.yMMMd().format(timestamp.toDate());
+  return convertedDate;
+}
+
 void buttonClicked() {
   print('Button Clicked');
 }
-
-/*
-final List<String> contents=[
-  'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/apple/thumb/129911-9_large.jpg',
-  'https://photos5.appleinsider.com/gallery/44650-87056-Edge-of-iPhone-13-Pro-on-Edge-xl.jpg',
-  'https://thumbor.forbes.com/thumbor/fit-in/1200x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f8e0aaafeac9889106b860f%2F0x0.png%3FcropX1%3D0%26cropX2%3D1462%26cropY1%3D115%26cropY2%3D1211',
-];
- */
 
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
@@ -316,38 +317,78 @@ class _productViewState extends State<productView> {
                             Column(
                               children: [
                                 Container(
+                                  height: 52.0,
                                   decoration: BoxDecoration(
                                     color: AppColors.secondaryColor,
                                     border: Border.all(
                                       width: 1.0,
                                       color: AppColors.secondaryColor,
                                     ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(15.0)
-                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       children: [
+                                        /*
+                                        Image.network(
+                                          "${productsClass.ppUrl}",
+                                          width: 5.0,
+                                          height: 5.0,
+                                        ),*/
                                         Expanded(
                                           flex: 1,
-                                          child: Text(
-                                            productsClass.comments[i]['username'],
-                                            style: productPageSellerText2,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.star,
+                                                    color: AppColors.starColor,
+                                                    size: 16.0,
+                                                  ),
+                                                  Text(
+                                                    ' Rating: (',
+                                                    style: productPageRating,
+                                                  ),
+                                                  Text(
+                                                    productsClass.comments[i]['rating'].toString(),
+                                                    style: productPageRating,
+                                                  ),
+                                                  Text(
+                                                    '/5)',
+                                                    style: productPageRating,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    productsClass.comments[i]['username'],
+                                                    style: productPageSellerText2,
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                  Text(
+                                                    '|',
+                                                    style: productPageRating,
+                                                  ),
+                                                  Text(
+                                                    formatTimestamp(productsClass.comments[i]['date']),
+                                                    style: productPageSellerText2,
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                ],
+                                              ),
+
+                                            ],
                                           ),
                                         ),
                                         Expanded(
                                           flex: 1,
                                           child: Text(
                                             productsClass.comments[i]['comment'],
-                                            style: productPageRating,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productsClass.comments[i]['rating'].toString(),
                                             style: productPageRating,
                                           ),
                                         ),
