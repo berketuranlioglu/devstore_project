@@ -25,6 +25,8 @@ class OrderButton extends StatefulWidget {
   _OrderButtonState createState() => _OrderButtonState();
 }
 
+bool _isExpanded = false;
+
 class _OrderButtonState extends State<OrderButton> {
   @override
   Widget build(BuildContext context) {
@@ -42,101 +44,122 @@ class _OrderButtonState extends State<OrderButton> {
               color: AppColors.secondaryColor,
               border: Border.all(
                 width: 1.0,
-                color: AppColors.secondaryColor,
+                color: AppColors.primaryColor,
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(15),),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 6, 6, 6),
-                    child: Image.network(
-                      productsClass.imageURL[0],
-                      width: 80.0,
-                      height: 80.0,
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 6, 6, 6),
+                        child: Image.network(
+                          productsClass.imageURL[0],
+                          width: 80.0,
+                          height: 80.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 8),
-                      Wrap(
+                    Expanded(
+                      flex: 5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            productsClass.productName,
-                            style: OrdersPage_DeliveryInfo,
-                          ),
-                        ]
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 4,
-                        ),
-                        child: Row(
-                          children: [
-                            Text('By ', style: productPageSellerText1),
-                            InkWell(
-                              onTap: () {
-                                pushNewScreen(
-                                  context,
-                                  screen: SellerProfile(
-                                      reference: productsClass.sellerReference,
-                                      analytics: widget.analytics,
-                                      observer: widget.observer),
-                                );
-                              },
-                              child: Text(
-                                productsClass.sellerName,
-                                style: productPageSellerText2,
+                          SizedBox(height: 8),
+                          Wrap(
+                            children: [
+                              Text(
+                                productsClass.productName,
+                                style: OrdersPage_DeliveryInfo,
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "\$${productsClass.salePrice.toString()}.00",
-                            style: GoogleFonts.openSans(
-                              fontSize: 16,
-                              color: Colors.black87,
-                            ),
+                            ]
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            padding: const EdgeInsets.only(
+                              top: 4,
+                            ),
+                            child: Row(
                               children: [
-                                Text(
-                                  "Delivery Status",
-                                  style: OrdersPage_DeliveryInfo,
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  widget.status,
-                                  style: GoogleFonts.openSans(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: widget.status == "Processing"
-                                          ? AppColors.processingTextColor
-                                          : AppColors.deliveredTextColor,
+                                Text('By ', style: productPageSellerText1),
+                                InkWell(
+                                  onTap: () {
+                                    pushNewScreen(
+                                      context,
+                                      screen: SellerProfile(
+                                          reference: productsClass.sellerReference,
+                                          analytics: widget.analytics,
+                                          observer: widget.observer),
+                                    );
+                                  },
+                                  child: Text(
+                                    productsClass.sellerName,
+                                    style: productPageSellerText2,
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "\$${productsClass.salePrice.toString()}.00",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Delivery Status",
+                                      style: OrdersPage_DeliveryInfo,
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      widget.status,
+                                      style: GoogleFonts.openSans(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: widget.status == "Processing"
+                                              ? AppColors.processingTextColor
+                                              : AppColors.deliveredTextColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  color: Colors.grey,
+                  height: 2,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Total payment: ",
                       ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           );
