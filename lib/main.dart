@@ -1,5 +1,5 @@
 // @dart=2.9
-
+import 'package:devstore_project/routes/checkout_success.dart';
 import 'package:devstore_project/routes/checkout.dart';
 import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/pers_nav_bar.dart';
@@ -89,6 +89,7 @@ class _AppBaseState extends State<AppBase> {
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
           '/checkout': (context) => CheckoutView(),
+          '/checkout_success': (context) => CheckoutSuccessView(),
           '/editProfile': (context) => editProfile(),
         });
   }
