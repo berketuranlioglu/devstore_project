@@ -79,8 +79,8 @@ class _cartState extends State<cart> {
               child: Center(
                 child: Column(
                   children: [
-                    for(int i = 0; i < usersClass.productReference.length; i++)
-                      cartContainer(reference: usersClass.productReference[i], analytics: widget.analytics, observer: widget.observer),
+                    for(int i = 0; i < usersClass.cart.length; i++)
+                      cartContainer(reference: usersClass.cart[i]['prodReference'], analytics: widget.analytics, observer: widget.observer),
                     const SizedBox(
                       height: 32,
                     ),
@@ -126,7 +126,7 @@ class _cartState extends State<cart> {
                       width: 115.0,
                       child: FlatButton(
                         onPressed: () {
-                          pushNewScreen(context, screen: CheckoutView());
+                          pushNewScreen(context, screen: CheckoutView(), withNavBar: false);
                         },
                         child: Text(
                           'CHECKOUT',
@@ -144,7 +144,6 @@ class _cartState extends State<cart> {
           );
         }
         return Scaffold();
-        return Container(color: Colors.white);
       },
     );
   }
