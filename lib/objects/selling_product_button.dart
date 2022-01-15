@@ -66,183 +66,213 @@ class _SellingProductButtonState extends State<SellingProductButton> {
           getUserName(uid).then((value) {
             username = value;
           });
-          return Column(
-            children: [
-              ElevatedButton(
-                onPressed: () => {
-                  pushNewScreen(
-                    context,
-                    screen: productView(id: id, username: username, analytics: widget.analytics, observer: widget.observer),
-                    withNavBar: false,
-                  ),
-                },
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: (Image.network(
-                          productsClass.imageURL[0],
-                          width: 70, height: 70,
-                        )),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
+          if(productsClass.stockCount > 0) {
+            return Column(
+              children: [
+                ElevatedButton(
+                  onPressed: () =>
+                  {
+                    pushNewScreen(
+                      context,
+                      screen: productView(id: id,
+                          username: username,
+                          analytics: widget.analytics,
+                          observer: widget.observer),
+                      withNavBar: false,
+                    ),
+                  },
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
                           alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: AppColors.starColor,
-                                size: 16.0,
-                              ),
-                              Text(
-                                productsClass.rating.toString(),
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black54,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(width:2),
-                              Text(
-                                "(${productsClass.ratingCount.toString()})",
-                                style: GoogleFonts.openSans(
-                                  color: Colors.black54,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          child: (Image.network(
+                            productsClass.imageURL[0],
+                            width: 70, height: 70,
                           )),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          productsClass.productName,
-                          style: GoogleFonts.openSans(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      productsClass.previousPrice != productsClass.salePrice
-                          ? Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              height: 20,
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(5.0)),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "${((productsClass.previousPrice - productsClass.salePrice) / productsClass.previousPrice * 100).toInt()}%",
-                                style: GoogleFonts.openSans(
-                                  color: AppColors.secondaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Column(
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "\$${productsClass.previousPrice}.00",
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      decoration:
-                                      TextDecoration.lineThrough,
-                                      decorationThickness: 2,
-                                      decorationColor:
-                                      AppColors.primaryColor,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.starColor,
+                                  size: 16.0,
                                 ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "\$${productsClass.salePrice}.00",
-                                    style: GoogleFonts.openSans(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                Text(
+                                  productsClass.rating.toString(),
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
                                   ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(width: 2),
+                                Text(
+                                  "(${productsClass.ratingCount.toString()})",
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
+                            )),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            productsClass.productName,
+                            style: GoogleFonts.openSans(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                        ],
-                      )
-                          : Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "\$${productsClass.salePrice}.00",
-                                style: GoogleFonts.openSans(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                        ),
+                        SizedBox(height: 8),
+                        productsClass.previousPrice != productsClass.salePrice
+                            ? Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                height: 20,
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0)),
                                 ),
-                                textAlign: TextAlign.center,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "${((productsClass.previousPrice -
+                                      productsClass.salePrice) /
+                                      productsClass.previousPrice * 100)
+                                      .toInt()}%",
+                                  style: GoogleFonts.openSans(
+                                    color: AppColors.secondaryColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ]),
-                style: ElevatedButton.styleFrom(
-                  primary: AppColors.secondaryColor,
-                  fixedSize: Size(150, 200),
+                            Expanded(
+                              flex: 4,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "\$${productsClass.previousPrice}.00",
+                                      style: GoogleFonts.openSans(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        decoration:
+                                        TextDecoration.lineThrough,
+                                        decorationThickness: 2,
+                                        decorationColor:
+                                        AppColors.primaryColor,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "\$${productsClass.salePrice}.00",
+                                      style: GoogleFonts.openSans(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                            : Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "\$${productsClass.salePrice}.00",
+                                  style: GoogleFonts.openSans(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.secondaryColor,
+                    fixedSize: Size(150, 200),
+                  ),
                 ),
-              ),
-              SizedBox(height: 5),
-              OutlinedButton(
-                onPressed: () {
-                  //TODO: EDIT VE DELETE YAPILACAK (EMIR)
-                },
-                child: Text("Edit",
+                SizedBox(height: 5),
+                OutlinedButton(
+                  onPressed: () {
+                    //TODO: EDIT VE DELETE YAPILACAK (EMIR)
+                  },
+                  child: Text("Edit",
+                      style: GoogleFonts.openSans(
+                        color: AppColors.primaryColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  style: OutlinedButton.styleFrom(
+                      fixedSize: Size(150, 20),
+                      side: BorderSide(
+                        color: AppColors.primaryColor,
+                        width: 2,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      )),
+                ),
+              ],
+            );
+          }
+          else {
+            return Center(
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "Looks like everything is sold,\ngreat job!",
                     style: GoogleFonts.openSans(
-                      color: AppColors.primaryColor,
-                      fontSize: 15,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
-                    )),
-                style: OutlinedButton.styleFrom(
-                    fixedSize: Size(150, 20),
-                    side: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 2,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    )),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 64,
+                height: 300,
               ),
-            ],
-          );
+            );
+          }
         }
         return Scaffold();
       },

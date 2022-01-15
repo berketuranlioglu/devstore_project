@@ -70,7 +70,6 @@ class _SellerProfileState extends State<SellerProfile> {
   }
 
   final isSelectedOne = <bool>[true, false];
-  final isSelectedTwo = <bool>[false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -212,51 +211,6 @@ class _SellerProfileState extends State<SellerProfile> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                                 child: Text('Sold'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.secondaryColor,
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          child: ToggleButtons(
-                            textStyle: GoogleFonts.openSans(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            color: Colors.black45, //unselected text
-                            selectedColor: Colors.black, //selected text
-                            fillColor: const Color(0xFFECECEC), //selected cell
-                            splashColor: Colors.grey, // when pressing
-                            highlightColor: const Color(0xFFECECEC),
-                            renderBorder: false,
-                            borderRadius: BorderRadius.circular(50.0),
-                            isSelected: isSelectedTwo,
-                            onPressed: (int index) {
-                              setState(() {
-                                for (int buttonIndex = 0;
-                                    buttonIndex < isSelectedTwo.length;
-                                    buttonIndex++) {
-                                  if (buttonIndex == index) {
-                                    isSelectedTwo[buttonIndex] = true;
-                                  } else {
-                                    isSelectedTwo[buttonIndex] = false;
-                                  }
-                                }
-                              });
-                            },
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(Icons.sort_rounded),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(Icons.filter_alt_outlined),
                               ),
                             ],
                           ),
