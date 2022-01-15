@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:devstore_project/objects/favs.dart';
+import 'package:devstore_project/objects/bookmark.dart';
 import 'package:devstore_project/objects/product.dart';
 
 
@@ -131,7 +131,7 @@ class favCard extends StatelessWidget {
     required this.cart,
   }) : super(key: key);
 
-  final Favs cart;
+  final Bookmark cart;
 
   @override
   Widget build(BuildContext context) {
