@@ -47,6 +47,11 @@ final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
 bool _isBookmarkPressed = false;
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
 class _productViewState extends State<productView> {
   final int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -471,7 +476,14 @@ class _productViewState extends State<productView> {
                     productsClass.sellerName != widget.username
                         ? ElevatedButton(
                             onPressed: () {
-                              //TODO: CART'A EKLE
+                              DocumentReference ref = FirebaseFirestore.instance.collection('products').doc(widget.id);
+                              Map<String,dynamic> data = {
+                                'prodReference' : ref,  // Updating Document Reference
+                              };
+
+                              FirebaseFirestore.instance.collection('users').doc(uid).update({'cart': FieldValue.arrayUnion([data])}).whenComplete((){
+                                print('Document Updated');
+                              });
                               pushNewScreen(
                                 context,
                                 screen: cart(
