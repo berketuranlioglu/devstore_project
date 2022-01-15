@@ -200,7 +200,8 @@ class _productViewState extends State<productView> {
                                       screen: SellerProfile(
                                           reference: productsClass.sellerReference,
                                           analytics: widget.analytics,
-                                          observer: widget.observer),
+                                          observer: widget.observer,
+                                      ),
                                     );
                                   },
                                   child: Text(

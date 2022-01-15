@@ -135,21 +135,24 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                 ),
                 SizedBox(width: 10),
-                IconButton(
+                if (uid == id)
+                  IconButton(
                     onPressed: () {
                       pushNewScreen(context, screen: EditProfilePage());
                     },
-                    icon: Icon(Icons.edit_outlined)),
-                IconButton(
-                  onPressed: () {
-                    pushNewScreen(context,
-                        screen: SellerItemCreate(
-                            analytics: widget.analytics,
-                            observer: widget.observer));
-                    //TODO: CREATE SAYFASI GELECEK (EMIR)
-                  },
-                  icon: Icon(Icons.add_outlined),
-                ),
+                    icon: Icon(Icons.edit_outlined),
+                  ),
+                if (uid == id)
+                  IconButton(
+                    onPressed: () {
+                      pushNewScreen(context,
+                          screen: SellerItemCreate(
+                              analytics: widget.analytics,
+                              observer: widget.observer));
+                      //TODO: CREATE SAYFASI GELECEK (EMIR)
+                    },
+                    icon: Icon(Icons.add_outlined),
+                  ),
                 SizedBox(width: 10),
               ],
               backgroundColor: AppColors.sellerAppBarColor,
