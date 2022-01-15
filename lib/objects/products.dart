@@ -13,6 +13,7 @@ class Products {
   late int salePrice;
   late String sellerName;
   late int stockCount;
+  late var sellerReference;
 
   Products(
       String productBrand,
@@ -29,6 +30,7 @@ class Products {
       int salePrice,
       String sellerName,
       int stockCount,
+      var sellerReference,
   ) {
     this.productBrand = productBrand;
     this.category = category;
@@ -44,6 +46,7 @@ class Products {
     this.salePrice = salePrice;
     this.sellerName = sellerName;
     this.stockCount = stockCount;
+    this.sellerReference = sellerReference;
   }
 
   Products.fromJson(Map<String, dynamic> json)
@@ -60,7 +63,8 @@ class Products {
         ratingCount = json['ratingCount'],
         salePrice = json['salePrice'],
         sellerName = json['sellerName'],
-        stockCount = json['stockCount'];
+        stockCount = json['stockCount'],
+        sellerReference = json['sellerReference'];
 
   Map<String, dynamic> toJson() => {
     'productBrand': productBrand,
@@ -77,5 +81,6 @@ class Products {
     'salePrice': salePrice,
     'sellerName': sellerName,
     'stockCount': stockCount,
+    'sellerReference': sellerReference,
   };
 }

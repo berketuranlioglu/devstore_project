@@ -154,6 +154,7 @@ class _ProfileState extends State<Profile> {
                     press: () {
                       pushNewScreen(context,
                           screen: SellerProfile(
+                            reference: user.uid.toString(),
                             analytics: widget.analytics,
                             observer: widget.observer,
                           ));

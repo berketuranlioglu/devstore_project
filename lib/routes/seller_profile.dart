@@ -46,9 +46,10 @@ Future<String> getUserName(String uid) async {
 
 class SellerProfile extends StatefulWidget {
   const SellerProfile(
-      {Key? key, required this.analytics, required this.observer})
+      {Key? key, required this.reference, required this.analytics, required this.observer})
       : super(key: key);
 
+  final dynamic reference;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -73,8 +74,9 @@ class _SellerProfileState extends State<SellerProfile> {
 
   @override
   Widget build(BuildContext context) {
+    String id = widget.reference.id.toString();
     return FutureBuilder(
-      future: db.userCollection.doc(user.uid).get(),
+      future: db.userCollection.doc(id).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
