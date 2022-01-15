@@ -1,8 +1,13 @@
+import 'package:devstore_project/routes/product_view.dart';
+import 'package:devstore_project/utils/color.dart';
+import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:devstore_project/objects/favs.dart';
 import 'package:devstore_project/objects/product.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 
 //------------------------------------------------
@@ -56,23 +61,32 @@ class _favoritesState extends State<favorites> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Column(
-          children: [
-            Text(
-              "My Favorites",
-              style: TextStyle(color: Colors.black),
+          title: Text(
+            "Favorites",
+            style: GoogleFonts.openSans(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
+          ),
+          backgroundColor: AppColors.mainBackgroundColor,
+          elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height / 9,
+          leading: const SizedBox(),
+          leadingWidth: 15,
       ),
-      body: Body(),
+      body: Body(analytics: widget.analytics, observer: widget.observer),
     );
   }
 }
 
 //AFTER APPBAR, BODY HAS EACH PRODUCT ROWS
 class Body extends StatefulWidget {
+  const Body({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
   @override
   _BodyState createState() => _BodyState();
 }
@@ -116,7 +130,7 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            child: favCard(cart: demoCarts[index]),
+            child: favCard(cart: demoCarts[index], analytics: widget.analytics, observer: widget.observer,),
           ),
         ),
       ),
@@ -125,17 +139,89 @@ class _BodyState extends State<Body> {
 }
 
 //EACH FAVORITE PRODUCT CARD
-class favCard extends StatelessWidget {
-  const favCard({
-    Key? key,
-    required this.cart,
-  }) : super(key: key);
+class favCard extends StatefulWidget {
+  const favCard({Key? key, required this.cart,
+    required this.analytics,
+    required this.observer,}) : super(key: key);
 
   final Favs cart;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
+  @override
+  _favCardState createState() => _favCardState();
+}
+
+class _favCardState extends State<favCard> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      children: [
+        SizedBox(
+          width: 88,
+          child: AspectRatio(
+            aspectRatio: 0.88,
+            child: Container(
+              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+              decoration: BoxDecoration(
+                color: Color(0xFFF5F6F9),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Image.asset(widget.cart.product.images[0]),
+            ),
+          ),
+        ),
+        SizedBox(width: 20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.cart.product.title,
+              style: OrdersPage_DeliveryInfo,
+              maxLines: 2,
+            ),
+            SizedBox(height: 10),
+            Text.rich(
+              TextSpan(
+                text: "\$${widget.cart.product.price}",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Color(0xFF9441E4)),
+              ),
+            )
+          ],
+        ),
+        Spacer(),
+        Column(
+            children:[
+              MaterialButton(
+                onPressed: () {
+                  /*
+                  pushNewScreen(
+                    context,
+                    screen: productView(id: id, username: username, analytics: widget.analytics, observer: widget.observer),
+                  );
+                   */
+                },
+                color: Color(0xFF9441E4),
+                textColor: Colors.white,
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 20,
+                ),
+                padding: EdgeInsets.all(16),
+                shape: CircleBorder(),
+              ),
+            ]
+        ),
+        SizedBox(width: 5),
+      ],
+
+    );
+  }
+}
+
+/*
+Row(
       children: [
         SizedBox(
           width: 88,
@@ -157,7 +243,7 @@ class favCard extends StatelessWidget {
           children: [
             Text(
               cart.product.title,
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: OrdersPage_DeliveryInfo,
               maxLines: 2,
             ),
             SizedBox(height: 10),
@@ -174,11 +260,16 @@ class favCard extends StatelessWidget {
         Column(
             children:[
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  pushNewScreen(
+                    context,
+                    screen: productView(id: id, username: username, analytics: widget.analytics, observer: widget.observer),
+                  );
+                },
                 color: Color(0xFF9441E4),
                 textColor: Colors.white,
                 child: Icon(
-                  Icons.add_shopping_cart_outlined,
+                  Icons.arrow_forward_ios_rounded,
                   size: 20,
                 ),
                 padding: EdgeInsets.all(16),
@@ -190,9 +281,7 @@ class favCard extends StatelessWidget {
       ],
 
     );
-  }
-}
-
+ */
 
 
 

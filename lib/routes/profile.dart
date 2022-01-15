@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
+import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/reviews_view.dart';
 import 'package:devstore_project/routes/seller_profile.dart';
@@ -180,7 +181,12 @@ class _ProfileState extends State<Profile> {
                 ProfileMenu(
                   text: "Favorites",
                   icon: "assets/kalp.png",
-                  press: () {},
+                  press: () {
+                    pushNewScreen(
+                      context,
+                      screen: favorites(analytics: widget.analytics, observer: widget.observer),
+                    );
+                  },
                 ),
                 ProfileMenu(
                   text: "Reviews",
