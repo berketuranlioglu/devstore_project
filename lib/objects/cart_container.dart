@@ -26,6 +26,15 @@ class cartContainer extends StatefulWidget {
   _cartContainerState createState() => _cartContainerState();
 }
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
+void buttonClicked() {
+  print('Button Clicked');
+}
+
 class _cartContainerState extends State<cartContainer> {
   @override
   Widget build(BuildContext context) {
@@ -82,12 +91,12 @@ class _cartContainerState extends State<cartContainer> {
                         child: Row(
                           children: [
                             Text('By ', style: productPageSellerText1),
-                            /*
                             InkWell(
                               onTap: () {
                                 pushNewScreen(
                                   context,
                                   screen: SellerProfile(
+                                      reference: productsClass.sellerReference,
                                       analytics: widget.analytics,
                                       observer: widget.observer),
                                 );
@@ -96,12 +105,12 @@ class _cartContainerState extends State<cartContainer> {
                                 productsClass.sellerName,
                                 style: productPageSellerText2,
                               ),
-                            ),*/
+                            ),
                           ],
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "\$${productsClass.salePrice.toString()}.00",
@@ -110,6 +119,30 @@ class _cartContainerState extends State<cartContainer> {
                               color: Colors.black87,
                             ),
                           ),
+                          const SizedBox(width:160.0),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: AppColors.primaryColor),
+                            iconSize: 28,
+                            splashRadius: 21.0,
+                            onPressed: () {
+                              DocumentReference ref = FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc(id);
+                              Map<String, dynamic> data = {
+                                'prodReference':
+                                ref, // Updating Document Reference
+                              };
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .update({
+                                'cart': FieldValue.arrayRemove([data])
+                              }).whenComplete(() {
+                                print('Item Deleted');
+                              });
+                            },
+                          ),
+                          const SizedBox(width:8.0),
                         ],
                       ),
                     ],

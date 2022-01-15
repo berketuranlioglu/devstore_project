@@ -565,6 +565,7 @@ class _productViewState extends State<productView> {
                               });
                               pushNewScreen(
                                 context,
+                                withNavBar: true,
                                 screen: cart(
                                     analytics: widget.analytics,
                                     observer: widget.observer),
