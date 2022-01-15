@@ -33,6 +33,11 @@ void buttonClicked() {
   print('Button Clicked');
 }
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
 class _FeedViewState extends State<FeedView> {
   //analytics begin
   Future<void> _currentScreen() async {
@@ -46,9 +51,6 @@ class _FeedViewState extends State<FeedView> {
   }
 
   bool offers_isEmpty = false;
-  User? firebaseUser = FirebaseAuth.instance.currentUser;
-
-  AuthService auth = AuthService();
 
   String notificationTitle = 'No Title';
   String notificationBody = 'No Body';
@@ -108,8 +110,9 @@ class _FeedViewState extends State<FeedView> {
                       FlatButton(
                         onPressed: () => {
                           print(AuthService().user.first.toString()),
-                          if (user!.email == 'false')
+                          if (false == true)
                             {
+                              auth.signOut(),
                               pushNewScreen(context,
                                   screen: Welcome(
                                       analytics: widget.analytics,

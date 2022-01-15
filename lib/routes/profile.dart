@@ -61,7 +61,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
@@ -124,13 +123,14 @@ class _ProfileState extends State<Profile> {
                 ),
                 SizedBox(height: 10),
                 OutlinedButton(
-                    onPressed: () {
-                      auth.signOut();
-                      pushNewScreen(context,
-                          screen: Welcome(analytics: widget.analytics, observer: widget.observer),
-                          withNavBar: false
-                      );
-                    },
+                  onPressed: () {
+                    auth.signOut();
+                    pushNewScreen(context,
+                        screen: Welcome(
+                            analytics: widget.analytics,
+                            observer: widget.observer),
+                        withNavBar: false);
+                  },
                   child: Text("SIGN OUT",
                       style: GoogleFonts.openSans(
                         color: AppColors.primaryColor,
@@ -149,18 +149,15 @@ class _ProfileState extends State<Profile> {
                 ),
                 SizedBox(height: 30),
                 ProfileMenu(
-                  text: "Selling Page",
-                  icon: "assets/discount1.jpg",
-                  press: () {
-                    pushNewScreen(
-                        context,
-                        screen: SellerProfile(
-                          analytics: widget.analytics,
-                          observer: widget.observer,
-                        )
-                    );
-                  }
-                ),
+                    text: "Selling Page",
+                    icon: "assets/discount1.jpg",
+                    press: () {
+                      pushNewScreen(context,
+                          screen: SellerProfile(
+                            analytics: widget.analytics,
+                            observer: widget.observer,
+                          ));
+                    }),
                 ProfileMenu(
                   text: "Orders",
                   icon: "assets/box.jpg",

@@ -30,7 +30,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -45,12 +45,12 @@ Future<String> getUserName(String uid) async {
 }
 
 class SellerProfile extends StatefulWidget {
-  const SellerProfile({Key? key, required this.analytics, required this.observer})
+  const SellerProfile(
+      {Key? key, required this.analytics, required this.observer})
       : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-
 
   @override
   _SellerProfileState createState() => _SellerProfileState();
@@ -79,7 +79,7 @@ class _SellerProfileState extends State<SellerProfile> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Users userClass =
-          Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -98,7 +98,7 @@ class _SellerProfileState extends State<SellerProfile> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(width:12),
+                    SizedBox(width: 12),
                   ],
                 ),
               ),
@@ -112,12 +112,12 @@ class _SellerProfileState extends State<SellerProfile> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12,
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0,3),
+                          offset: Offset(0, 3),
                         ),
                       ],
                     ),
@@ -133,18 +133,18 @@ class _SellerProfileState extends State<SellerProfile> {
                     ),
                   ),
                 ),
-                SizedBox(width:10),
+                SizedBox(width: 10),
                 IconButton(
                     onPressed: () {
-                      pushNewScreen(
-                          context,
-                          screen: EditProfilePage());
+                      pushNewScreen(context, screen: EditProfilePage());
                     },
-                    icon: Icon(Icons.edit_outlined)
-                ),
+                    icon: Icon(Icons.edit_outlined)),
                 IconButton(
                   onPressed: () {
-                    pushNewScreen(context, screen: SellerItemCreate(analytics: widget.analytics, observer: widget.observer));
+                    pushNewScreen(context,
+                        screen: SellerItemCreate(
+                            analytics: widget.analytics,
+                            observer: widget.observer));
                     //TODO: CREATE SAYFASI GELECEK (EMIR)
                   },
                   icon: Icon(Icons.add_outlined),
@@ -165,7 +165,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height:15),
+                  SizedBox(height: 15),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +191,9 @@ class _SellerProfileState extends State<SellerProfile> {
                             isSelected: isSelectedOne,
                             onPressed: (int index) {
                               setState(() {
-                                for (int buttonIndex = 0; buttonIndex < isSelectedOne.length; buttonIndex++) {
+                                for (int buttonIndex = 0;
+                                    buttonIndex < isSelectedOne.length;
+                                    buttonIndex++) {
                                   if (buttonIndex == index) {
                                     isSelectedOne[buttonIndex] = true;
                                   } else {
@@ -200,7 +202,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                 }
                               });
                             },
-                            children: [
+                            children: const [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                                 child: Text('Selling'),
@@ -212,7 +214,7 @@ class _SellerProfileState extends State<SellerProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(width:15),
+                        const SizedBox(width: 15),
                         Container(
                           decoration: BoxDecoration(
                             color: AppColors.secondaryColor,
@@ -234,7 +236,9 @@ class _SellerProfileState extends State<SellerProfile> {
                             isSelected: isSelectedTwo,
                             onPressed: (int index) {
                               setState(() {
-                                for (int buttonIndex = 0; buttonIndex < isSelectedTwo.length; buttonIndex++) {
+                                for (int buttonIndex = 0;
+                                    buttonIndex < isSelectedTwo.length;
+                                    buttonIndex++) {
                                   if (buttonIndex == index) {
                                     isSelectedTwo[buttonIndex] = true;
                                   } else {
@@ -243,7 +247,7 @@ class _SellerProfileState extends State<SellerProfile> {
                                 }
                               });
                             },
-                            children: [
+                            children: const [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                                 child: Icon(Icons.sort_rounded),
@@ -258,12 +262,18 @@ class _SellerProfileState extends State<SellerProfile> {
                       ],
                     ),
                   ),
-                  SizedBox(height:15),
-                  if(isSelectedOne[0] == true)
-                    SellingProducts(isSelling: true, analytics: widget.analytics, observer: widget.observer),
-                  if(isSelectedOne[1] == true)
-                    SellingProducts(isSelling: false, analytics: widget.analytics, observer: widget.observer),
-                  SizedBox(height:30),
+                  const SizedBox(height: 15),
+                  if (isSelectedOne[0] == true)
+                    SellingProducts(
+                        isSelling: true,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
+                  if (isSelectedOne[1] == true)
+                    SellingProducts(
+                        isSelling: false,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),

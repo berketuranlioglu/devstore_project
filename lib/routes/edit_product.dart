@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/routes/account_info.dart';
-import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -10,21 +9,20 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class editProfile extends StatelessWidget {
+class ditProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: EditProfilePage(),
+      home: EditProductPage(),
     );
   }
 }
 
-class EditProfilePage extends StatefulWidget {
+class EditProductPage extends StatefulWidget {
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  _EditProductPageState createState() => _EditProductPageState();
 }
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -34,12 +32,12 @@ final uid = user.uid;
 
 DBService db = DBService();
 
-String pass1 = "";
-String pass2 = "";
-String imageUrl = "";
 final _formKey = GlobalKey<FormState>();
 
-class _EditProfilePageState extends State<EditProfilePage> {
+Future<String> userNameFinal = getUserName(uid);
+final firestoreInstance = FirebaseFirestore.instance;
+
+class _EditProductPageState extends State<EditProductPage> {
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -48,8 +46,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Users userClass =
-              Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          Products productsClass =
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             body: Container(
               padding: EdgeInsets.only(left: 16, top: 40, right: 16),
@@ -60,18 +59,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: ListView(
                   children: [
                     const Text(
-                      "Edit Profile",
+                      "Edit Product",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                     ),
+                    const SizedBox(height: 15),
                     Container(
                       height: 150,
                       width: 150,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child: Image.network("${userClass.imageUrl}"),
+                      child: Container(
+                        child: Image.network("null"),
+                      ),
                     ),
                     SingleChildScrollView(
                       child: Form(
@@ -122,16 +124,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             }
                                             return null;
                                           },
-                                          onSaved: (value) {
-                                            if (value != null) {
-                                              imageUrl = value;
-                                            }
-                                          },
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              imageUrl = value;
-                                            }
-                                          },
+                                          onSaved: (value) {},
+                                          onChanged: (value) {},
                                           keyboardType: TextInputType.text,
                                         ),
                                       ),
@@ -150,11 +144,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           decoration: InputDecoration(
                                             fillColor: Colors.grey[200],
                                             filled: true,
-                                            hintText: 'Password',
+                                            hintText: 'Name & Description',
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
-                                                Icons.lock_outlined,
+                                                Icons.description,
                                                 color: Colors.grey),
                                             contentPadding:
                                                 const EdgeInsets.all(12.0),
@@ -187,16 +181,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             }
                                             return null;
                                           },
-                                          onSaved: (value) {
-                                            if (value != null) {
-                                              pass1 = value;
-                                            }
-                                          },
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              pass1 = value;
-                                            }
-                                          },
+                                          onSaved: (value) {},
+                                          onChanged: (value) {},
                                         ),
                                       ),
                                     ],
@@ -214,11 +200,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           decoration: InputDecoration(
                                             fillColor: Colors.grey[200],
                                             filled: true,
-                                            hintText: 'Confirm Password',
+                                            hintText: 'Price',
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
-                                            prefixIcon: const Icon(
-                                                Icons.lock_outline,
+                                            prefixIcon: const Icon(Icons.money,
                                                 color: Colors.grey),
                                             contentPadding:
                                                 const EdgeInsets.all(12.0),
@@ -248,22 +233,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               if (trimmedValue.length < 8) {
                                                 return 'Password must be at least 8 characters long';
                                               }
-                                              if (value != pass1) {
-                                                return 'Please enter the same password';
-                                              }
                                             }
                                             return null;
                                           },
-                                          onSaved: (value) {
-                                            if (value != null) {
-                                              pass2 = value;
-                                            }
-                                          },
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              pass2 = value;
-                                            }
-                                          },
+                                          onSaved: (value) {},
+                                          onChanged: (value) {},
                                         ),
                                       ),
                                     ],
@@ -274,62 +248,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   Form(
                                     child: FlatButton(
                                       child: Text(
-                                        'Edit Profile ',
+                                        'Edit Product',
                                         style: signupPage_ButtonTxts,
                                       ),
                                       color: AppColors.primaryColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15.0)),
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          _formKey.currentState!.save();
-
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                                  content: Text(
-                                                      'Editing the Profile!')));
-                                          db.editDetails(uid, pass1, imageUrl);
-                                        }
-                                        pushNewScreen(context,
-                                            screen: accountView());
-                                      },
+                                      onPressed: () {},
                                     ),
                                   ),
                                   FlatButton(
                                     child: Text(
-                                      'Disable User',
+                                      'Delete Product',
                                       style: signupPage_ButtonTxts,
                                     ),
                                     color: AppColors.primaryColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15.0)),
-                                    onPressed: () {
-                                      db.disableUser(uid);
-                                      user.updatePhotoURL('false');
-                                      pushNewScreen(context,
-                                          screen: EditProfilePage(),
-                                          withNavBar: false);
-                                    },
-                                  ),
-                                  FlatButton(
-                                    child: Text(
-                                      'Delete User',
-                                      style: signupPage_ButtonTxts,
-                                    ),
-                                    color: AppColors.primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0)),
-                                    onPressed: () {
-                                      db.deleteUser(user.uid);
-                                      user.delete();
-                                      auth.signOut();
-                                      pushNewScreen(context,
-                                          screen: editProfile(),
-                                          withNavBar: false);
-                                    },
+                                    onPressed: () {},
                                   ),
                                 ],
                               ),

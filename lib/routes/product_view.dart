@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/edit_product.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -393,7 +394,7 @@ class _productViewState extends State<productView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                             ),
                         ],
@@ -505,7 +506,7 @@ class _productViewState extends State<productView> {
                           )
                         : ElevatedButton(
                             onPressed: () {
-                              //TODO: EDIT SAYFASINA GIDIYOR
+                              pushNewScreen(context, screen: EditProductPage());
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(110, 39),
