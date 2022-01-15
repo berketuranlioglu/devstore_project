@@ -152,12 +152,12 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 30),
                 ProfileMenu(
                     text: "Selling Page",
-                    icon: "assets/discount1.jpg",
+                    icon: "assets/130213.png",
                     press: () {
                       pushNewScreen(
                           context,
                           screen: SellerProfile(
-                            reference: user.uid,
+                            reference: db.userCollection.doc(user.uid),
                             analytics: widget.analytics,
                             observer: widget.observer,
                           ));
