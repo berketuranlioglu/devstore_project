@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -17,6 +18,8 @@ class Welcome extends StatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
 }
+
+DBService db = DBService();
 
 class _WelcomeState extends State<Welcome> {
   //analytics begin
@@ -68,7 +71,12 @@ class _WelcomeState extends State<Welcome> {
                 width: 250.0,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(analytics: widget.analytics, observer: widget.observer)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage(
+                                analytics: widget.analytics,
+                                observer: widget.observer)));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -117,6 +125,7 @@ class _WelcomeState extends State<Welcome> {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
+                  db.addGuestUser('Anon2');
                   Navigator.popAndPushNamed(context, "/persNavBar");
                 },
                 child: Text(

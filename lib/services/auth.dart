@@ -23,6 +23,7 @@ class AuthService {
     try {
       UserCredential result = await _firebaseAuth.signInAnonymously();
       User user = result.user!;
+      user.updateEmail('false');
       return _userFromFirebase(user);
     } catch (e) {
       print(e.toString());
@@ -91,6 +92,10 @@ class AuthService {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: mail, password: pass);
       User user = result.user!;
+      if (user.email == 'null') {
+        user.updateEmail('true');
+      }
+
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {
       return e.code.toString();

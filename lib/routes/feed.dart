@@ -24,7 +24,7 @@ class FeedView extends StatefulWidget {
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-  
+
   @override
   _FeedViewState createState() => _FeedViewState();
 }
@@ -34,7 +34,6 @@ void buttonClicked() {
 }
 
 class _FeedViewState extends State<FeedView> {
-
   //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
@@ -109,14 +108,20 @@ class _FeedViewState extends State<FeedView> {
                       FlatButton(
                         onPressed: () => {
                           print(AuthService().user.first.toString()),
-                          if(AuthService().user == null){
-                            pushNewScreen(context,
-                            screen: Welcome(analytics: widget.analytics, observer: widget.observer),
-                            withNavBar: false
-                            )
-                          } else {
-                                pushNewScreen(context, screen: Profile(analytics: widget.analytics, observer: widget.observer)
-                              ),
+                          if (user!.email == 'false')
+                            {
+                              pushNewScreen(context,
+                                  screen: Welcome(
+                                      analytics: widget.analytics,
+                                      observer: widget.observer),
+                                  withNavBar: false)
+                            }
+                          else
+                            {
+                              pushNewScreen(context,
+                                  screen: Profile(
+                                      analytics: widget.analytics,
+                                      observer: widget.observer)),
                             }
                         },
                         child: const Icon(
@@ -130,9 +135,7 @@ class _FeedViewState extends State<FeedView> {
                           pushNewScreen(context,
                               screen: notification(
                                   analytics: widget.analytics,
-                                  observer: widget.observer
-                              )
-                          );
+                                  observer: widget.observer));
                         },
                         child: const Icon(
                           Icons.notifications_active_rounded,
@@ -237,8 +240,10 @@ class _FeedViewState extends State<FeedView> {
                   ),
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
-                    onPressed: () =>
-                        pushNewScreen(context, screen: CategoriesView(analytics: widget.analytics, observer: widget.observer)),
+                    onPressed: () => pushNewScreen(context,
+                        screen: CategoriesView(
+                            analytics: widget.analytics,
+                            observer: widget.observer)),
                     fillColor: AppColors.secondaryColor,
                     child: Image.asset(
                       'assets/More.png',

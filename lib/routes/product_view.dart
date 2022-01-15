@@ -27,7 +27,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -44,7 +44,12 @@ Future<String> getUserName(String uid) async {
 DBService db = DBService();
 
 class productView extends StatefulWidget {
-  const productView({Key? key, required this.id, required this.username, required this.analytics, required this.observer})
+  const productView(
+      {Key? key,
+      required this.id,
+      required this.username,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final String id;
@@ -71,11 +76,6 @@ final List<String> contents=[
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
 bool _isBookmarkPressed = false;
-
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
 
 class _productViewState extends State<productView> {
   final int _current = 0;
@@ -110,7 +110,8 @@ class _productViewState extends State<productView> {
               leading: IconButton(
                 splashRadius: 16.0,
                 onPressed: () => {Navigator.pop(context)},
-                icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+                icon: const Icon(Icons.arrow_back_ios_rounded,
+                    color: Colors.black),
               ),
             ),
             body: SingleChildScrollView(
@@ -123,7 +124,8 @@ class _productViewState extends State<productView> {
                       initialPage: 0,
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 8),
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enlargeCenterPage: true,
                     ),
@@ -132,11 +134,12 @@ class _productViewState extends State<productView> {
                         builder: (BuildContext context) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+                            margin:
+                                const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: NetworkImage(i),
-                                    fit: BoxFit.contain)
-                            ),
+                                image: DecorationImage(
+                                    image: NetworkImage(i),
+                                    fit: BoxFit.contain)),
                           );
                         },
                       );
@@ -150,13 +153,16 @@ class _productViewState extends State<productView> {
                         child: Container(
                           width: 12.0,
                           height: 12.0,
-                          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: (Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black)
-                                  .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                              color: (Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black)
+                                  .withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4)),
                         ),
                       );
                     }).toList(),
@@ -170,12 +176,17 @@ class _productViewState extends State<productView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(productsClass.productName, style: fav_camp_recomBanner),
+                            Text(productsClass.productName,
+                                style: fav_camp_recomBanner),
                             RichText(
                               text: TextSpan(
                                 children: <TextSpan>[
-                                  TextSpan(text: 'By ', style: productPageSellerText1),
-                                  TextSpan(text: productsClass.productBrand, style: productPageSellerText2),
+                                  TextSpan(
+                                      text: 'By ',
+                                      style: productPageSellerText1),
+                                  TextSpan(
+                                      text: productsClass.productBrand,
+                                      style: productPageSellerText2),
                                 ],
                               ),
                             ),
@@ -233,7 +244,7 @@ class _productViewState extends State<productView> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0,0.0,0.0,0.0),
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -246,8 +257,13 @@ class _productViewState extends State<productView> {
                         RichText(
                           text: TextSpan(
                             children: <TextSpan>[
-                              TextSpan(text: productsClass.rating.toString(), style: productPageRating),
-                              TextSpan(text: " (${productsClass.ratingCount.toString()})", style: productPageRating),
+                              TextSpan(
+                                  text: productsClass.rating.toString(),
+                                  style: productPageRating),
+                              TextSpan(
+                                  text:
+                                      " (${productsClass.ratingCount.toString()})",
+                                  style: productPageRating),
                             ],
                           ),
                         ),
@@ -259,7 +275,8 @@ class _productViewState extends State<productView> {
                     padding: EdgeInsets.zero,
                     decoration: BoxDecoration(
                       color: const Color(0xFFBFA2DB).withOpacity(0.40),
-                      borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(50.0)),
                     ),
                     child: ToggleButtons(
                       color: const Color(0xFF5B278D),
@@ -286,22 +303,24 @@ class _productViewState extends State<productView> {
                       },
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
                           child: Text('Overview', style: toggleButtonText),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
                           child: Text('Details', style: toggleButtonText),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
                           child: Text('Comments', style: toggleButtonText),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 8.0),
-
                   if (isSelected[0] == true)
                     Padding(
                       padding: Dimen.regularPadding12,
@@ -311,7 +330,6 @@ class _productViewState extends State<productView> {
                         style: productDescription,
                       ),
                     ),
-
                   if (isSelected[1] == true)
                     Padding(
                       padding: Dimen.regularPadding12,
@@ -321,7 +339,6 @@ class _productViewState extends State<productView> {
                         style: productDescription,
                       ),
                     ),
-
                   if (isSelected[2] == true)
                     Padding(
                       padding: Dimen.regularPadding12,
@@ -329,7 +346,9 @@ class _productViewState extends State<productView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          for(int i=0; i < productsClass.comments.length; i++)
+                          for (int i = 0;
+                              i < productsClass.comments.length;
+                              i++)
                             Column(
                               children: [
                                 Container(
@@ -339,9 +358,8 @@ class _productViewState extends State<productView> {
                                       width: 1.0,
                                       color: AppColors.secondaryColor,
                                     ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(15.0)
-                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -350,21 +368,24 @@ class _productViewState extends State<productView> {
                                         Expanded(
                                           flex: 1,
                                           child: Text(
-                                            productsClass.comments[i]['username'],
+                                            productsClass.comments[i]
+                                                ['username'],
                                             style: productPageSellerText2,
                                           ),
                                         ),
                                         Expanded(
                                           flex: 1,
                                           child: Text(
-                                            productsClass.comments[i]['comment'],
+                                            productsClass.comments[i]
+                                                ['comment'],
                                             style: productPageRating,
                                           ),
                                         ),
                                         Expanded(
                                           flex: 1,
                                           child: Text(
-                                            productsClass.comments[i]['rating'].toString(),
+                                            productsClass.comments[i]['rating']
+                                                .toString(),
                                             style: productPageRating,
                                           ),
                                         ),
@@ -372,7 +393,7 @@ class _productViewState extends State<productView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height:10),
+                                SizedBox(height: 10),
                               ],
                             ),
                         ],
@@ -388,70 +409,76 @@ class _productViewState extends State<productView> {
                 height: 93.0,
                 decoration: BoxDecoration(
                     color: const Color(0xFFBFA2DB).withOpacity(0.20),
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(15.0))
-                ),
+                    borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(15.0))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     productsClass.previousPrice != productsClass.salePrice
-                    ? Container(
-                      width: 71.43,
-                      height: 30.36,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFBFA2DB),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${((productsClass.previousPrice -
-                            productsClass.salePrice) /
-                            productsClass.previousPrice * 100).toStringAsFixed(
-                            1)}%",
-                        textAlign: TextAlign.center,
-                        style: productDiscount,
-                      ),
-                    )
-                    : Container(
-                      width: 1, height: 1,
-                    ),
+                        ? Container(
+                            width: 71.43,
+                            height: 30.36,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFBFA2DB),
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${((productsClass.previousPrice - productsClass.salePrice) / productsClass.previousPrice * 100).toStringAsFixed(1)}%",
+                              textAlign: TextAlign.center,
+                              style: productDiscount,
+                            ),
+                          )
+                        : Container(
+                            width: 1,
+                            height: 1,
+                          ),
                     const SizedBox(width: 32.0),
                     productsClass.previousPrice != productsClass.salePrice
-                    ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '\$${productsClass.previousPrice}.00',
-                          textAlign: TextAlign.center,
-                          style: prevPrice,
-                        ),
-                        Text(
-                          '\$${productsClass.salePrice}.00',
-                          textAlign: TextAlign.center,
-                          style: finalPrice,
-                        ),
-                      ],
-                    )
-                    : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '\$${productsClass.salePrice}.00',
-                          textAlign: TextAlign.center,
-                          style: finalPrice,
-                        ),
-                      ],
-                    ),
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '\$${productsClass.previousPrice}.00',
+                                textAlign: TextAlign.center,
+                                style: prevPrice,
+                              ),
+                              Text(
+                                '\$${productsClass.salePrice}.00',
+                                textAlign: TextAlign.center,
+                                style: finalPrice,
+                              ),
+                            ],
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '\$${productsClass.salePrice}.00',
+                                textAlign: TextAlign.center,
+                                style: finalPrice,
+                              ),
+                            ],
+                          ),
                     const SizedBox(width: 32.0),
                     productsClass.sellerName != widget.username
                         ? ElevatedButton(
                             onPressed: () {
-                              DocumentReference ref = FirebaseFirestore.instance.collection('products').doc(widget.id);
-                              Map<String,dynamic> data = {
-                                'prodReference' : ref,  // Updating Document Reference
+                              DocumentReference ref = FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc(widget.id);
+                              Map<String, dynamic> data = {
+                                'prodReference':
+                                    ref, // Updating Document Reference
                               };
 
-                              FirebaseFirestore.instance.collection('users').doc(uid).update({'cart': FieldValue.arrayUnion([data])}).whenComplete((){
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .update({
+                                'cart': FieldValue.arrayUnion([data])
+                              }).whenComplete(() {
                                 print('Document Updated');
                               });
                               pushNewScreen(
