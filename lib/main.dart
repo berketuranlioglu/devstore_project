@@ -80,7 +80,7 @@ class _AppBaseState extends State<AppBase> {
           '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
           '/cart': (context) => cart(analytics: analytics, observer: observer),
           '/favorites': (context) => favorites(analytics: analytics, observer: observer),
-          '/orders': (context) => OrdersView(analytics: analytics, observer: observer),
+          '/orders': (context) => orders(analytics: analytics, observer: observer),
           '/profile': (context) => Profile(analytics: analytics, observer: observer),
           '/first': (context) =>
               WalkthroughView(analytics: analytics, observer: observer),
