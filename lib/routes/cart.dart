@@ -32,6 +32,7 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 
 final User user = auth.currentUser!;
 final uid = user.uid;
+int totalAmount = 0;
 
 class _cartState extends State<cart> {
 
@@ -98,19 +99,20 @@ class _cartState extends State<cart> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
+                            children: [
                               Text(
                                 "Total Amount:",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
+                                style: cartTotalAmount,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8.0,
                               ),
                               Text(
-                                "\$0.00"
+                                "\$999.00",
+                                style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
                               ),
                             ],
                           ),

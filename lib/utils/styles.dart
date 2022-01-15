@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final cartTotalAmount = GoogleFonts.openSans(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  color: AppColors.toggleButton,
+);
+
 final toggleButtonText = GoogleFonts.openSans(
   fontSize: 12,
   fontWeight: FontWeight.bold,
