@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/edit_product.dart';
+import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -179,18 +180,27 @@ class _productViewState extends State<productView> {
                           children: [
                             Text(productsClass.productName,
                                 style: fav_camp_recomBanner),
-                            RichText(
-                              text: TextSpan(
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'By ',
-                                      style: productPageSellerText1),
-                                  TextSpan(
-                                      text: productsClass.productBrand,
-                                      style: productPageSellerText2),
-                                ],
-                              ),
-                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text('By ', style: productPageSellerText1),
+                                InkWell(
+                                  onTap: () {
+                                    pushNewScreen(
+                                      context,
+                                      screen: SellerProfile(
+                                          reference: productsClass.sellerReference,
+                                          analytics: widget.analytics,
+                                          observer: widget.observer),
+                                    );
+                                  },
+                                  child: Text(
+                                    productsClass.sellerName,
+                                    style: productPageSellerText2,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
