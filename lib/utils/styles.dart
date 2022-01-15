@@ -354,12 +354,12 @@ final FavoritesPage_ItemNames = GoogleFonts.openSans(
 );
 
 final OrdersPage_Date = GoogleFonts.openSans(
-  fontSize: 15,
+  fontSize: 18,
   fontWeight: FontWeight.normal, //orders page order date
 );
 
 final OrdersPage_DeliveryInfo = GoogleFonts.openSans(
-  fontSize: 14,
+  fontSize: 16,
   fontWeight: FontWeight.w600, //orders delivery status texts
 );
 
