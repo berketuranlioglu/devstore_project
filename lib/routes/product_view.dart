@@ -436,23 +436,26 @@ class _productViewState extends State<productView> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        widget.username,
-                                                        style: productPageSellerText2,
-                                                        textAlign: TextAlign.start,
-                                                      ),
-                                                      Text(
-                                                        '|',
-                                                        style: productPageRating,
-                                                      ),
-                                                      Text(
-                                                        formatTimestamp(productsClass.comments[i]['date']),
-                                                        style: productPageSellerText2,
-                                                        textAlign: TextAlign.start,
-                                                      ),
-                                                    ],
+                                                  SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          widget.username,
+                                                          style: productPageSellerText2,
+                                                          textAlign: TextAlign.start,
+                                                        ),
+                                                        Text(
+                                                          '|',
+                                                          style: productPageRating,
+                                                        ),
+                                                        Text(
+                                                          formatTimestamp(productsClass.comments[i]['date']),
+                                                          style: productPageSellerText2,
+                                                          textAlign: TextAlign.start,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),

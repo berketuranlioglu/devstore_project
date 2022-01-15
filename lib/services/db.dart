@@ -30,6 +30,9 @@ class DBService {
           'isActive': true,
           'rating': 0.0,
           'productReference': [],
+          'cart': [],
+          'comments': [],
+          'orders': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -49,6 +52,9 @@ class DBService {
           'isActive': true,
           'rating': 0.0,
           'productReference': [],
+          'cart': [],
+          'comments': [],
+          'orders': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));

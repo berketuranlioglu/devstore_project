@@ -266,15 +266,9 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   const SizedBox(height: 15),
                   if (isSelectedOne[0] == true)
-                    SellingProducts(
-                        isSelling: true,
-                        analytics: widget.analytics,
-                        observer: widget.observer),
+                    SellingProducts(isSelling: true, id: id, analytics: widget.analytics, observer: widget.observer),
                   if (isSelectedOne[1] == true)
-                    SellingProducts(
-                        isSelling: false,
-                        analytics: widget.analytics,
-                        observer: widget.observer),
+                    SellingProducts(isSelling: false, id: id, analytics: widget.analytics, observer: widget.observer),
                   const SizedBox(height: 30),
                 ],
               ),
