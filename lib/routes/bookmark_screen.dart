@@ -43,12 +43,12 @@ class _bookmarkState extends State<bookmark> {
   //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
-        screenName: 'Favorites', screenClassOverride: 'favorites');
+        screenName: 'Bookmarks', screenClassOverride: 'bookmarks');
   }
 
   Future<void> _setLogEvent() async {
     await widget.analytics
-        .logEvent(name: 'favorites', parameters: <String, dynamic>{});
+        .logEvent(name: 'bookmarks', parameters: <String, dynamic>{});
   }
  static String routeName = "/bookmarks";
 
