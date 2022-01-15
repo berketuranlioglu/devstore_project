@@ -247,6 +247,7 @@ class _ReviewsViewState extends State<ReviewsView> {
                 ],
               ),
             ),
+            backgroundColor: AppColors.mainBackgroundColor,
           );
         }
         return Scaffold();

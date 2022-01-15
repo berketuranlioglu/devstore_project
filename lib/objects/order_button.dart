@@ -49,7 +49,7 @@ class _OrderButtonState extends State<OrderButton> {
               color: AppColors.secondaryColor,
               border: Border.all(
                 width: 1.0,
-                color: AppColors.primaryColor,
+                color: AppColors.secondaryColor,
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(15),
@@ -149,23 +149,6 @@ class _OrderButtonState extends State<OrderButton> {
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ),
-                  color: Colors.grey,
-                  height: 2,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Total payment: ",
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           );

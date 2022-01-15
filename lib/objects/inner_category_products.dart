@@ -41,7 +41,7 @@ class _InnerCategoryProductsState extends State<InnerCategoryProducts> {
             ],
           );
         }
-        return Scaffold();
+        return Container(color: Colors.white);
       },
     );
   }

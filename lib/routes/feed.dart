@@ -18,6 +18,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:devstore_project/services/notification.dart';
 
+import 'inner_category.dart';
+
 class FeedView extends StatefulWidget {
   const FeedView({Key? key, required this.analytics, required this.observer})
       : super(key: key);
@@ -219,7 +221,12 @@ class _FeedViewState extends State<FeedView> {
                   ),
                   RawMaterialButton(
                     constraints: BoxConstraints.tight(const Size(60, 60)),
-                    onPressed: buttonClicked,
+                    onPressed: () {
+                      pushNewScreen(
+                        context,
+                        screen: InnerCategory(title: 'Phones', analytics: widget.analytics, observer: widget.observer),
+                      );
+                    },
                     fillColor: AppColors.secondaryColor,
                     child: Image.asset(
                       'assets/PhoneCategory.png',

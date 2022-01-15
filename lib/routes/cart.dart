@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/cart_container.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -59,23 +60,35 @@ class _cartState extends State<cart> {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(
-                "My Cart",
-                style: GoogleFonts.openSans(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                title: Text(
+                  "My Cart",
+                  style: GoogleFonts.openSans(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              backgroundColor: AppColors.backgroundColor,
-              shadowColor: Colors.transparent,
-              toolbarHeight: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 9,
-              leading: const SizedBox(),
-              leadingWidth: 15,
-            ),
+                backgroundColor: AppColors.mainBackgroundColor,
+                elevation: 0,
+                toolbarHeight: MediaQuery.of(context).size.height / 9,
+                leading: const SizedBox(),
+                leadingWidth: 15,
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () => {
+                      pushNewScreen(
+                        context,
+                        screen: Profile(analytics: widget.analytics, observer: widget.observer),
+                      ),
+                    },
+                    child: const Icon(
+                      Icons.account_circle_rounded,
+                      color: AppColors.primaryColor,
+                      size: 40,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ]),
             body: SingleChildScrollView(
               child: Center(
                 child: Column(

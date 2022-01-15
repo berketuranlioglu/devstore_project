@@ -280,7 +280,7 @@ class _productButtonState extends State<productButton> {
             ],
           );
         }
-        return Scaffold();
+        return Container(color: Colors.white);
       },
     );
   }
