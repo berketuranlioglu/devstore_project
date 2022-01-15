@@ -1,3 +1,4 @@
+import 'package:devstore_project/routes/checkout_success.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CheckoutView extends StatefulWidget {
   const CheckoutView({Key? key}) : super(key: key);
@@ -59,11 +61,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                       ),
                     ),
                     TextFormField(
+                      maxLength: 19,
                       keyboardType: TextInputType.number,
                       enableSuggestions: false,
                       autocorrect: false,
                       decoration: const InputDecoration(
                         hintText: "Card Number",
+                        counterText: "",
                       ),
                     ),
                     Row(
@@ -84,11 +88,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                         Expanded(
                             flex: 1,
                             child: TextFormField(
+                              maxLength: 3,
                               keyboardType: TextInputType.number,
                               enableSuggestions: false,
                               autocorrect: false,
                               decoration: const InputDecoration(
                                 hintText: "CVV",
+                                counterText: "",
                               ),
                             )),
                       ],
@@ -102,45 +108,68 @@ class _CheckoutViewState extends State<CheckoutView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Address Information",
+                      "Billing Details",
                       style: TextStyle(
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),
-                    OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.add_location_alt_outlined,
-                          color: Colors.black,
-                        ),
-                        label: const Text(
-                          "Enter a new address",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Order Summary",
-                      style: TextStyle(
-                        color: AppColors.textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: "First & Last Name",
                       ),
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: "Email Address",
+                      ),
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: const InputDecoration(
+                        hintText: "Country",
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              keyboardType: TextInputType.name,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              decoration: const InputDecoration(
+                                hintText: "State/County",
+                              ),
+                            )),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              decoration: const InputDecoration(
+                                hintText: "Zip/Postal Code",
+                              ),
+                            )),
+                      ],
                     ),
                   ],
                 ),
-                const Divider(
-                  thickness: 2,
+                const SizedBox(
+                  height: 185,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,11 +187,45 @@ class _CheckoutViewState extends State<CheckoutView> {
                         const SizedBox(
                           width: 10,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            FirebaseCrashlytics.instance.crash();
-                          },
-                          child: const Text("Confirm"),
+                      ],
+                    ),
+                  ],
+                ),
+                const Divider(
+                  thickness: 2,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "",
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: 80.0,
+                          width: 385.0,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              pushNewScreen(context, screen: CheckoutSuccessView());
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20.0),
+                              child: Text(
+                                'Place Order',
+                                style: welcomePage_SignUp,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              side: BorderSide(
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
