@@ -65,28 +65,31 @@ class _cartState extends State<cart> {
         ),
         backgroundColor: AppColors.backgroundColor,
         shadowColor: Colors.transparent,
-        toolbarHeight: MediaQuery.of(context).size.height / 9,
+        toolbarHeight: MediaQuery
+            .of(context)
+            .size
+            .height / 9,
         leading: SizedBox(),
         leadingWidth: 15,
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        color: const Color(0x00929095),
+        height: 400,
+        width: 400,
+        padding: EdgeInsets.all(40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: Dimen.regularPadding16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/iphone13pro.png',
-                    height: 100,
-                    width: 100,
-                  ),
-                ],
+          children: <Widget>[
+            Container(
+              height: 200.0,
+              width: 200.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/iphone13pro.png'),
+                  fit: BoxFit.fitHeight,
+                )
               ),
             ),
+
             Text(
               "iPhone 13 Pro Max 256 GB Sierra Blue",
               textAlign: TextAlign.left,
@@ -97,7 +100,7 @@ class _cartState extends State<cart> {
               ),
             ),
             Text(
-              'Apple',
+              "Apple",
               textAlign: TextAlign.left,
               style: GoogleFonts.openSans(
                 color: Colors.grey,
@@ -114,7 +117,32 @@ class _cartState extends State<cart> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-            Padding(
+            Container(
+              color: const Color(0xFFFFFFFF),
+              height: 38.0,
+              width: 115.0,
+              child: FlatButton(
+                onPressed: () {
+                  pushNewScreen(context, screen: CheckoutView());
+                },
+                child: Text(
+                  'CHECKOUT',
+                  style: signupPage_ButtonTxts,
+                ),
+                color: AppColors.primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+              ),
+            ),
+
+          ],
+        ),
+
+
+
+      ),
+
+      /*Padding(
               padding: Dimen.regularPadding16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -127,78 +155,7 @@ class _cartState extends State<cart> {
                 ],
               ),
             ),
-            Text(
-              "iPhone 13 Pro Max 1 TB Sierra Blue",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              'Apple',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                color: Colors.grey,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            Text(
-              '1.099,00\$',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                color: Colors.grey,
-                fontSize: 13,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            Padding(
-              padding: Dimen.regularPadding16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-              ),
-            ),
-            Padding(
-              padding: Dimen.regularPadding16,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-              ),
-            ),
-            Container(
-              child: Text(
-                'Subtotal 2.090,3\$',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ),
-            Container(
-              child: Text(
-                'Shipping 8,99\$',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-            ),
-            Container(
-              child: Text(
-                'TOTAL 2.099,29\$',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+
             Padding(
               padding: Dimen.regularPadding16,
               child: Row(
@@ -221,10 +178,7 @@ class _cartState extends State<cart> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
               ),
-            ),
-          ],
-        ),
-      ),
+            ),*/
     );
   }
 }
