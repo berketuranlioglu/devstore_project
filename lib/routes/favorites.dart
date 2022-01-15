@@ -166,11 +166,6 @@ class favCard extends StatelessWidget {
                 text: "\$${cart.product.price}",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: Color(0xFF9441E4)),
-                children: [
-                  TextSpan(
-                      text: " x ${cart.numOfItem}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                ],
               ),
             )
           ],
