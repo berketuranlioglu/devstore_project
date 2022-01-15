@@ -1,3 +1,4 @@
+import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class CheckoutSuccessView extends StatefulWidget {
 
 class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
   final _formKey = GlobalKey<FormState>();
+  late final FirebaseAnalytics analytics;
+  late final FirebaseAnalyticsObserver observer;
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +35,62 @@ class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
         children: [
           Column(
             children: [
-              const Image(
-                image: AssetImage('assets/success.gif'),
-                height: 150.0,
+              Row(
+                children: [
+                  SizedBox(width:115,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Image(
+                      image: AssetImage('assets/success.gif'),
+                      height: 150.0,
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Succesfull', style: toggleButtonText,),
+                child:
+                Text('Successful', style: GoogleFonts.openSans(
+                  color: AppColors.primaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                Text('Your payment was done successfully', style: GoogleFonts.openSans(
+                  color: AppColors.settingsTabBarIconsColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                ),
+              ),
+              Container(
+                height: 50.0,
+                width: 355.0,
+                child: OutlinedButton(
+                  onPressed: () {
+                    pushNewScreen(context, screen: FeedView(analytics: analytics, observer: observer));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      'Okay',
+                      style: welcomePage_SignUp,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: BorderSide(
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

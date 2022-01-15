@@ -21,6 +21,8 @@ class CheckoutView extends StatefulWidget {
 
 class _CheckoutViewState extends State<CheckoutView> {
   final _formKey = GlobalKey<FormState>();
+  late final FirebaseAnalytics analytics;
+  late final FirebaseAnalyticsObserver observer;
 
   @override
   Widget build(BuildContext context) {
