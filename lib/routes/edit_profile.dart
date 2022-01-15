@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
 import 'package:devstore_project/routes/profile.dart';
+import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -314,6 +317,41 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             screen: accountView());
                                       },
                                     ),
+                                  ),
+                                  FlatButton(
+                                    child: Text(
+                                      'Disable User',
+                                      style: signupPage_ButtonTxts,
+                                    ),
+                                    color: AppColors.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    onPressed: () {
+                                      db.disableUser(uid);
+                                      user.updatePhotoURL('false');
+                                      pushNewScreen(context,
+                                          screen: EditProfilePage(),
+                                          withNavBar: false);
+                                    },
+                                  ),
+                                  FlatButton(
+                                    child: Text(
+                                      'Delete User',
+                                      style: signupPage_ButtonTxts,
+                                    ),
+                                    color: AppColors.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    onPressed: () {
+                                      db.deleteUser(user.uid);
+                                      user.delete();
+                                      auth.signOut();
+                                      pushNewScreen(context,
+                                          screen: editProfile(),
+                                          withNavBar: false);
+                                    },
                                   ),
                                 ],
                               ),
