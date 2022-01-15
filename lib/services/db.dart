@@ -45,14 +45,4 @@ class DBService {
         .then((value) => print('Data Changed'))
         .catchError((error) => print('Error: ${error.toString()}'));
   }
-
-  Future disableUser(String token) async {
-    userCollection
-        .doc(token)
-        .update({
-          'isActive': false,
-        })
-        .then((value) => print('Data Changed'))
-        .catchError((error) => print('Error: ${error.toString()}'));
-  }
 }

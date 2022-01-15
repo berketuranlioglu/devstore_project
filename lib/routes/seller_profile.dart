@@ -3,7 +3,6 @@ import 'package:devstore_project/objects/product_button.dart';
 import 'package:devstore_project/objects/selling_products.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/edit_profile.dart';
-import 'package:devstore_project/routes/seller_create.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
@@ -14,32 +13,43 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
+import 'package:devstore_project/routes/seller_create.dart';
+
+FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
 
 DBService db = DBService();
 
+Future<String> userNameFinal = getUserName(uid);
+final firestoreInstance = FirebaseFirestore.instance;
+void printData() {
+  firestoreInstance.collection('users').doc("password").get();
+}
+
+Future<Map<String, dynamic>?> getUser(String uid) async {
+  var data =
+  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+    return value.data();
+  });
+  return data;
+}
+
+Future<String> getUserName(String uid) async {
+  var userData = {};
+  userData = (await getUser(uid))!;
+  var a = await getUser(uid);
+  print(userData["username"]);
+  return userData["username"];
+}
+
 class SellerProfile extends StatefulWidget {
-  const SellerProfile({Key? key, required this.reference, required this.analytics, required this.observer})
+  const SellerProfile({Key? key, required this.analytics, required this.observer})
       : super(key: key);
-  final DocumentReference reference;
+
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-
-  Future<Map<String, dynamic>?> getUser(String uid) async {
-    var data =
-    await FirebaseFirestore.instance.collection("users").doc(uid).get().then((value) {
-      return value.data();
-    });
-    return data;
-  }
-
-  Future<String> getUserName(String uid) async {
-    var userData = {};
-    userData = (await getUser(uid))!;
-    var a = await getUser(uid);
-    print(userData["username"]);
-    return userData["username"];
-
-  }
 
 
   @override
@@ -59,13 +69,12 @@ class _SellerProfileState extends State<SellerProfile> {
   }
 
   final isSelectedOne = <bool>[true, false];
-  final isSelectedTwo = <bool>[false];
+  final isSelectedTwo = <bool>[false, false];
 
   @override
   Widget build(BuildContext context) {
-    String id = widget.reference.id.toString();
     return FutureBuilder(
-      future: db.userCollection.doc(id).get(),
+      future: db.userCollection.doc(user.uid).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -135,13 +144,8 @@ class _SellerProfileState extends State<SellerProfile> {
                 ),
                 IconButton(
                   onPressed: () {
-                    pushNewScreen(
-                        context,
-                        screen: SellerItemCreate(
-                            analytics: widget.analytics,
-                            observer: widget.observer,
-                        ),
-                    );
+                    pushNewScreen(context, screen: SellerItemCreate(analytics: widget.analytics, observer: widget.observer));
+                    //TODO: CREATE SAYFASI GELECEK (EMIR)
                   },
                   icon: Icon(Icons.add_outlined),
                 ),
@@ -161,7 +165,7 @@ class _SellerProfileState extends State<SellerProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height:15),
+                  SizedBox(height:15),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -229,73 +233,24 @@ class _SellerProfileState extends State<SellerProfile> {
                             borderRadius: BorderRadius.circular(50.0),
                             isSelected: isSelectedTwo,
                             onPressed: (int index) {
-                              {
-                                showModalBottomSheet(
-                                    context: context,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(25),
-                                          topRight: Radius.circular(25)),
-                                    ),
-                                    backgroundColor: AppColors.secondaryColor,
-                                    builder: (context) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          ListTile(
-                                            leading: const Icon(
-                                                Icons.sort_by_alpha_rounded),
-                                            title: const Text('A to Z'),
-                                            onTap: () {
-                                              //TODO: ALFABETIK SIRA
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: const Icon(
-                                                Icons.sort_by_alpha_rounded),
-                                            title: const Text('Z to A'),
-                                            onTap: () {
-                                              //TODO: TERS ALFABETIK SIRA
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: const Icon(
-                                                Icons.monetization_on_outlined),
-                                            title:
-                                                const Text('Increasing Price'),
-                                            onTap: () {
-                                              //TODO: UCUZDAN PAHALIYA
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: const Icon(
-                                                Icons.monetization_on_outlined),
-                                            title:
-                                                const Text('Decreasing Price'),
-                                            onTap: () {
-                                              //TODO: PAHALIDAN UCUZA
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          const SizedBox(height: 16),
-                                        ],
-                                      );
-                                    });
-                              }
+                              setState(() {
+                                for (int buttonIndex = 0; buttonIndex < isSelectedTwo.length; buttonIndex++) {
+                                  if (buttonIndex == index) {
+                                    isSelectedTwo[buttonIndex] = true;
+                                  } else {
+                                    isSelectedTwo[buttonIndex] = false;
+                                  }
+                                }
+                              });
                             },
                             children: [
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.sort_rounded),
-                                    SizedBox(width:8),
-                                    Text('Sort'),
-                                  ],
-                                ),
+                                child: Icon(Icons.sort_rounded),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Icon(Icons.filter_alt_outlined),
                               ),
                             ],
                           ),
@@ -305,9 +260,9 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   SizedBox(height:15),
                   if(isSelectedOne[0] == true)
-                    SellingProducts(isSelling: true, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(isSelling: true, analytics: widget.analytics, observer: widget.observer),
                   if(isSelectedOne[1] == true)
-                    SellingProducts(isSelling: false, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(isSelling: false, analytics: widget.analytics, observer: widget.observer),
                   SizedBox(height:30),
                 ],
               ),

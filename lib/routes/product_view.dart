@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/objects/users.dart';
-import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +8,38 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
-import 'account_info.dart';
 import 'cart.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
+Future<String> userNameFinal = getUserName(uid);
+final firestoreInstance = FirebaseFirestore.instance;
+void printData() {
+  firestoreInstance.collection('users').doc("password").get();
+}
+
+Future<Map<String, dynamic>?> getUser(String uid) async {
+  var data =
+  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+    return value.data();
+  });
+  return data;
+}
+
+Future<String> getUserName(String uid) async {
+  var userData = {};
+  userData = (await getUser(uid))!;
+  var a = await getUser(uid);
+  print(userData["username"]);
+  return userData["username"];
+}
 
 DBService db = DBService();
 
@@ -32,20 +56,26 @@ class productView extends StatefulWidget {
   _productViewState createState() => _productViewState();
 }
 
-String formatTimestamp(Timestamp timestamp) {
-  assert (timestamp != null);
-  String convertedDate;
-  convertedDate = DateFormat.yMMMd().format(timestamp.toDate());
-  return convertedDate;
-}
-
 void buttonClicked() {
   print('Button Clicked');
 }
 
+/*
+final List<String> contents=[
+  'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/apple/thumb/129911-9_large.jpg',
+  'https://photos5.appleinsider.com/gallery/44650-87056-Edge-of-iPhone-13-Pro-on-Edge-xl.jpg',
+  'https://thumbor.forbes.com/thumbor/fit-in/1200x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f8e0aaafeac9889106b860f%2F0x0.png%3FcropX1%3D0%26cropX2%3D1462%26cropY1%3D115%26cropY2%3D1211',
+];
+ */
+
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;
 bool _isBookmarkPressed = false;
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
 
 class _productViewState extends State<productView> {
   final int _current = 0;
@@ -71,7 +101,6 @@ class _productViewState extends State<productView> {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-
           List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             backgroundColor: AppColors.mainBackgroundColor,
@@ -142,26 +171,13 @@ class _productViewState extends State<productView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(productsClass.productName, style: fav_camp_recomBanner),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Text('By ', style: productPageSellerText1),
-                                InkWell(
-                                  onTap: () {
-                                    pushNewScreen(
-                                      context,
-                                      screen: SellerProfile(
-                                          reference: productsClass.sellerReference,
-                                          analytics: widget.analytics,
-                                          observer: widget.observer),
-                                    );
-                                  },
-                                  child: Text(
-                                    productsClass.sellerName,
-                                    style: productPageSellerText2,
-                                  ),
-                                ),
-                              ],
+                            RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(text: 'By ', style: productPageSellerText1),
+                                  TextSpan(text: productsClass.productBrand, style: productPageSellerText2),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -323,73 +339,32 @@ class _productViewState extends State<productView> {
                                       width: 1.0,
                                       color: AppColors.secondaryColor,
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15.0)
+                                    ),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(0, 6, 6, 6),
-                                          child: Image.network(
-                                            productsClass.comments[i]['ppUrl'],
-                                            width: 40.0,
-                                            height: 40.0,
-                                          ),
-                                        ),
                                         Expanded(
                                           flex: 1,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.star,
-                                                    color: AppColors.starColor,
-                                                    size: 16.0,
-                                                  ),
-                                                  Text(
-                                                    ' Rating: (',
-                                                    style: productPageRating,
-                                                  ),
-                                                  Text(
-                                                    productsClass.comments[i]['rating'].toString(),
-                                                    style: productPageRating,
-                                                  ),
-                                                  Text(
-                                                    '/5)',
-                                                    style: productPageRating,
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    productsClass.comments[i]['username'],
-                                                    style: productPageSellerText2,
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                  Text(
-                                                    '|',
-                                                    style: productPageRating,
-                                                  ),
-                                                  Text(
-                                                    formatTimestamp(productsClass.comments[i]['date']),
-                                                    style: productPageSellerText2,
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-
-                                            ],
+                                          child: Text(
+                                            productsClass.comments[i]['username'],
+                                            style: productPageSellerText2,
                                           ),
                                         ),
                                         Expanded(
                                           flex: 1,
                                           child: Text(
                                             productsClass.comments[i]['comment'],
+                                            style: productPageRating,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            productsClass.comments[i]['rating'].toString(),
                                             style: productPageRating,
                                           ),
                                         ),
@@ -471,7 +446,14 @@ class _productViewState extends State<productView> {
                     productsClass.sellerName != widget.username
                         ? ElevatedButton(
                             onPressed: () {
-                              //TODO: CART'A EKLE
+                              DocumentReference ref = FirebaseFirestore.instance.collection('products').doc(widget.id);
+                              Map<String,dynamic> data = {
+                                'prodReference' : ref,  // Updating Document Reference
+                              };
+
+                              FirebaseFirestore.instance.collection('users').doc(uid).update({'cart': FieldValue.arrayUnion([data])}).whenComplete((){
+                                print('Document Updated');
+                              });
                               pushNewScreen(
                                 context,
                                 screen: cart(
