@@ -6,6 +6,7 @@ import 'package:devstore_project/routes/pers_nav_bar.dart';
 import 'package:devstore_project/routes/categories_view.dart';
 import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/favorites.dart';
+import 'package:devstore_project/routes/bookmark_screen.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/services/notification.dart';
@@ -80,6 +81,7 @@ class _AppBaseState extends State<AppBase> {
           '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
           '/cart': (context) => cart(analytics: analytics, observer: observer),
           '/favorites': (context) => favorites(analytics: analytics, observer: observer),
+          '/bookmarks': (context) => bookmark(analytics: analytics, observer: observer),
           '/orders': (context) => orders(analytics: analytics, observer: observer),
           '/profile': (context) => Profile(analytics: analytics, observer: observer),
           '/first': (context) =>
