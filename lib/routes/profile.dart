@@ -154,9 +154,10 @@ class _ProfileState extends State<Profile> {
                     text: "Selling Page",
                     icon: "assets/discount1.jpg",
                     press: () {
-                      pushNewScreen(context,
+                      pushNewScreen(
+                          context,
                           screen: SellerProfile(
-                            reference: user.uid.toString(),
+                            reference: user.uid,
                             analytics: widget.analytics,
                             observer: widget.observer,
                           ));
