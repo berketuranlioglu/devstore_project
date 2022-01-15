@@ -249,7 +249,7 @@ class _SoldProductButtonState extends State<SoldProductButton> {
               child: Container(
                 child: Center(
                   child: Text(
-                    "Nothing is sold yet, go and sell some!",
+                    "Nothing is sold out yet!",
                     style: GoogleFonts.openSans(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

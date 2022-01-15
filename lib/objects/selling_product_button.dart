@@ -257,7 +257,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
               child: Container(
                 child: Center(
                   child: Text(
-                    "Looks like everything is sold,\ngreat job!",
+                    "Looks like everything is sold!",
                     style: GoogleFonts.openSans(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
