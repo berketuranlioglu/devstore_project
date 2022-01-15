@@ -42,7 +42,7 @@ class _persNavBarState extends State<persNavBar> {
       CategoriesView(analytics: widget.analytics, observer: widget.observer),
       cart(analytics: widget.analytics, observer: widget.observer),
       favorites(analytics: widget.analytics, observer: widget.observer),
-      OrdersView(analytics: widget.analytics, observer: widget.observer),
+      orders(analytics: widget.analytics, observer: widget.observer),
     ];
   }
 

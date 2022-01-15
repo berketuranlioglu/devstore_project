@@ -9,8 +9,6 @@ class Users {
   late String phone;
   late double rating;
   late var productReference;
-  late var comments;
-  late var orders;
 
   Users(
       String nameSurname,
@@ -23,8 +21,6 @@ class Users {
       String phone,
       double rating,
       var productReference,
-      var comments,
-      var orders,
   ) {
     this.nameSurname = nameSurname;
     this.username = username;
@@ -35,9 +31,7 @@ class Users {
     this.email = email;
     this.phone = phone;
     this.rating = rating;
-    this.productReference = productReference;
-    this.comments = comments;
-    this.orders = orders;
+    this.productReference;
   }
 
   Users.fromJson(Map<String, dynamic> json)
@@ -50,9 +44,7 @@ class Users {
         email = json['email'],
         phone = json['phone'],
         rating = json['rating'],
-        productReference = json['productReference'],
-        comments = json['comments'],
-        orders = json['orders'];
+        productReference = json['productReference'];
 
   Map<String, dynamic> toJson() => {
     'username': username,
@@ -65,7 +57,5 @@ class Users {
     'phone': phone,
     'rating': rating,
     'productReference': productReference,
-    'comments': comments,
-    'orders': orders,
       };
 }

@@ -3,8 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
-import 'package:devstore_project/routes/orders.dart';
-import 'package:devstore_project/routes/reviews_view.dart';
 import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/routes/welcome.dart';
 import 'package:devstore_project/services/db.dart';
@@ -152,12 +150,11 @@ class _ProfileState extends State<Profile> {
                 SizedBox(height: 30),
                 ProfileMenu(
                   text: "Selling Page",
-                  icon: "assets/3803671.png",
+                  icon: "assets/discount1.jpg",
                   press: () {
                     pushNewScreen(
                         context,
                         screen: SellerProfile(
-                          reference: db.userCollection.doc(user.uid),
                           analytics: widget.analytics,
                           observer: widget.observer,
                         )
@@ -167,15 +164,7 @@ class _ProfileState extends State<Profile> {
                 ProfileMenu(
                   text: "Orders",
                   icon: "assets/box.jpg",
-                  press: () => {
-                    pushNewScreen(
-                      context,
-                      screen: OrdersView(
-                          analytics: widget.analytics,
-                          observer: widget.observer,
-                      ),
-                    )
-                  },
+                  press: () => {},
                 ),
                 ProfileMenu(
                   text: "Bookmarks",
@@ -190,15 +179,7 @@ class _ProfileState extends State<Profile> {
                 ProfileMenu(
                   text: "Reviews",
                   icon: "assets/comment.png",
-                  press: () {
-                    pushNewScreen(
-                      context,
-                      screen: ReviewsView(
-                        analytics: widget.analytics,
-                        observer: widget.observer,
-                      ),
-                    );
-                  },
+                  press: () {},
                 ),
                 ProfileMenu(
                   text: "Account Information",
