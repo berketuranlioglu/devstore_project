@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
+import 'package:devstore_project/routes/edit_product.dart';
 import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -25,7 +26,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -40,7 +41,11 @@ Future<String> getUserName(String uid) async {
 }
 
 class SellingProductButton extends StatefulWidget {
-  const SellingProductButton({Key? key, required this.reference, required this.analytics, required this.observer})
+  const SellingProductButton(
+      {Key? key,
+      required this.reference,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
   final dynamic reference;
   final FirebaseAnalytics analytics;
@@ -62,19 +67,19 @@ class _SellingProductButtonState extends State<SellingProductButton> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
-          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           getUserName(uid).then((value) {
             username = value;
           });
-          if(productsClass.stockCount > 0) {
+          if (productsClass.stockCount > 0) {
             return Column(
               children: [
                 ElevatedButton(
-                  onPressed: () =>
-                  {
+                  onPressed: () => {
                     pushNewScreen(
                       context,
-                      screen: productView(id: id,
+                      screen: productView(
+                          id: id,
                           username: username,
                           analytics: widget.analytics,
                           observer: widget.observer),
@@ -89,7 +94,8 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                           alignment: Alignment.center,
                           child: (Image.network(
                             productsClass.imageURL[0],
-                            width: 70, height: 70,
+                            width: 70,
+                            height: 70,
                           )),
                         ),
                         const SizedBox(
@@ -141,87 +147,84 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                         SizedBox(height: 8),
                         productsClass.previousPrice != productsClass.salePrice
                             ? Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                height: 20,
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(5.0)),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "${((productsClass.previousPrice -
-                                      productsClass.salePrice) /
-                                      productsClass.previousPrice * 100)
-                                      .toInt()}%",
-                                  style: GoogleFonts.openSans(
-                                    color: AppColors.secondaryColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
                                 children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "\$${productsClass.previousPrice}.00",
-                                      style: GoogleFonts.openSans(
-                                        color: Colors.grey,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        decoration:
-                                        TextDecoration.lineThrough,
-                                        decorationThickness: 2,
-                                        decorationColor:
-                                        AppColors.primaryColor,
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      height: 20,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
                                       ),
-                                      textAlign: TextAlign.center,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "${((productsClass.previousPrice - productsClass.salePrice) / productsClass.previousPrice * 100).toInt()}%",
+                                        style: GoogleFonts.openSans(
+                                          color: AppColors.secondaryColor,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "\$${productsClass.salePrice}.00",
-                                      style: GoogleFonts.openSans(
-                                        color: AppColors.primaryColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
+                                  Expanded(
+                                    flex: 4,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "\$${productsClass.previousPrice}.00",
+                                            style: GoogleFonts.openSans(
+                                              color: Colors.grey,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              decorationThickness: 2,
+                                              decorationColor:
+                                                  AppColors.primaryColor,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "\$${productsClass.salePrice}.00",
+                                            style: GoogleFonts.openSans(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "\$${productsClass.salePrice}.00",
+                                        style: GoogleFonts.openSans(
+                                          color: AppColors.primaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        )
-                            : Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "\$${productsClass.salePrice}.00",
-                                  style: GoogleFonts.openSans(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ]),
                   style: ElevatedButton.styleFrom(
                     primary: AppColors.secondaryColor,
@@ -231,7 +234,11 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                 SizedBox(height: 5),
                 OutlinedButton(
                   onPressed: () {
-                    //TODO: EDIT VE DELETE YAPILACAK (EMIR)
+                    pushNewScreen(context,
+                        screen: EditProductPage(
+                            analytics: widget.analytics,
+                            observer: widget.observer,
+                            id: id));
                   },
                   child: Text("Edit",
                       style: GoogleFonts.openSans(
@@ -251,8 +258,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                 ),
               ],
             );
-          }
-          else {
+          } else {
             return Center(
               child: Container(
                 child: Center(
@@ -265,10 +271,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width - 64,
+                width: MediaQuery.of(context).size.width - 64,
                 height: 300,
               ),
             );

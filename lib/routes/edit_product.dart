@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
+import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
-import 'package:devstore_project/routes/welcome.dart';
+import 'package:devstore_project/routes/product_view.dart';
+import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
@@ -9,46 +11,43 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-class ditProduct extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: EditProductPage(),
-    );
-  }
-}
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class EditProductPage extends StatefulWidget {
+  const EditProductPage(
+      {Key? key,
+      required this.id,
+      required this.analytics,
+      required this.observer})
+      : super(key: key);
+
+  final String id;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
-
 DBService db = DBService();
 
-final _formKey = GlobalKey<FormState>();
+int price = 0;
+String nameDescription = "";
+String imageURL = "";
 
-Future<String> userNameFinal = getUserName(uid);
-final firestoreInstance = FirebaseFirestore.instance;
+final _formKey = GlobalKey<FormState>();
 
 class _EditProductPageState extends State<EditProductPage> {
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: db.userCollection.doc(user.uid).get(),
+      future: db.productsCollection.doc(widget.id).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Products productsClass =
+          Products productClass =
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-          List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             body: Container(
               padding: EdgeInsets.only(left: 16, top: 40, right: 16),
@@ -59,21 +58,18 @@ class _EditProductPageState extends State<EditProductPage> {
                 child: ListView(
                   children: [
                     const Text(
-                      "Edit Product",
+                      "Edit Profile",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 15),
                     Container(
                       height: 150,
                       width: 150,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child: Container(
-                        child: Image.network("null"),
-                      ),
+                      child: Image.network(productClass.imageURL[0]),
                     ),
                     SingleChildScrollView(
                       child: Form(
@@ -112,20 +108,16 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   Radius.circular(15)),
                                             ),
                                           ),
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Image URL field cannot be empty!';
-                                            } else {
-                                              String trimmedValue =
-                                                  value.trim();
-                                              if (trimmedValue.isEmpty) {
-                                                return 'Image URL field cannot be empty!';
-                                              }
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              imageURL = value;
                                             }
-                                            return null;
                                           },
-                                          onSaved: (value) {},
-                                          onChanged: (value) {},
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              imageURL = value;
+                                            }
+                                          },
                                           keyboardType: TextInputType.text,
                                         ),
                                       ),
@@ -148,7 +140,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
-                                                Icons.description,
+                                                Icons.description_outlined,
                                                 color: Colors.grey),
                                             contentPadding:
                                                 const EdgeInsets.all(12.0),
@@ -161,28 +153,17 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   Radius.circular(15)),
                                             ),
                                           ),
-                                          keyboardType:
-                                              TextInputType.visiblePassword,
-                                          obscureText: true,
-                                          enableSuggestions: false,
-                                          autocorrect: false,
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Password field cannot be empty';
-                                            } else {
-                                              String trimmedValue =
-                                                  value.trim();
-                                              if (trimmedValue.isEmpty) {
-                                                return 'Password field cannot be empty';
-                                              }
-                                              if (trimmedValue.length < 8) {
-                                                return 'Password must be at least 8 characters long';
-                                              }
+                                          keyboardType: TextInputType.name,
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              nameDescription = value;
                                             }
-                                            return null;
                                           },
-                                          onSaved: (value) {},
-                                          onChanged: (value) {},
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              nameDescription = value;
+                                            }
+                                          },
                                         ),
                                       ),
                                     ],
@@ -203,7 +184,8 @@ class _EditProductPageState extends State<EditProductPage> {
                                             hintText: 'Price',
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
-                                            prefixIcon: const Icon(Icons.money,
+                                            prefixIcon: const Icon(
+                                                Icons.money_rounded,
                                                 color: Colors.grey),
                                             contentPadding:
                                                 const EdgeInsets.all(12.0),
@@ -216,46 +198,46 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   Radius.circular(15)),
                                             ),
                                           ),
-                                          keyboardType:
-                                              TextInputType.visiblePassword,
-                                          obscureText: true,
-                                          enableSuggestions: false,
-                                          autocorrect: false,
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Password field cannot be empty';
-                                            } else {
-                                              String trimmedValue =
-                                                  value.trim();
-                                              if (trimmedValue.isEmpty) {
-                                                return 'Password field cannot be empty';
-                                              }
-                                              if (trimmedValue.length < 8) {
-                                                return 'Password must be at least 8 characters long';
-                                              }
+                                          keyboardType: TextInputType.name,
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              price = int.parse(value);
                                             }
-                                            return null;
                                           },
-                                          onSaved: (value) {},
-                                          onChanged: (value) {},
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              price = int.parse(value);
+                                            }
+                                          },
                                         ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 20.0,
+                                    height: 8.0,
                                   ),
                                   Form(
                                     child: FlatButton(
                                       child: Text(
-                                        'Edit Product',
+                                        'Edit Product ',
                                         style: signupPage_ButtonTxts,
                                       ),
                                       color: AppColors.primaryColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15.0)),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Editing the Product!')));
+                                          db.editProductDetails(widget.id,
+                                              nameDescription, imageURL, price);
+                                        }
+                                      },
                                     ),
                                   ),
                                   FlatButton(
@@ -267,7 +249,9 @@ class _EditProductPageState extends State<EditProductPage> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15.0)),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      db.deleteProduct(widget.id);
+                                    },
                                   ),
                                 ],
                               ),
