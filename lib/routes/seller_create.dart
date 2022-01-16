@@ -117,7 +117,10 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                 SizedBox(width: 10),
                 IconButton(
                     onPressed: () {
-                      pushNewScreen(context, screen: EditProfilePage());
+                      pushNewScreen(context,
+                          screen: EditProfilePage(
+                              analytics: widget.analytics,
+                              observer: widget.observer));
                     },
                     icon: Icon(Icons.edit_outlined)),
               ],

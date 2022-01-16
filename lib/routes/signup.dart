@@ -409,7 +409,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       Form(
                         child: FlatButton(
                           child: Text(
-                            'SIGN IN',
+                            'SIGN UP',
                             style: signupPage_ButtonTxts,
                           ),
                           color: AppColors.primaryColor,
@@ -420,7 +420,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               _formKey.currentState!.save();
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('User successfully created!')));
+                                  const SnackBar(
+                                      content:
+                                          Text('User successfully created!')));
                               auth
                                   .signupWithMailAndPass(
                                       mail, pass, phone, username, nameSurname)

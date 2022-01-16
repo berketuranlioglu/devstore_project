@@ -141,7 +141,10 @@ class _SellerProfileState extends State<SellerProfile> {
                 if (uid == id)
                   IconButton(
                     onPressed: () {
-                      pushNewScreen(context, screen: EditProfilePage());
+                      pushNewScreen(context,
+                          screen: EditProfilePage(
+                              analytics: widget.analytics,
+                              observer: widget.observer));
                     },
                     icon: Icon(Icons.edit_outlined),
                   ),

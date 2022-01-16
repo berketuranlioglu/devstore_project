@@ -67,7 +67,7 @@ class AppBase extends StatefulWidget {
 class _AppBaseState extends State<AppBase> {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -76,24 +76,33 @@ class _AppBaseState extends State<AppBase> {
         initialRoute: initScreen == 0 || initScreen == null ? '/first' : '/',
         routes: {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
-          '/feed': (context) => FeedView(analytics: analytics, observer: observer),
-          '/persNavBar': (context) => persNavBar(analytics: analytics, observer: observer),
-          '/categories': (context) => CategoriesView(analytics: analytics, observer: observer),
+          '/feed': (context) =>
+              FeedView(analytics: analytics, observer: observer),
+          '/persNavBar': (context) =>
+              persNavBar(analytics: analytics, observer: observer),
+          '/categories': (context) =>
+              CategoriesView(analytics: analytics, observer: observer),
           '/cart': (context) => cart(analytics: analytics, observer: observer),
-          '/favorites': (context) => favorites(analytics: analytics, observer: observer),
-          '/bookmarks': (context) => bookmark(analytics: analytics, observer: observer),
-          '/orders': (context) => OrdersView(analytics: analytics, observer: observer),
-          '/profile': (context) => Profile(analytics: analytics, observer: observer),
+          '/favorites': (context) =>
+              favorites(analytics: analytics, observer: observer),
+          '/bookmarks': (context) =>
+              bookmark(analytics: analytics, observer: observer),
+          '/orders': (context) =>
+              OrdersView(analytics: analytics, observer: observer),
+          '/profile': (context) =>
+              Profile(analytics: analytics, observer: observer),
           '/first': (context) =>
               WalkthroughView(analytics: analytics, observer: observer),
           '/login': (context) =>
               LoginPage(analytics: analytics, observer: observer),
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
-          '/checkout': (context) => CheckoutView(analytics: analytics, observer: observer),
-          '/checkout_success': (context) => CheckoutSuccessView(analytics: analytics, observer: observer),
-          '/editProfile': (context) => editProfile(),
+          '/checkout': (context) =>
+              CheckoutView(analytics: analytics, observer: observer),
+          '/checkout_success': (context) =>
+              CheckoutSuccessView(analytics: analytics, observer: observer),
+          '/editProfile': (context) =>
+              EditProfilePage(analytics: analytics, observer: observer),
         });
   }
 }
-

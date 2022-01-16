@@ -156,7 +156,8 @@ class _ProfileState extends State<Profile> {
                   text: "Selling Page",
                   icon: "assets/130213.png",
                   press: () {
-                    pushNewScreen(context,
+                    pushNewScreen(
+                      context,
                       screen: SellerProfile(
                         reference: db.userCollection.doc(user.uid),
                         analytics: widget.analytics,
@@ -171,7 +172,9 @@ class _ProfileState extends State<Profile> {
                   press: () => {
                     pushNewScreen(
                       context,
-                      screen: OrdersView(analytics: widget.analytics, observer: widget.observer),
+                      screen: OrdersView(
+                          analytics: widget.analytics,
+                          observer: widget.observer),
                     )
                   },
                 ),
@@ -181,7 +184,10 @@ class _ProfileState extends State<Profile> {
                   press: () {
                     pushNewScreen(
                       context,
-                      screen: bookmark(analytics: widget.analytics, observer: widget.observer,),
+                      screen: bookmark(
+                        analytics: widget.analytics,
+                        observer: widget.observer,
+                      ),
                     );
                   },
                 ),
@@ -191,7 +197,9 @@ class _ProfileState extends State<Profile> {
                   press: () {
                     pushNewScreen(
                       context,
-                      screen: favorites(analytics: widget.analytics, observer: widget.observer),
+                      screen: favorites(
+                          analytics: widget.analytics,
+                          observer: widget.observer),
                     );
                   },
                 ),
@@ -201,7 +209,9 @@ class _ProfileState extends State<Profile> {
                   press: () {
                     pushNewScreen(
                       context,
-                      screen: ReviewsView(analytics: widget.analytics, observer: widget.observer),
+                      screen: ReviewsView(
+                          analytics: widget.analytics,
+                          observer: widget.observer),
                     );
                   },
                 ),
@@ -221,7 +231,9 @@ class _ProfileState extends State<Profile> {
                   press: () {
                     pushNewScreen(
                       context,
-                      screen: editProfile(),
+                      screen: EditProfilePage(
+                          analytics: widget.analytics,
+                          observer: widget.observer),
                     );
                   },
                 ),

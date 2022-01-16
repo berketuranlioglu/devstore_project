@@ -244,6 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
+
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Logging in')));
 
@@ -252,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                             return ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("${value}")));
                           }
+
                           Navigator.popAndPushNamed(context, "/persNavBar");
                         });
                       }
@@ -271,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _isSigningIn
-                          ? CircularProgressIndicator(
+                          ? const CircularProgressIndicator(
                               valueColor:
                                   AlwaysStoppedAnimation<Color>(Colors.white),
                             )
@@ -297,7 +299,9 @@ class _LoginPageState extends State<LoginPage> {
                                               'Google Signed In Successfully!')));
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => persNavBar(analytics: widget.analytics, observer: widget.observer),
+                                      builder: (context) => persNavBar(
+                                          analytics: widget.analytics,
+                                          observer: widget.observer),
                                     ),
                                   );
                                 }

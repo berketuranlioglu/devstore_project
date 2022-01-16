@@ -112,7 +112,7 @@ class _FeedViewState extends State<FeedView> {
                       FlatButton(
                         onPressed: () => {
                           print(AuthService().user.first.toString()),
-                          if (false == true)
+                          if ('a' == 'b')
                             {
                               auth.signOut(),
                               pushNewScreen(context,
@@ -159,7 +159,11 @@ class _FeedViewState extends State<FeedView> {
                 height: 40.0,
                 minWidth: 340.0,
                 onPressed: () => {
-                  pushNewScreen(context, screen: Search(analytics: widget.analytics, observer: widget.observer,)),
+                  pushNewScreen(context,
+                      screen: Search(
+                        analytics: widget.analytics,
+                        observer: widget.observer,
+                      )),
                 },
                 color: AppColors.secondaryColor,
                 child: Row(
@@ -224,7 +228,10 @@ class _FeedViewState extends State<FeedView> {
                     onPressed: () {
                       pushNewScreen(
                         context,
-                        screen: InnerCategory(title: 'Phones', analytics: widget.analytics, observer: widget.observer),
+                        screen: InnerCategory(
+                            title: 'Phones',
+                            analytics: widget.analytics,
+                            observer: widget.observer),
                       );
                     },
                     fillColor: AppColors.secondaryColor,

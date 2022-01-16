@@ -12,17 +12,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class editProfile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: EditProfilePage(),
-    );
-  }
-}
-
 class EditProfilePage extends StatefulWidget {
+  const EditProfilePage(
+      {Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
@@ -52,7 +49,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           return Scaffold(
             body: Container(
-              padding: EdgeInsets.only(left: 16, top: 40, right: 16),
+              padding: const EdgeInsets.only(left: 16, top: 40, right: 16),
               child: GestureDetector(
                 onTap: () {
                   FocusScope.of(context).unfocus();
@@ -308,8 +305,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     onPressed: () {
                                       db.disableUser(uid);
                                       user.updatePhotoURL('false');
+                                      auth.signOut();
                                       pushNewScreen(context,
-                                          screen: EditProfilePage(),
+                                          screen: Welcome(
+                                              analytics: widget.analytics,
+                                              observer: widget.observer),
                                           withNavBar: false);
                                     },
                                   ),
@@ -327,7 +327,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       user.delete();
                                       auth.signOut();
                                       pushNewScreen(context,
-                                          screen: editProfile(),
+                                          screen: Welcome(
+                                              analytics: widget.analytics,
+                                              observer: widget.observer),
                                           withNavBar: false);
                                     },
                                   ),

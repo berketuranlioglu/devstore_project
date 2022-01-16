@@ -92,10 +92,13 @@ class AuthService {
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
           email: mail, password: pass);
       User user = result.user!;
-      if (user.email == 'null') {
-        user.updateEmail('true');
-      }
 
+      if (user.photoURL == 'null') {
+        user.updatePhotoURL('true');
+      }
+      if (user.photoURL == 'false') {
+        return 'Disabled User';
+      }
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {
       return e.code.toString();

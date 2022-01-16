@@ -118,15 +118,15 @@ class _AccountViewPageState extends State<AccountViewPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     buildTextField(
                         "Name Surname", "${userClass.nameSurname}", false),
                     buildTextField("Username", "${userClass.username}", false),
-                    buildTextField("E-mail", "bobbyrich@gmail.com", false),
-                    buildTextField("Password", "${userClass.password}", true),
-                    SizedBox(
+                    buildTextField("E-mail", "${userClass.email}", false),
+                    buildTextField("Password", "${userClass.password}", false),
+                    const SizedBox(
                       height: 35,
                     ),
                     Padding(
