@@ -84,6 +84,20 @@ class DBService {
         .then((value) => print('Data Changed'))
         .catchError((error) => print('Error: ${error.toString()}'));
   }
+  Future addItem(String productName, String productDescription, String productPrice, String imageUrl, String token) async {
+    userCollection
+        .doc(token)
+        .set({
+      'productName': productName,
+      'productDescription': productDescription,
+      'userToken': token,
+      'productPrice': productPrice,
+      'imageUrl': 'https://st4.depositphotos.com/4668373/25069/v/1600/depositphotos_250696606-stock-illustration-hand-drawn-sketch-of-mobile.jpg',
+      'isActive': true,
+    })
+        .then((value) => print('User added'))
+        .catchError((error) => print('Error: ${error.toString()}'));
+  }
 
   Future deleteUser(String token) async {
     userCollection.doc(token).delete();
