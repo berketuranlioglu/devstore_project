@@ -73,7 +73,8 @@ class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
                 width: 355.0,
                 child: OutlinedButton(
                   onPressed: () {
-                    pushNewScreen(context, screen: FeedView(analytics: widget.analytics, observer: widget.observer));
+                    pushNewScreen(context, screen: FeedView(analytics: widget.analytics, observer: widget.observer,),
+                        withNavBar: true);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),

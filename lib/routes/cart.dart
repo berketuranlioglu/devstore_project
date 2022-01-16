@@ -150,7 +150,7 @@ class _cartState extends State<cart> {
                               screen: CheckoutView(
                                   analytics: widget.analytics,
                                   observer: widget.observer),
-                              withNavBar: false);
+                              );
                         },
                         child: Text(
                           'CHECKOUT',
