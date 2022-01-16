@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:stacked/stacked_annotations.dart';
-
 import 'account_info.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -25,9 +24,9 @@ final uid = user.uid;
 
 DBService db = DBService();
 
-String productBrand = "";
-String details = "";
-var salePrice;
+String productDescription = "";
+String productName = "";
+String productPrice = "";
 String imageUrl = "";
 
 final _formKey = GlobalKey<FormState>();
@@ -100,7 +99,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                 child: Row(
                   children: [
                     Text(
-                      "Post Free Ad",
+                      "Sell Your Item",
                       style: GoogleFonts.openSans(
                         color: AppColors.secondaryColor,
                         fontSize: 20,
@@ -135,298 +134,294 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
             ),
             backgroundColor: AppColors.mainBackgroundColor,
             body: Container(
-                padding: EdgeInsets.only(left: 16, top: 40, right: 16),
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: ListView(
-                    children: [
-                      Container(
-                        height: 150,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.network("${productsClass.imageURL}"),
+              padding: EdgeInsets.only(left: 16, top: 40, right: 16),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: ListView(
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 150,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
                       ),
-                      SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(24, 24, 24, 4),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.grey[200],
-                                              filled: true,
-                                              hintText: 'Item Image URL',
-                                              hintStyle:
-                                                const TextStyle(fontSize: 14.0),
-                                              prefixIcon: const Icon(Icons.image,
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                                const EdgeInsets.all(12.0),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color: Colors.transparent,
-                                                    ),
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(15)),
-                                                  ),
+                      child: Image.network("${productsClass.imageURL}"),
+                    ),
+                    SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(24, 24, 24, 4),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Item Image URL',
+                                            hintStyle:
+                                            const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(Icons.image,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                            const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                            const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
                                             ),
-                                            validator: (value) {
-                                              if(value == null) {
+                                          ),
+                                          validator: (value) {
+                                            if(value == null) {
+                                              return 'Image URL field cannot be empty!';
+                                            }
+                                            else {
+                                              String trimmedValue = value.trim();
+                                              if (trimmedValue.isEmpty){
                                                 return 'Image URL field cannot be empty!';
                                               }
-                                              else {
-                                                  String trimmedValue = value.trim();
-                                                  if (trimmedValue.isEmpty){
-                                                    return 'Image URL field cannot be empty!';
-                                                  }
-                                                }
-                                              return null;
-                                            },
-                                            onSaved: (value){
-                                              if (value != null) {
-                                                imageUrl = value;
-                                              }
-                                            },
-                                            onChanged: (value){
-                                              if (value != null) {
-                                                imageUrl = value;
-                                              }
-                                            },
-                                            keyboardType: TextInputType.text,
-                                          ),
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value){
+                                            if (value != null) {
+                                              imageUrl = value;
+                                            }
+                                          },
+                                          onChanged: (value){
+                                            if (value != null) {
+                                              imageUrl = value;
+                                            }
+                                          },
+                                          keyboardType: TextInputType.text,
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.grey[200],
-                                              filled: true,
-                                              hintText: 'Item Name',
-                                              hintStyle:
-                                                const TextStyle(fontSize: 14.0),
-                                              prefixIcon: const Icon(
-                                                  Icons.web_outlined,
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                                  const EdgeInsets.all(12.0),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.transparent,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(15)),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Item Name',
+                                            hintStyle:
+                                            const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.web_outlined,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                            const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                            const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
                                               ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
                                             ),
-                                            obscureText: true,
-                                            enableSuggestions: false,
-                                            autocorrect: false,
-                                            validator: (value) {
-                                              if (value == null) {
+                                          ),
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Name field cannot be empty';
+                                            }
+                                            else {
+                                              String trimmedValue =
+                                              value.trim();
+                                              if (trimmedValue.isEmpty) {
                                                 return 'Name field cannot be empty';
                                               }
-                                              else {
-                                                String trimmedValue =
-                                                value.trim();
-                                                if (trimmedValue.isEmpty) {
-                                                  return 'Name field cannot be empty';
-                                                }
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              if (value != null) {
-                                                productBrand = value;
-                                              }
-                                            },
-                                            onChanged: (value) {
-                                              if (value != null) {
-                                                productBrand = value;
-                                              }
-                                            },
-                                          ),
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              productName = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              productDescription = value;
+                                            }
+                                          },
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.grey[200],
-                                              filled: true,
-                                              hintText: 'Item Price',
-                                              hintStyle:
-                                                  const TextStyle(fontSize: 14.0),
-                                              prefixIcon: const Icon(
-                                                  Icons.attach_money,
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                                  const EdgeInsets.all(12.0),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.transparent,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(15)),
-                                              ),
-                                            ),
-                                            obscureText: true,
-                                            enableSuggestions: false,
-                                            autocorrect: false,
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Price field cannot be empty';
-                                              } else {
-                                                String trimmedValue =
-                                                value.trim();
-                                                if (trimmedValue.isEmpty) {
-                                                  return 'Price field cannot be empty';
-                                                }
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              if (value != null) {
-                                                salePrice = value;
-                                              }
-                                            },
-                                            onChanged: (value) {
-                                              if (value != null) {
-                                                salePrice = value;
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.grey[200],
-                                              filled: true,
-                                              hintText: 'Item Description',
-                                              hintStyle:
-                                              const TextStyle(fontSize: 14.0),
-                                              prefixIcon: const Icon(
-                                                  Icons.article,
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                              const EdgeInsets.all(12.0),
-                                              enabledBorder:
-                                              const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Colors.transparent,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(15)),
-                                              ),
-                                            ),
-                                            obscureText: true,
-                                            enableSuggestions: false,
-                                            autocorrect: false,
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Details field cannot be empty';
-                                              } else {
-                                                String trimmedValue =
-                                                value.trim();
-                                                if (trimmedValue.isEmpty) {
-                                                  return 'Details field cannot be empty';
-                                                }
-                                              }
-                                              return null;
-                                            },
-                                            onSaved: (value) {
-                                              if (value != null) {
-                                                details = value;
-                                              }
-                                            },
-                                            onChanged: (value) {
-                                              if (value != null) {
-                                                details = value;
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    Form(
-                                      child: FlatButton(
-                                        child: Text(
-                                          'Confirm Selling ',
-                                          style: signupPage_ButtonTxts,
-                                        ),
-                                        color: AppColors.primaryColor,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                        onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
-                                            _formKey.currentState!.save();
-
-                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                              content: Text(
-                                                'Posting The Item!')));
-                                            //Products.fromJson(name, price, description, imageUrl);
-                                          }
-                                        },
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Item Price',
+                                            hintStyle:
+                                            const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.attach_money,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                            const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                            const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Price field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                              value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Price field cannot be empty';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              productPrice = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              productDescription = value;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Item Description',
+                                            hintStyle:
+                                            const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.article,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                            const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                            const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Details field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                              value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Details field cannot be empty';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              productDescription = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              productDescription = value;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  Form(
+                                    child: FlatButton(
+                                      child: Text(
+                                        'Confirm Selling',
+                                        style: signupPage_ButtonTxts,
+                                      ),
+                                      color: AppColors.primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                              content: Text('Posting The Item!')));
+                                          db.addItem(productName, productDescription, uid, productPrice, imageUrl);
+                                        }
+                                      },
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
             ),
           );
         }
