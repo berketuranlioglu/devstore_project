@@ -146,10 +146,14 @@ class _productViewState extends State<productView> {
                             width: MediaQuery.of(context).size.width,
                             margin:
                                 const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+                            child: InteractiveViewer(
+                              child: Image.network(i),
+                            ),
+                            /*
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: NetworkImage(i),
-                                    fit: BoxFit.contain)),
+                                    fit: BoxFit.contain)),*/
                           );
                         },
                       );
