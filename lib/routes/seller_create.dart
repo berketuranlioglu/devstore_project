@@ -39,7 +39,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -54,12 +54,12 @@ Future<String> getUserName(String uid) async {
 }
 
 class SellerItemCreate extends StatefulWidget {
-  const SellerItemCreate({Key? key, required this.analytics, required this.observer})
+  const SellerItemCreate(
+      {Key? key, required this.analytics, required this.observer})
       : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
-
 
   @override
   _SellerItemCreateState createState() => _SellerItemCreateState();
@@ -87,7 +87,8 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Products productsClass = Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          Products productsClass =
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -113,15 +114,12 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
                 ),
-                SizedBox(width:10),
+                SizedBox(width: 10),
                 IconButton(
                     onPressed: () {
-                      pushNewScreen(
-                          context,
-                          screen: EditProfilePage());
+                      pushNewScreen(context, screen: EditProfilePage());
                     },
-                    icon: Icon(Icons.edit_outlined)
-                ),
+                    icon: Icon(Icons.edit_outlined)),
               ],
               backgroundColor: AppColors.sellerAppBarColor,
               shadowColor: Colors.transparent,
@@ -162,7 +160,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                 children: [
                                   Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -172,13 +170,13 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             filled: true,
                                             hintText: 'Item Image URL',
                                             hintStyle:
-                                            const TextStyle(fontSize: 14.0),
+                                                const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(Icons.image,
                                                 color: Colors.grey),
                                             contentPadding:
-                                            const EdgeInsets.all(12.0),
+                                                const EdgeInsets.all(12.0),
                                             enabledBorder:
-                                            const OutlineInputBorder(
+                                                const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                               ),
@@ -187,23 +185,23 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             ),
                                           ),
                                           validator: (value) {
-                                            if(value == null) {
+                                            if (value == null) {
                                               return 'Image URL field cannot be empty!';
-                                            }
-                                            else {
-                                              String trimmedValue = value.trim();
-                                              if (trimmedValue.isEmpty){
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
                                                 return 'Image URL field cannot be empty!';
                                               }
                                             }
                                             return null;
                                           },
-                                          onSaved: (value){
+                                          onSaved: (value) {
                                             if (value != null) {
                                               imageUrl = value;
                                             }
                                           },
-                                          onChanged: (value){
+                                          onChanged: (value) {
                                             if (value != null) {
                                               imageUrl = value;
                                             }
@@ -218,7 +216,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                   ),
                                   Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -228,14 +226,14 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             filled: true,
                                             hintText: 'Item Name',
                                             hintStyle:
-                                            const TextStyle(fontSize: 14.0),
+                                                const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
                                                 Icons.web_outlined,
                                                 color: Colors.grey),
                                             contentPadding:
-                                            const EdgeInsets.all(12.0),
+                                                const EdgeInsets.all(12.0),
                                             enabledBorder:
-                                            const OutlineInputBorder(
+                                                const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                               ),
@@ -248,10 +246,9 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                           validator: (value) {
                                             if (value == null) {
                                               return 'Name field cannot be empty';
-                                            }
-                                            else {
+                                            } else {
                                               String trimmedValue =
-                                              value.trim();
+                                                  value.trim();
                                               if (trimmedValue.isEmpty) {
                                                 return 'Name field cannot be empty';
                                               }
@@ -277,7 +274,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                   ),
                                   Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -287,14 +284,14 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             filled: true,
                                             hintText: 'Item Price',
                                             hintStyle:
-                                            const TextStyle(fontSize: 14.0),
+                                                const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
                                                 Icons.attach_money,
                                                 color: Colors.grey),
                                             contentPadding:
-                                            const EdgeInsets.all(12.0),
+                                                const EdgeInsets.all(12.0),
                                             enabledBorder:
-                                            const OutlineInputBorder(
+                                                const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                               ),
@@ -309,7 +306,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                               return 'Price field cannot be empty';
                                             } else {
                                               String trimmedValue =
-                                              value.trim();
+                                                  value.trim();
                                               if (trimmedValue.isEmpty) {
                                                 return 'Price field cannot be empty';
                                               }
@@ -335,7 +332,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                   ),
                                   Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -345,14 +342,14 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                             filled: true,
                                             hintText: 'Item Description',
                                             hintStyle:
-                                            const TextStyle(fontSize: 14.0),
+                                                const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
                                                 Icons.article,
                                                 color: Colors.grey),
                                             contentPadding:
-                                            const EdgeInsets.all(12.0),
+                                                const EdgeInsets.all(12.0),
                                             enabledBorder:
-                                            const OutlineInputBorder(
+                                                const OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
                                               ),
@@ -367,7 +364,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                               return 'Details field cannot be empty';
                                             } else {
                                               String trimmedValue =
-                                              value.trim();
+                                                  value.trim();
                                               if (trimmedValue.isEmpty) {
                                                 return 'Details field cannot be empty';
                                               }
@@ -400,14 +397,21 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                       color: AppColors.primaryColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(15.0)),
+                                              BorderRadius.circular(15.0)),
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           _formKey.currentState!.save();
 
-                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                              content: Text('Posting The Item!')));
-                                          db.addItem(productName, productDescription, uid, productPrice, imageUrl);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Posting The Item!')));
+                                          db.addItem(
+                                              productName,
+                                              productDescription,
+                                              uid,
+                                              productPrice,
+                                              imageUrl);
                                         }
                                       },
                                     ),

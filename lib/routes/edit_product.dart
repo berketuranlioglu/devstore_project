@@ -59,10 +59,13 @@ class _EditProductPageState extends State<EditProductPage> {
                 child: ListView(
                   children: [
                     const Text(
-                      "Edit Profile",
+                      "Edit Product",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 16,
                     ),
                     Container(
                       height: 150,
@@ -186,7 +189,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
-                                                Icons.details_rounded,
+                                                Icons.edit_rounded,
                                                 color: Colors.grey),
                                             contentPadding:
                                                 const EdgeInsets.all(12.0),

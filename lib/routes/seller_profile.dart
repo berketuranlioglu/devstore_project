@@ -46,7 +46,10 @@ Future<String> getUserName(String uid) async {
 
 class SellerProfile extends StatefulWidget {
   const SellerProfile(
-      {Key? key, required this.reference, required this.analytics, required this.observer})
+      {Key? key,
+      required this.reference,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final dynamic reference;
@@ -149,16 +152,15 @@ class _SellerProfileState extends State<SellerProfile> {
                           screen: SellerItemCreate(
                               analytics: widget.analytics,
                               observer: widget.observer));
-                      //TODO: CREATE SAYFASI GELECEK (EMIR)
                     },
-                    icon: Icon(Icons.add_outlined),
+                    icon: const Icon(Icons.add_outlined),
                   ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
               ],
               backgroundColor: AppColors.sellerAppBarColor,
               shadowColor: Colors.transparent,
               toolbarHeight: MediaQuery.of(context).size.height / 9,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25),
                     bottomRight: Radius.circular(25)),
@@ -223,9 +225,17 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   const SizedBox(height: 15),
                   if (isSelectedOne[0] == true)
-                    SellingProducts(isSelling: true, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(
+                        isSelling: true,
+                        id: id,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
                   if (isSelectedOne[1] == true)
-                    SellingProducts(isSelling: false, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(
+                        isSelling: false,
+                        id: id,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
                   const SizedBox(height: 30),
                 ],
               ),
