@@ -261,7 +261,7 @@ class _SoldProductButtonState extends State<SoldProductButton> {
                     .of(context)
                     .size
                     .width - 64,
-                height: 300,
+                height: 500,
               ),
             );
           }

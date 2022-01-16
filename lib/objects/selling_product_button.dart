@@ -272,7 +272,7 @@ class _SellingProductButtonState extends State<SellingProductButton> {
                   ),
                 ),
                 width: MediaQuery.of(context).size.width - 64,
-                height: 300,
+                height: 500,
               ),
             );
           }
