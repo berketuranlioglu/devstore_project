@@ -32,7 +32,8 @@ class EditProductPage extends StatefulWidget {
 DBService db = DBService();
 
 int price = 0;
-String nameDescription = "";
+String name = "";
+String details = "";
 String imageURL = "";
 
 final _formKey = GlobalKey<FormState>();
@@ -136,7 +137,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                           decoration: InputDecoration(
                                             fillColor: Colors.grey[200],
                                             filled: true,
-                                            hintText: 'Name & Description',
+                                            hintText: 'Product Name',
                                             hintStyle:
                                                 const TextStyle(fontSize: 14.0),
                                             prefixIcon: const Icon(
@@ -156,12 +157,57 @@ class _EditProductPageState extends State<EditProductPage> {
                                           keyboardType: TextInputType.name,
                                           onSaved: (value) {
                                             if (value != null) {
-                                              nameDescription = value;
+                                              name = value;
                                             }
                                           },
                                           onChanged: (value) {
                                             if (value != null) {
-                                              nameDescription = value;
+                                              name = value;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Description',
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(
+                                                Icons.details_rounded,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                                const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          keyboardType: TextInputType.name,
+                                          onSaved: (value) {
+                                            if (value != null) {
+                                              details = value;
+                                            }
+                                          },
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              details = value;
                                             }
                                           },
                                         ),
@@ -234,8 +280,8 @@ class _EditProductPageState extends State<EditProductPage> {
                                               .showSnackBar(const SnackBar(
                                                   content: Text(
                                                       'Editing the Product!')));
-                                          db.editProductDetails(widget.id,
-                                              nameDescription, imageURL, price);
+                                          db.editProductDetails(widget.id, name,
+                                              details, imageURL, price);
                                         }
                                       },
                                     ),
