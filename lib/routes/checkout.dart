@@ -13,7 +13,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({Key? key}) : super(key: key);
+  const CheckoutView({Key? key, required this.analytics, required this.observer}) : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _CheckoutViewState createState() => _CheckoutViewState();
@@ -21,8 +23,8 @@ class CheckoutView extends StatefulWidget {
 
 class _CheckoutViewState extends State<CheckoutView> {
   final _formKey = GlobalKey<FormState>();
-  late final FirebaseAnalytics analytics;
-  late final FirebaseAnalyticsObserver observer;
+  /*late final FirebaseAnalytics analytics;
+  late final FirebaseAnalyticsObserver observer;*/
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +211,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                           width: 385.0,
                           child: OutlinedButton(
                             onPressed: () {
-                              pushNewScreen(context, screen: CheckoutSuccessView());
+                              pushNewScreen(context, screen: CheckoutSuccessView(analytics: widget.analytics, observer: widget.observer));
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20.0),

@@ -15,7 +15,9 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/src/widgets/text.dart';
 
 class CheckoutSuccessView extends StatefulWidget {
-  const CheckoutSuccessView({Key? key}) : super(key: key);
+  const CheckoutSuccessView({Key? key, required this.analytics, required this.observer}) : super(key: key);
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _CheckoutSuccessViewState createState() => _CheckoutSuccessViewState();
@@ -23,8 +25,7 @@ class CheckoutSuccessView extends StatefulWidget {
 
 class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
   final _formKey = GlobalKey<FormState>();
-  late final FirebaseAnalytics analytics;
-  late final FirebaseAnalyticsObserver observer;
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class _CheckoutSuccessViewState extends State<CheckoutSuccessView> {
                 width: 355.0,
                 child: OutlinedButton(
                   onPressed: () {
-                    pushNewScreen(context, screen: FeedView(analytics: analytics, observer: observer));
+                    pushNewScreen(context, screen: FeedView(analytics: widget.analytics, observer: widget.observer));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),

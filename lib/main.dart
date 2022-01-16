@@ -90,8 +90,8 @@ class _AppBaseState extends State<AppBase> {
               LoginPage(analytics: analytics, observer: observer),
           '/signup': (context) =>
               SignUpPage(analytics: analytics, observer: observer),
-          '/checkout': (context) => CheckoutView(),
-          '/checkout_success': (context) => CheckoutSuccessView(),
+          '/checkout': (context) => CheckoutView(analytics: analytics, observer: observer),
+          '/checkout_success': (context) => CheckoutSuccessView(analytics: analytics, observer: observer),
           '/editProfile': (context) => editProfile(),
         });
   }

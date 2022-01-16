@@ -141,7 +141,7 @@ class _cartState extends State<cart> {
                       width: 115.0,
                       child: FlatButton(
                         onPressed: () {
-                          pushNewScreen(context, screen: CheckoutView(), withNavBar: false);
+                          pushNewScreen(context, screen: CheckoutView(analytics: widget.analytics, observer: widget.observer), withNavBar: false);
                         },
                         child: Text(
                           'CHECKOUT',
