@@ -46,7 +46,10 @@ Future<String> getUserName(String uid) async {
 
 class SellerProfile extends StatefulWidget {
   const SellerProfile(
-      {Key? key, required this.reference, required this.analytics, required this.observer})
+      {Key? key,
+      required this.reference,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final dynamic reference;
@@ -85,21 +88,21 @@ class _SellerProfileState extends State<SellerProfile> {
             appBar: AppBar(
               leading: IconButton(
                   onPressed: () => {Navigator.pop(context)},
-                  icon: Icon(Icons.arrow_back_ios_rounded,
+                  icon: const Icon(Icons.arrow_back_ios_rounded,
                       color: AppColors.secondaryColor)),
               title: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     Text(
-                      "${userClass.nameSurname}",
+                      userClass.nameSurname,
                       style: GoogleFonts.openSans(
                         color: AppColors.secondaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                   ],
                 ),
               ),
@@ -108,12 +111,12 @@ class _SellerProfileState extends State<SellerProfile> {
                   padding: const EdgeInsets.fromLTRB(0, 25, 0, 25),
                   child: Container(
                     width: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.ratingBlockColor,
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
                           spreadRadius: 2,
@@ -134,13 +137,13 @@ class _SellerProfileState extends State<SellerProfile> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 if (uid == id)
                   IconButton(
                     onPressed: () {
                       pushNewScreen(context, screen: EditProfilePage());
                     },
-                    icon: Icon(Icons.edit_outlined),
+                    icon: const Icon(Icons.edit_outlined),
                   ),
                 if (uid == id)
                   IconButton(
@@ -151,14 +154,14 @@ class _SellerProfileState extends State<SellerProfile> {
                               observer: widget.observer));
                       //TODO: CREATE SAYFASI GELECEK (EMIR)
                     },
-                    icon: Icon(Icons.add_outlined),
+                    icon: const Icon(Icons.add_outlined),
                   ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
               ],
               backgroundColor: AppColors.sellerAppBarColor,
               shadowColor: Colors.transparent,
               toolbarHeight: MediaQuery.of(context).size.height / 9,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25),
                     bottomRight: Radius.circular(25)),
@@ -223,9 +226,17 @@ class _SellerProfileState extends State<SellerProfile> {
                   ),
                   const SizedBox(height: 15),
                   if (isSelectedOne[0] == true)
-                    SellingProducts(isSelling: true, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(
+                        isSelling: true,
+                        id: id,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
                   if (isSelectedOne[1] == true)
-                    SellingProducts(isSelling: false, id: id, analytics: widget.analytics, observer: widget.observer),
+                    SellingProducts(
+                        isSelling: false,
+                        id: id,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
                   const SizedBox(height: 30),
                 ],
               ),
