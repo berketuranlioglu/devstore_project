@@ -125,7 +125,7 @@ class _bookmarkState extends State<bookmark> {
                         ],
                       ),
                     ),
-                    child: favCard(reference: userClass.bookmarks[index]),
+                    child: favCard(reference: userClass.bookmarks[index]['bookmarkRef']),
                   ),
                 ),
               ),

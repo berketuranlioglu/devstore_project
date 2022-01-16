@@ -128,7 +128,7 @@ class _favoritesState extends State<favorites> {
                         ],
                       ),
                     ),
-                    child: favCard(reference: userClass.favorites[index]),
+                    child: favCard(reference: userClass.favorites[index]['favRef']),
                   ),
                 ),
               ),
