@@ -116,19 +116,19 @@ class _WelcomeState extends State<Welcome> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    side: BorderSide(
+                    side: const BorderSide(
                       color: AppColors.primaryColor,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
                   db.addGuestUser('Anon2');
                   Navigator.popAndPushNamed(context, "/persNavBar");
                 },
-                child: Text(
+                child: const Text(
                   'Continue as a guest.',
                   style: TextStyle(
                     fontSize: 16,

@@ -11,7 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 DBService db = DBService();
 
 class SearchedItems extends StatefulWidget {
-  const SearchedItems({Key? key, required this.text, required this.analytics, required this.observer})
+  const SearchedItems(
+      {Key? key,
+      required this.text,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final String text;
@@ -31,13 +35,13 @@ class _SearchedItemsState extends State<SearchedItems> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
-          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           List<dynamic> contents = productsClass.imageURL;
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
                   onPressed: () => {Navigator.pop(context)},
-                  icon: Icon(Icons.arrow_back_ios_rounded,
+                  icon: const Icon(Icons.arrow_back_ios_rounded,
                       color: AppColors.secondaryColor)),
               title: Text(
                 "Search Results",
@@ -50,7 +54,7 @@ class _SearchedItemsState extends State<SearchedItems> {
               backgroundColor: AppColors.primaryColor,
               shadowColor: Colors.transparent,
               toolbarHeight: MediaQuery.of(context).size.height / 9,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25),
                     bottomRight: Radius.circular(25)),
@@ -63,7 +67,10 @@ class _SearchedItemsState extends State<SearchedItems> {
                   spacing: 30,
                   runSpacing: 10,
                   children: [
-                    productButton(reference: db.productsCollection.doc(widget.text), analytics: widget.analytics, observer: widget.observer),
+                    productButton(
+                        reference: db.productsCollection.doc(widget.text),
+                        analytics: widget.analytics,
+                        observer: widget.observer),
                   ],
                 ),
               ),
