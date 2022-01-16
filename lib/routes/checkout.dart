@@ -187,7 +187,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                     Row(
                       children: [
-                        const Text("0₺"),
+                        const Text("999\$"),
                         const SizedBox(
                           width: 10,
                         ),
@@ -199,7 +199,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                   thickness: 2,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
                       "",
@@ -207,14 +207,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                     Row(
                       children: [
                         Container(
-                          height: 80.0,
-                          width: 385.0,
+                          height: 75.0,
+                          width: 250,
                           child: OutlinedButton(
                             onPressed: () {
                               pushNewScreen(context, screen: CheckoutSuccessView(analytics: widget.analytics, observer: widget.observer));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20.0),
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
                               child: Text(
                                 'Place Order',
                                 style: welcomePage_SignUp,

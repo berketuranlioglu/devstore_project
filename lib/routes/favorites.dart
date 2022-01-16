@@ -104,7 +104,22 @@ class _favoritesState extends State<favorites> {
                     direction: DismissDirection.endToStart,
                     onDismissed: (direction) {
                       setState(() {
-                        //TODO: BOOKMARKS'TAN SIL
+                        //TODO: FAVORTIES'TEN SIL
+                        /*DocumentReference ref = FirebaseFirestore.instance
+                            .collection('products')
+                            .doc(widget.id);
+                        Map<String, dynamic> data = {
+                          'favRef':
+                          ref, // Updating Document Reference
+                        };
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .update({
+                          'favorites': FieldValue.arrayRemove([data])
+                        }).whenComplete(() {
+                          print('Removed from Favorites');
+                        });*/
                       });
                     },
                     background: Container(
