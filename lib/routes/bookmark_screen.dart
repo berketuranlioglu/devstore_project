@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devstore_project/objects/products.dart';
+import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:devstore_project/objects/bookmark.dart';
 import 'package:devstore_project/objects/product.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,6 +32,12 @@ double getProportionateScreenWidth(double inputWidth) {
 }
 //------------------------------------------------
 
+DBService db = DBService();
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
 
 class bookmark extends StatefulWidget {
   const bookmark({Key? key, required this.analytics, required this.observer})
@@ -72,76 +82,149 @@ class _bookmarkState extends State<bookmark> {
         leading: const SizedBox(),
         leadingWidth: 15,
       ),
-      body: Body(),
-    );
-  }
-}
+      body: FutureBuilder(
+        future: db.userCollection.doc(uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            Users userClass =
+            Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+            return Padding(
+              padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              child: ListView.builder(
+                itemCount: userClass.bookmarks.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Dismissible(
+                    key: Key(index.toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction) {
+                      setState(() {
+                        //TODO: BOOKMARKS'TAN SIL
+                      });
+                    },
+                    background: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Color(0x25E48241),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          MaterialButton(
+                            onPressed: () {},
+                            textColor:Color(0xFF9441E4),
+                            child: Icon(
+                              Icons.delete_rounded,
+                              size: 25,
+                            ),
 
-//AFTER APPBAR, BODY HAS EACH PRODUCT ROWS
-class Body extends StatefulWidget {
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:
-      EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: ListView.builder(
-        itemCount: demoCarts.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Dismissible(
-            key: Key(demoCarts[index].product.id.toString()),
-            direction: DismissDirection.endToStart,
-            onDismissed: (direction) {
-              setState(() {
-                demoCarts.removeAt(index);
-              });
-            },
-            background: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: Color(0x25E48241),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                children: [
-                  Spacer(),
-                  MaterialButton(
-                    onPressed: () {},
-                    textColor:Color(0xFF9441E4),
-                    child: Icon(
-                      Icons.delete_rounded,
-                      size: 25,
+                          ),
+                        ],
+                      ),
                     ),
-
+                    child: favCard(reference: userClass.bookmarks[index]),
                   ),
-                ],
+                ),
               ),
-            ),
-            child: favCard(cart: demoCarts[index]),
-          ),
-        ),
+            );
+          }
+          return Scaffold();
+        },
       ),
     );
   }
 }
 
 //EACH FAVORITE PRODUCT CARD
-class favCard extends StatelessWidget {
-  const favCard({
-    Key? key,
-    required this.cart,
-  }) : super(key: key);
+class favCard extends StatefulWidget {
+  const favCard({Key? key, required this.reference}) : super(key: key);
 
-  final Bookmark cart;
+  final dynamic reference;
 
   @override
+  _favCardState createState() => _favCardState();
+}
+
+class _favCardState extends State<favCard> {
+  @override
   Widget build(BuildContext context) {
-    return Row(
+    return FutureBuilder(
+      future: db.productsCollection.doc(widget.reference.id.toString()).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          Products productsClass =
+          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          return Row(
+            children: [
+              SizedBox(
+                width: 88,
+                child: AspectRatio(
+                  aspectRatio: 0.88,
+                  child: Container(
+                    padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5F6F9),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Image.network(productsClass.imageURL[0]),
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    productsClass.productName,
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 10),
+                  Text.rich(
+                    TextSpan(
+                      text: "\$${productsClass.salePrice}.00",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: Color(0xFF9441E4)),
+                    ),
+                  )
+                ],
+              ),
+              Spacer(),
+              Column(
+                  children:[
+                    MaterialButton(
+                      onPressed: () {
+                        //TODO: ADD TO CART
+                      },
+                      color: Color(0xFF9441E4),
+                      textColor: Colors.white,
+                      child: Icon(
+                        Icons.add_shopping_cart_outlined,
+                        size: 20,
+                      ),
+                      padding: EdgeInsets.all(16),
+                      shape: CircleBorder(),
+                    ),
+                  ]
+              ),
+              SizedBox(width: 5),
+            ],
+
+          );
+
+        }
+        return Scaffold();
+      },
+    );
+  }
+}
+
+/*
+Row(
       children: [
         SizedBox(
           width: 88,
@@ -196,8 +279,7 @@ class favCard extends StatelessWidget {
       ],
 
     );
-  }
-}
+ */
 
 
 
