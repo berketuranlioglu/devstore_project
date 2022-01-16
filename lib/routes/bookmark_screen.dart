@@ -1,8 +1,10 @@
+import 'package:devstore_project/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:devstore_project/objects/bookmark.dart';
 import 'package:devstore_project/objects/product.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 //------------------------------------------------
@@ -56,15 +58,19 @@ class _bookmarkState extends State<bookmark> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Column(
-          children: [
-            Text(
-              "Bookmarks",
-              style: TextStyle(color: Colors.black),
-            ),
-          ],
+        title: Text(
+          "Bookmarks",
+          style: GoogleFonts.openSans(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
         ),
+        backgroundColor: AppColors.mainBackgroundColor,
+        elevation: 0,
+        toolbarHeight: MediaQuery.of(context).size.height / 9,
+        leading: const SizedBox(),
+        leadingWidth: 15,
       ),
       body: Body(),
     );

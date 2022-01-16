@@ -1,5 +1,3 @@
-import 'package:devstore_project/routes/favorites.dart';
-
 class Users {
   late String nameSurname;
   late String username;
@@ -15,6 +13,7 @@ class Users {
   late var cart;
   late var orders;
   late var favorites;
+  late var bookmarks;
 
   Users(
       String nameSurname,
@@ -31,6 +30,7 @@ class Users {
       var cart,
       var orders,
       var favorites,
+      var bookmarks,
   ) {
     this.nameSurname = nameSurname;
     this.username = username;
@@ -46,6 +46,7 @@ class Users {
     this.cart = cart;
     this.orders = orders;
     this.favorites = favorites;
+    this.bookmarks = bookmarks;
   }
 
   Users.fromJson(Map<String, dynamic> json)
@@ -62,7 +63,8 @@ class Users {
         comments = json['comments'],
         cart = json['cart'],
         orders = json['orders'],
-        favorites = json['favorites'];
+        favorites = json['favorites'],
+        bookmarks = json['bookmarks'];
 
   Map<String, dynamic> toJson() => {
     'username': username,
@@ -79,5 +81,6 @@ class Users {
     'cart': cart,
     'orders': orders,
     'favorites': favorites,
+    'bookmarks': bookmarks,
       };
 }

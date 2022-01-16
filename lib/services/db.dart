@@ -34,6 +34,7 @@ class DBService {
           'comments': [],
           'orders': [],
           'favorites': [],
+          'bookmarks': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -57,6 +58,7 @@ class DBService {
           'comments': [],
           'orders': [],
           'favorites': [],
+          'bookmarks': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));

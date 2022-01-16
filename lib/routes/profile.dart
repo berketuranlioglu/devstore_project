@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/account_info.dart';
+import 'package:devstore_project/routes/bookmark_screen.dart';
 import 'package:devstore_project/routes/favorites.dart';
 import 'package:devstore_project/routes/orders.dart';
 import 'package:devstore_project/routes/reviews_view.dart';
@@ -152,17 +153,18 @@ class _ProfileState extends State<Profile> {
                 ),
                 SizedBox(height: 30),
                 ProfileMenu(
-                    text: "Selling Page",
-                    icon: "assets/130213.png",
-                    press: () {
-                      pushNewScreen(
-                          context,
-                          screen: SellerProfile(
-                            reference: db.userCollection.doc(user.uid),
-                            analytics: widget.analytics,
-                            observer: widget.observer,
-                          ));
-                    }),
+                  text: "Selling Page",
+                  icon: "assets/130213.png",
+                  press: () {
+                    pushNewScreen(context,
+                      screen: SellerProfile(
+                        reference: db.userCollection.doc(user.uid),
+                        analytics: widget.analytics,
+                        observer: widget.observer,
+                      ),
+                    );
+                  },
+                ),
                 ProfileMenu(
                   text: "Orders",
                   icon: "assets/box.jpg",
@@ -176,7 +178,12 @@ class _ProfileState extends State<Profile> {
                 ProfileMenu(
                   text: "Bookmarks",
                   icon: "assets/mark.png",
-                  press: () {},
+                  press: () {
+                    pushNewScreen(
+                      context,
+                      screen: bookmark(analytics: widget.analytics, observer: widget.observer,),
+                    );
+                  },
                 ),
                 ProfileMenu(
                   text: "Favorites",
