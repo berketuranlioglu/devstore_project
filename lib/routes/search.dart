@@ -1,12 +1,20 @@
+import 'package:devstore_project/routes/searched_items.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+  const Search({Key? key, required this.analytics, required this.observer})
+      : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
   _SearchState createState() => _SearchState();
@@ -16,11 +24,20 @@ class _SearchState extends State<Search> {
   final _SearchSearchDelegate _delegate = _SearchSearchDelegate();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
         shadowColor: Colors.transparent,
         leading: IconButton(
@@ -45,7 +62,7 @@ class _SearchState extends State<Search> {
             ),
           ),
         ),
-      ),
+      ),*/
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
@@ -56,12 +73,81 @@ class _SearchState extends State<Search> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      /*
                         Padding(
                           padding: Dimen.searchBarPadding,
-                          child: searchBar(context, _delegate),
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: IconButton(
+                                      onPressed: () => {
+                                        Navigator.of(context).pop()
+                                        /*
+                                        if (!FocusScope.of(context).isFirstFocus ||
+                                            FocusScope.of(context).hasPrimaryFocus) {
+                                          Navigator.of(context).pop(),
+                                        }
+                                        else {
+                                          FocusScope.of(context).unfocus(),
+                                        }
+                                         */
+                                      },
+                                      icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black)
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 8,
+                                  child: Container(
+                                    child: TextField(
+                                      controller: myController,
+                                      cursorColor: AppColors.primaryColor,
+                                      style: homePage_SearchBar,
+                                      decoration: InputDecoration(
+                                        fillColor: AppColors.secondaryColor,
+                                        filled: true,
+                                        hintText: "Search a product",
+                                        hintStyle: homePage_SearchBar,
+                                        contentPadding: EdgeInsets.all(10),
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                        ),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                        ),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          const BoxShadow(
+                                            offset: Offset(0,3),
+                                            spreadRadius: 0.5,
+                                            blurRadius: 10,
+                                            color: AppColors.loginSearchShadow,
+                                          ),
+                                        ]
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    pushNewScreen(context,
+                                      screen: SearchedItems(text: myController.text, analytics: widget.analytics, observer: widget.observer),
+                                    );
+                                  },
+                                  icon: Icon(Icons.search),
+                                )
+                              ]
+                          ),
                         ),
-                         */
                       Padding(
                         padding: Dimen.emptyIllustPadding,
                         child: emptyHistory(),

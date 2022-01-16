@@ -159,7 +159,7 @@ class _FeedViewState extends State<FeedView> {
                 height: 40.0,
                 minWidth: 340.0,
                 onPressed: () => {
-                  pushNewScreen(context, screen: Search()),
+                  pushNewScreen(context, screen: Search(analytics: widget.analytics, observer: widget.observer,)),
                 },
                 color: AppColors.secondaryColor,
                 child: Row(
