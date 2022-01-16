@@ -232,10 +232,39 @@ class _productViewState extends State<productView> {
                                   });
                                   if (_isFavoritePressed) {
                                     //TODO: FAV'A EKLE
-                                    print('Added to Favorites');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+
+                                    Map<String, dynamic> data = {
+                                      'favRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'favorites': FieldValue.arrayUnion([data])
+                                    }).whenComplete(() {
+                                      print('Added to Favorites');
+                                    });
                                   } else {
                                     //TODO: FAV'DAN CIKAR
-                                    print('Removed from Favorites');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+                                    Map<String, dynamic> data = {
+                                      'favRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'favorites': FieldValue.arrayRemove([data])
+                                    }).whenComplete(() {
+                                      print('Removed from Favorites');
+                                    });
                                   }
                                 },
                               ),
@@ -251,10 +280,39 @@ class _productViewState extends State<productView> {
                                   });
                                   if (_isBookmarkPressed) {
                                     //TODO: BOOKMARK'A EKLE
-                                    print('Added to Bookmark');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+
+                                    Map<String, dynamic> data = {
+                                      'bookmarkRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'bookmarks': FieldValue.arrayUnion([data])
+                                    }).whenComplete(() {
+                                      print('Added to Bookmark');
+                                    });
                                   } else {
                                     //TODO: BOOKMARK'TAN CIKAR
-                                    print('Removed from Bookmark');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+                                    Map<String, dynamic> data = {
+                                      'bookmarkRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'bookmarks': FieldValue.arrayRemove([data])
+                                    }).whenComplete(() {
+                                      print('Removed from Bookmark');
+                                    });
                                   }
                                 },
                               ),

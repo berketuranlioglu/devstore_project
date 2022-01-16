@@ -233,11 +233,38 @@ class _productButtonState extends State<productButton> {
                       _isPressed = !_isPressed;
                     });
                     if (_isPressed) {
-                      //TODO: CART'A EKLE
-                      print('Added to Cart');
+                      DocumentReference ref = FirebaseFirestore.instance
+                          .collection('products')
+                          .doc(id);
+                      Map<String, dynamic> data = {
+                        'prodReference':
+                        ref, // Updating Document Reference
+                      };
+
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .update({
+                        'cart': FieldValue.arrayUnion([data])
+                      }).whenComplete(() {
+                        print('Added to Cart');
+                      });
                     } else {
-                      //TODO: CART'TAN CIKAR
-                      print('Removed from Cart');
+                      DocumentReference ref = FirebaseFirestore.instance
+                          .collection('products')
+                          .doc(id);
+                      Map<String, dynamic> data = {
+                        'prodReference':
+                        ref, // Updating Document Reference
+                      };
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .update({
+                        'cart': FieldValue.arrayRemove([data])
+                      }).whenComplete(() {
+                        print('Item Deleted');
+                      });
                     }
                   },
                   child: _isPressed
