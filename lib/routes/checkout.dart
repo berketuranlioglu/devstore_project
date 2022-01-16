@@ -206,15 +206,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                       children: [
                         Container(
                           height: 80.0,
-                          width: 365.0,
+                          width: 385.0,
                           child: OutlinedButton(
                             onPressed: () {
-                              pushNewScreen(context,
-                                  screen: CheckoutSuccessView());
+                              pushNewScreen(context, screen: CheckoutSuccessView());
                             },
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              padding: const EdgeInsets.symmetric(vertical: 20.0),
                               child: Text(
                                 'Place Order',
                                 style: welcomePage_SignUp,

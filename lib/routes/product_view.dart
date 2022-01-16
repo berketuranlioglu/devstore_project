@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
 import 'package:devstore_project/objects/users.dart';
 import 'package:devstore_project/routes/edit_product.dart';
+import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:intl/intl.dart';
 
 import 'cart.dart';
 
@@ -43,6 +45,14 @@ Future<String> getUserName(String uid) async {
 }
 
 DBService db = DBService();
+
+String formatTimestamp(Timestamp timestamp) {
+  assert (timestamp != null);
+  String convertedDate;
+  convertedDate = DateFormat.yMMMd().format(timestamp.toDate());
+  return convertedDate;
+}
+
 
 class productView extends StatefulWidget {
   const productView(
@@ -179,18 +189,28 @@ class _productViewState extends State<productView> {
                           children: [
                             Text(productsClass.productName,
                                 style: fav_camp_recomBanner),
-                            RichText(
-                              text: TextSpan(
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'By ',
-                                      style: productPageSellerText1),
-                                  TextSpan(
-                                      text: productsClass.productBrand,
-                                      style: productPageSellerText2),
-                                ],
-                              ),
-                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text('By ', style: productPageSellerText1),
+                                InkWell(
+                                  onTap: () {
+                                    pushNewScreen(
+                                      context,
+                                      screen: SellerProfile(
+                                          reference: productsClass.sellerReference,
+                                          analytics: widget.analytics,
+                                          observer: widget.observer,
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    productsClass.sellerName,
+                                    style: productPageSellerText2,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -212,10 +232,39 @@ class _productViewState extends State<productView> {
                                   });
                                   if (_isFavoritePressed) {
                                     //TODO: FAV'A EKLE
-                                    print('Added to Favorites');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+
+                                    Map<String, dynamic> data = {
+                                      'favRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'favorites': FieldValue.arrayUnion([data])
+                                    }).whenComplete(() {
+                                      print('Added to Favorites');
+                                    });
                                   } else {
                                     //TODO: FAV'DAN CIKAR
-                                    print('Removed from Favorites');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+                                    Map<String, dynamic> data = {
+                                      'favRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'favorites': FieldValue.arrayRemove([data])
+                                    }).whenComplete(() {
+                                      print('Removed from Favorites');
+                                    });
                                   }
                                 },
                               ),
@@ -231,10 +280,39 @@ class _productViewState extends State<productView> {
                                   });
                                   if (_isBookmarkPressed) {
                                     //TODO: BOOKMARK'A EKLE
-                                    print('Added to Bookmark');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+
+                                    Map<String, dynamic> data = {
+                                      'bookmarkRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'bookmarks': FieldValue.arrayUnion([data])
+                                    }).whenComplete(() {
+                                      print('Added to Bookmark');
+                                    });
                                   } else {
                                     //TODO: BOOKMARK'TAN CIKAR
-                                    print('Removed from Bookmark');
+                                    DocumentReference ref = FirebaseFirestore.instance
+                                        .collection('products')
+                                        .doc(widget.id);
+                                    Map<String, dynamic> data = {
+                                      'bookmarkRef':
+                                      ref, // Updating Document Reference
+                                    };
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(uid)
+                                        .update({
+                                      'bookmarks': FieldValue.arrayRemove([data])
+                                    }).whenComplete(() {
+                                      print('Removed from Bookmark');
+                                    });
                                   }
                                 },
                               ),
@@ -363,34 +441,96 @@ class _productViewState extends State<productView> {
                                         BorderRadius.all(Radius.circular(15.0)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productsClass.comments[i]
-                                                ['username'],
-                                            style: productPageSellerText2,
-                                          ),
+                                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.secondaryColor,
+                                        border: Border.all(
+                                          width: 1.0,
+                                          color: AppColors.secondaryColor,
                                         ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productsClass.comments[i]
-                                                ['comment'],
-                                            style: productPageRating,
-                                          ),
+                                        borderRadius:
+                                        const BorderRadius.all(Radius.circular(15.0)),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                              const EdgeInsets.fromLTRB(0, 6, 6, 6),
+                                              child: Image.network(
+                                                productsClass.comments[i]["ppUrl"],
+                                                width: 40.0,
+                                                height: 40.0,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.star,
+                                                        color: AppColors.starColor,
+                                                        size: 16.0,
+                                                      ),
+                                                      Text(
+                                                        ' Rating: (',
+                                                        style: productPageRating,
+                                                      ),
+                                                      Text(
+                                                        productsClass.comments[i]['rating']
+                                                            .toString(),
+                                                        style: productPageRating,
+                                                      ),
+                                                      Text(
+                                                        '/5)',
+                                                        style: productPageRating,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          widget.username,
+                                                          style: productPageSellerText2,
+                                                          textAlign: TextAlign.start,
+                                                        ),
+                                                        Text(
+                                                          '|',
+                                                          style: productPageRating,
+                                                        ),
+                                                        Text(
+                                                          formatTimestamp(productsClass.comments[i]['date']),
+                                                          style: productPageSellerText2,
+                                                          textAlign: TextAlign.start,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Wrap(children: [
+                                                Text(
+                                                  productsClass.comments[i]['comment'],
+                                                  style: productPageRating,
+                                                ),
+                                              ]),
+                                            ),
+                                          ],
                                         ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productsClass.comments[i]['rating']
-                                                .toString(),
-                                            style: productPageRating,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -484,6 +624,7 @@ class _productViewState extends State<productView> {
                               });
                               pushNewScreen(
                                 context,
+                                withNavBar: true,
                                 screen: cart(
                                     analytics: widget.analytics,
                                     observer: widget.observer),
@@ -506,11 +647,7 @@ class _productViewState extends State<productView> {
                           )
                         : ElevatedButton(
                             onPressed: () {
-                              pushNewScreen(context,
-                                  screen: EditProductPage(
-                                      id: widget.id,
-                                      analytics: widget.analytics,
-                                      observer: widget.observer));
+                              pushNewScreen(context, screen: EditProductPage());
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(110, 39),

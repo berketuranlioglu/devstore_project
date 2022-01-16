@@ -10,18 +10,17 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+class ditProduct extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: EditProductPage(),
+    );
+  }
+}
+
 class EditProductPage extends StatefulWidget {
-  const EditProductPage(
-      {Key? key,
-      required this.id,
-      required this.analytics,
-      required this.observer})
-      : super(key: key);
-
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
-  final String id;
-
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }
@@ -30,10 +29,6 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 
 final User user = auth.currentUser!;
 final uid = user.uid;
-
-String imageURL = "";
-String name = "";
-int price = 0;
 
 DBService db = DBService();
 
@@ -47,7 +42,7 @@ class _EditProductPageState extends State<EditProductPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: db.productsCollection.doc(widget.id).get(),
+      future: db.userCollection.doc(user.uid).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -77,7 +72,7 @@ class _EditProductPageState extends State<EditProductPage> {
                         shape: BoxShape.circle,
                       ),
                       child: Container(
-                        child: Image.network(productsClass.imageURL[0]),
+                        child: Image.network("null"),
                       ),
                     ),
                     SingleChildScrollView(
@@ -94,6 +89,47 @@ class _EditProductPageState extends State<EditProductPage> {
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                            hintText: 'Image URL',
+                                            hintStyle:
+                                                const TextStyle(fontSize: 14.0),
+                                            prefixIcon: const Icon(Icons.image,
+                                                color: Colors.grey),
+                                            contentPadding:
+                                                const EdgeInsets.all(12.0),
+                                            enabledBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15)),
+                                            ),
+                                          ),
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Image URL field cannot be empty!';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Image URL field cannot be empty!';
+                                              }
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {},
+                                          onChanged: (value) {},
+                                          keyboardType: TextInputType.text,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 8.0,
@@ -125,18 +161,28 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   Radius.circular(15)),
                                             ),
                                           ),
-                                          keyboardType: TextInputType.name,
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
+                                          obscureText: true,
+                                          enableSuggestions: false,
                                           autocorrect: false,
-                                          onSaved: (value) {
-                                            if (value != null) {
-                                              name = value;
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Password field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Password field cannot be empty';
+                                              }
+                                              if (trimmedValue.length < 8) {
+                                                return 'Password must be at least 8 characters long';
+                                              }
                                             }
+                                            return null;
                                           },
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              name = value;
-                                            }
-                                          },
+                                          onSaved: (value) {},
+                                          onChanged: (value) {},
                                         ),
                                       ),
                                     ],
@@ -170,10 +216,26 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   Radius.circular(15)),
                                             ),
                                           ),
-                                          keyboardType: TextInputType.number,
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
                                           obscureText: true,
                                           enableSuggestions: false,
                                           autocorrect: false,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Password field cannot be empty';
+                                            } else {
+                                              String trimmedValue =
+                                                  value.trim();
+                                              if (trimmedValue.isEmpty) {
+                                                return 'Password field cannot be empty';
+                                              }
+                                              if (trimmedValue.length < 8) {
+                                                return 'Password must be at least 8 characters long';
+                                              }
+                                            }
+                                            return null;
+                                          },
                                           onSaved: (value) {},
                                           onChanged: (value) {},
                                         ),
@@ -181,55 +243,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            fillColor: Colors.grey[200],
-                                            filled: true,
-                                            hintText: 'Image URL - 1',
-                                            hintStyle:
-                                                const TextStyle(fontSize: 14.0),
-                                            prefixIcon: const Icon(
-                                                Icons.image_outlined,
-                                                color: Colors.grey),
-                                            contentPadding:
-                                                const EdgeInsets.all(12.0),
-                                            enabledBorder:
-                                                const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.transparent,
-                                              ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15)),
-                                            ),
-                                          ),
-                                          keyboardType: TextInputType.number,
-                                          obscureText: true,
-                                          enableSuggestions: false,
-                                          autocorrect: false,
-                                          onSaved: (value) {
-                                            if (value != null) {
-                                              imageURL = value;
-                                            }
-                                          },
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              imageURL = value;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
+                                    height: 20.0,
                                   ),
                                   Form(
                                     child: FlatButton(
@@ -241,10 +255,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15.0)),
-                                      onPressed: () {
-                                        db.editProductDetails(
-                                            widget.id, name, imageURL, 259);
-                                      },
+                                      onPressed: () {},
                                     ),
                                   ),
                                   FlatButton(
@@ -256,9 +267,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15.0)),
-                                    onPressed: () {
-                                      db.deleteProduct(widget.id);
-                                    },
+                                    onPressed: () {},
                                   ),
                                 ],
                               ),

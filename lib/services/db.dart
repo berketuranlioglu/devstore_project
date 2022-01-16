@@ -30,6 +30,11 @@ class DBService {
           'isActive': true,
           'rating': 0.0,
           'productReference': [],
+          'cart': [],
+          'comments': [],
+          'orders': [],
+          'favorites': [],
+          'bookmarks': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -49,6 +54,11 @@ class DBService {
           'isActive': true,
           'rating': 0.0,
           'productReference': [],
+          'cart': [],
+          'comments': [],
+          'orders': [],
+          'favorites': [],
+          'bookmarks': [],
         })
         .then((value) => print('User added'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -60,19 +70,6 @@ class DBService {
         .update({
           'password': password,
           'imageUrl': imageUrl,
-        })
-        .then((value) => print('Data Changed'))
-        .catchError((error) => print('Error: ${error.toString()}'));
-  }
-
-  Future editProductDetails(
-      String token, String nameDescription, String imageURL, int price) async {
-    productsCollection
-        .doc(token)
-        .update({
-          'salePrice': price,
-          'productName': nameDescription,
-          'imageURL': imageURL,
         })
         .then((value) => print('Data Changed'))
         .catchError((error) => print('Error: ${error.toString()}'));
@@ -90,9 +87,5 @@ class DBService {
 
   Future deleteUser(String token) async {
     userCollection.doc(token).delete();
-  }
-
-  Future deleteProduct(String token) async {
-    productsCollection.doc(token).delete();
   }
 }
