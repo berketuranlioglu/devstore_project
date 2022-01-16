@@ -28,7 +28,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -43,7 +43,12 @@ Future<String> getUserName(String uid) async {
 }
 
 class SellingProducts extends StatefulWidget {
-  const SellingProducts({Key? key, required this.isSelling, required this.id, required this.analytics, required this.observer})
+  const SellingProducts(
+      {Key? key,
+      required this.isSelling,
+      required this.id,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final bool isSelling;
@@ -64,19 +69,25 @@ class _SellingProductsState extends State<SellingProducts> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Users userClass =
-          Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
 
           return Wrap(
             alignment: WrapAlignment.start,
             spacing: 30,
             runSpacing: 10,
             children: [
-              for(int i = 0; i < userClass.productReference.length; i++)
-                if(widget.isSelling)
-                  SellingProductButton(reference: userClass.productReference[i], analytics: widget.analytics, observer: widget.observer),
-              for(int i = 0; i < userClass.productReference.length; i++)
-                if(!widget.isSelling)
-                  SoldProductButton(reference: userClass.productReference[i], analytics: widget.analytics, observer: widget.observer),
+              for (int i = 0; i < userClass.productReference.length; i++)
+                if (widget.isSelling)
+                  SellingProductButton(
+                      reference: userClass.productReference[i]['prod'],
+                      analytics: widget.analytics,
+                      observer: widget.observer),
+              for (int i = 0; i < userClass.productReference.length; i++)
+                if (!widget.isSelling)
+                  SoldProductButton(
+                      reference: userClass.productReference[i]['prod'],
+                      analytics: widget.analytics,
+                      observer: widget.observer),
             ],
           );
         }

@@ -27,7 +27,7 @@ void printData() {
 
 Future<Map<String, dynamic>?> getUser(String uid) async {
   var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
+      await firestoreInstance.collection("users").doc(uid).get().then((value) {
     return value.data();
   });
   return data;
@@ -44,7 +44,11 @@ Future<String> getUserName(String uid) async {
 DBService db = DBService();
 
 class productButton extends StatefulWidget {
-  const productButton({Key? key, required this.reference, required this.analytics, required this.observer})
+  const productButton(
+      {Key? key,
+      required this.reference,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
   final dynamic reference;
   final FirebaseAnalytics analytics;
@@ -67,7 +71,7 @@ class _productButtonState extends State<productButton> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
-          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
           getUserName(uid).then((value) {
             username = value;
           });
@@ -77,8 +81,12 @@ class _productButtonState extends State<productButton> {
                 onPressed: () => {
                   pushNewScreen(
                     context,
-                    screen: productView(id: id, username: username, analytics: widget.analytics, observer: widget.observer),
-                    withNavBar: false,
+                    screen: productView(
+                        id: id,
+                        username: username,
+                        analytics: widget.analytics,
+                        observer: widget.observer),
+                    withNavBar: true,
                   ),
                 },
                 child: Column(
@@ -89,7 +97,8 @@ class _productButtonState extends State<productButton> {
                         alignment: Alignment.center,
                         child: (Image.network(
                           "${productsClass.imageURL[0]}",
-                          width: 70, height: 70,
+                          width: 70,
+                          height: 70,
                         )),
                       ),
                       const SizedBox(
@@ -114,7 +123,7 @@ class _productButtonState extends State<productButton> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(width:2),
+                              SizedBox(width: 2),
                               Text(
                                 "(${productsClass.ratingCount})",
                                 style: GoogleFonts.openSans(
@@ -125,8 +134,7 @@ class _productButtonState extends State<productButton> {
                                 textAlign: TextAlign.center,
                               ),
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                         alignment: Alignment.center,
                         child: Text(
@@ -139,7 +147,7 @@ class _productButtonState extends State<productButton> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SizedBox(height:8),
+                      SizedBox(height: 8),
                       productsClass.previousPrice != productsClass.salePrice
                           ? Row(
                               children: [
@@ -237,8 +245,7 @@ class _productButtonState extends State<productButton> {
                           .collection('products')
                           .doc(id);
                       Map<String, dynamic> data = {
-                        'prodReference':
-                        ref, // Updating Document Reference
+                        'prodReference': ref, // Updating Document Reference
                       };
 
                       FirebaseFirestore.instance
@@ -254,8 +261,7 @@ class _productButtonState extends State<productButton> {
                           .collection('products')
                           .doc(id);
                       Map<String, dynamic> data = {
-                        'prodReference':
-                        ref, // Updating Document Reference
+                        'prodReference': ref, // Updating Document Reference
                       };
                       FirebaseFirestore.instance
                           .collection('users')
@@ -268,42 +274,38 @@ class _productButtonState extends State<productButton> {
                     }
                   },
                   child: _isPressed
-                      ? Text(
-                      "Added",
-                      style: GoogleFonts.openSans(
-                        color: AppColors.secondaryColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      )
-                  )
-                      : Text(
-                      "Add to Cart",
-                      style: GoogleFonts.openSans(
-                        color: AppColors.primaryColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      )),
+                      ? Text("Added",
+                          style: GoogleFonts.openSans(
+                            color: AppColors.secondaryColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ))
+                      : Text("Add to Cart",
+                          style: GoogleFonts.openSans(
+                            color: AppColors.primaryColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          )),
                   style: _isPressed
                       ? OutlinedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      fixedSize: Size(150, 20),
-                      side: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ))
+                          backgroundColor: AppColors.primaryColor,
+                          fixedSize: Size(150, 20),
+                          side: BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 2,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ))
                       : OutlinedButton.styleFrom(
-                      fixedSize: Size(150, 20),
-                      side: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ))
-              ),
+                          fixedSize: Size(150, 20),
+                          side: BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 2,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ))),
             ],
           );
         }

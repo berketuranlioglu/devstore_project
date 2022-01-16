@@ -26,8 +26,9 @@ DBService db = DBService();
 
 String productDescription = "";
 String productName = "";
-String productPrice = "";
-String imageUrl = "";
+int productPrice = 0;
+String images = "";
+List imageList = [];
 
 final _formKey = GlobalKey<FormState>();
 
@@ -89,11 +90,14 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
               Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          getUserName(uid).then((value) {
+            username = value;
+          });
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
                   onPressed: () => {Navigator.pop(context)},
-                  icon: Icon(Icons.arrow_back_ios_rounded,
+                  icon: const Icon(Icons.arrow_back_ios_rounded,
                       color: AppColors.secondaryColor)),
               title: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -142,14 +146,6 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                 },
                 child: ListView(
                   children: [
-                    Container(
-                      height: 150,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.network("${productsClass.imageURL}"),
-                    ),
                     SingleChildScrollView(
                       child: Form(
                         key: _formKey,
@@ -318,12 +314,12 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                           },
                                           onSaved: (value) {
                                             if (value != null) {
-                                              productPrice = value;
+                                              productPrice = int.parse(value);
                                             }
                                           },
                                           onChanged: (value) {
                                             if (value != null) {
-                                              productDescription = value;
+                                              productPrice = int.parse(value);
                                             }
                                           },
                                         ),
@@ -409,13 +405,37 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                               .showSnackBar(const SnackBar(
                                                   content: Text(
                                                       'Posting The Item!')));
+                                          imageList.add(images);
                                           db.addItem(
                                               productName,
+                                              'Phones',
                                               productDescription,
-                                              uid,
                                               productPrice,
-                                              imageUrl);
+                                              imageList,
+                                              uid,
+                                              username,
+                                              productName + ' ' + username);
                                         }
+                                        String docSend =
+                                            productName + ' ' + username;
+
+                                        DocumentReference ref =
+                                            FirebaseFirestore.instance
+                                                .collection('products')
+                                                .doc(docSend);
+
+                                        Map<String, dynamic> data = {
+                                          'prod': ref,
+                                        };
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(uid)
+                                            .update({
+                                          'productReference':
+                                              FieldValue.arrayUnion([data])
+                                        }).whenComplete(() {
+                                          print('Added to Prod Ref');
+                                        });
                                       },
                                     ),
                                   ),

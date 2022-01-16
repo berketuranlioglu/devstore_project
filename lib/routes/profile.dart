@@ -129,6 +129,7 @@ class _ProfileState extends State<Profile> {
                 OutlinedButton(
                   onPressed: () {
                     auth.signOut();
+
                     pushNewScreen(context,
                         screen: Welcome(
                             analytics: widget.analytics,

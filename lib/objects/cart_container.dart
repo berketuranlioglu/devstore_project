@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/products.dart';
+import 'package:devstore_project/routes/cart.dart';
 import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/routes/seller_profile.dart';
 import 'package:devstore_project/services/db.dart';
@@ -15,7 +16,11 @@ import 'package:firebase_analytics/observer.dart';
 DBService db = DBService();
 
 class cartContainer extends StatefulWidget {
-  const cartContainer({Key? key, required this.reference, required this.analytics, required this.observer})
+  const cartContainer(
+      {Key? key,
+      required this.reference,
+      required this.analytics,
+      required this.observer})
       : super(key: key);
 
   final dynamic reference;
@@ -45,7 +50,7 @@ class _cartContainerState extends State<cartContainer> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Products productsClass =
-          Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Products.fromJson(snapshot.data!.data() as Map<String, dynamic>);
 
           return Container(
             decoration: BoxDecoration(
@@ -76,14 +81,12 @@ class _cartContainerState extends State<cartContainer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 8),
-                      Wrap(
-                          children: [
-                            Text(
-                              productsClass.productName,
-                              style: OrdersPage_DeliveryInfo,
-                            ),
-                          ]
-                      ),
+                      Wrap(children: [
+                        Text(
+                          productsClass.productName,
+                          style: OrdersPage_DeliveryInfo,
+                        ),
+                      ]),
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 4,
@@ -119,9 +122,10 @@ class _cartContainerState extends State<cartContainer> {
                               color: Colors.black87,
                             ),
                           ),
-                          const SizedBox(width:160.0),
+                          const SizedBox(width: 160.0),
                           IconButton(
-                            icon: const Icon(Icons.delete, color: AppColors.primaryColor),
+                            icon: const Icon(Icons.delete,
+                                color: AppColors.primaryColor),
                             iconSize: 28,
                             splashRadius: 21.0,
                             onPressed: () {
@@ -130,7 +134,7 @@ class _cartContainerState extends State<cartContainer> {
                                   .doc(id);
                               Map<String, dynamic> data = {
                                 'prodReference':
-                                ref, // Updating Document Reference
+                                    ref, // Updating Document Reference
                               };
                               FirebaseFirestore.instance
                                   .collection('users')
@@ -140,9 +144,13 @@ class _cartContainerState extends State<cartContainer> {
                               }).whenComplete(() {
                                 print('Item Deleted');
                               });
+                              pushNewScreen(context,
+                                  screen: cart(
+                                      analytics: widget.analytics,
+                                      observer: widget.observer));
                             },
                           ),
-                          const SizedBox(width:8.0),
+                          const SizedBox(width: 8.0),
                         ],
                       ),
                     ],

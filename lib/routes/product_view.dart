@@ -17,11 +17,6 @@ import 'package:intl/intl.dart';
 
 import 'cart.dart';
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final User user = auth.currentUser!;
-final uid = user.uid;
-
 Future<String> userNameFinal = getUserName(uid);
 final firestoreInstance = FirebaseFirestore.instance;
 void printData() {
@@ -45,6 +40,11 @@ Future<String> getUserName(String uid) async {
 }
 
 DBService db = DBService();
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
 
 String formatTimestamp(Timestamp timestamp) {
   assert(timestamp != null);
@@ -74,14 +74,6 @@ class productView extends StatefulWidget {
 void buttonClicked() {
   print('Button Clicked');
 }
-
-/*
-final List<String> contents=[
-  'https://cdn.vatanbilgisayar.com/Upload/PRODUCT/apple/thumb/129911-9_large.jpg',
-  'https://photos5.appleinsider.com/gallery/44650-87056-Edge-of-iPhone-13-Pro-on-Edge-xl.jpg',
-  'https://thumbor.forbes.com/thumbor/fit-in/1200x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5f8e0aaafeac9889106b860f%2F0x0.png%3FcropX1%3D0%26cropX2%3D1462%26cropY1%3D115%26cropY2%3D1211',
-];
- */
 
 final isSelected = <bool>[true, false, false];
 bool _isFavoritePressed = false;

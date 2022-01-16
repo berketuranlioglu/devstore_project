@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/cart_container.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/feed.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,7 +37,6 @@ final uid = user.uid;
 int totalAmount = 0;
 
 class _cartState extends State<cart> {
-
   //analytics begin
   Future<void> _currentScreen() async {
     await widget.analytics.setCurrentScreen(
@@ -56,7 +56,7 @@ class _cartState extends State<cart> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           Users usersClass =
-          Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+              Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
 
           return Scaffold(
             appBar: AppBar(
@@ -78,7 +78,9 @@ class _cartState extends State<cart> {
                     onPressed: () => {
                       pushNewScreen(
                         context,
-                        screen: Profile(analytics: widget.analytics, observer: widget.observer),
+                        screen: Profile(
+                            analytics: widget.analytics,
+                            observer: widget.observer),
                       ),
                     },
                     child: const Icon(
@@ -93,8 +95,11 @@ class _cartState extends State<cart> {
               child: Center(
                 child: Column(
                   children: [
-                    for(int i = 0; i < usersClass.cart.length; i++)
-                      cartContainer(reference: usersClass.cart[i]['prodReference'], analytics: widget.analytics, observer: widget.observer),
+                    for (int i = 0; i < usersClass.cart.length; i++)
+                      cartContainer(
+                          reference: usersClass.cart[i]['prodReference'],
+                          analytics: widget.analytics,
+                          observer: widget.observer),
                     const SizedBox(
                       height: 32,
                     ),
@@ -141,10 +146,38 @@ class _cartState extends State<cart> {
                       width: 115.0,
                       child: FlatButton(
                         onPressed: () {
-                          pushNewScreen(context, screen: CheckoutView(analytics: widget.analytics, observer: widget.observer), withNavBar: false);
+                          pushNewScreen(context,
+                              screen: CheckoutView(
+                                  analytics: widget.analytics,
+                                  observer: widget.observer),
+                              withNavBar: false);
                         },
                         child: Text(
                           'CHECKOUT',
+                          style: signupPage_ButtonTxts,
+                        ),
+                        color: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      color: const Color(0xFFFFFFFF),
+                      height: 38.0,
+                      width: 115.0,
+                      child: FlatButton(
+                        onPressed: () {
+                          pushNewScreen(context,
+                              screen: FeedView(
+                                  analytics: widget.analytics,
+                                  observer: widget.observer),
+                              withNavBar: true);
+                        },
+                        child: Text(
+                          'CONTINUE',
                           style: signupPage_ButtonTxts,
                         ),
                         color: AppColors.primaryColor,

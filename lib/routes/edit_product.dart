@@ -29,6 +29,11 @@ class EditProductPage extends StatefulWidget {
   _EditProductPageState createState() => _EditProductPageState();
 }
 
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+final User user = auth.currentUser!;
+final uid = user.uid;
+
 DBService db = DBService();
 
 int price = 0;
@@ -66,14 +71,6 @@ class _EditProductPageState extends State<EditProductPage> {
                     ),
                     const SizedBox(
                       height: 16,
-                    ),
-                    Container(
-                      height: 150,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.network(productClass.imageURL[0]),
                     ),
                     SingleChildScrollView(
                       child: Form(
@@ -263,7 +260,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 8.0,
+                                    height: 26.0,
                                   ),
                                   Form(
                                     child: FlatButton(
@@ -300,6 +297,24 @@ class _EditProductPageState extends State<EditProductPage> {
                                             BorderRadius.circular(15.0)),
                                     onPressed: () {
                                       db.deleteProduct(widget.id);
+
+                                      DocumentReference ref = FirebaseFirestore
+                                          .instance
+                                          .collection('products')
+                                          .doc(widget.id);
+                                      Map<String, dynamic> data = {
+                                        'prod':
+                                            ref, // Updating Document Reference
+                                      };
+                                      FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(uid)
+                                          .update({
+                                        'productReference':
+                                            FieldValue.arrayRemove([data])
+                                      }).whenComplete(() {
+                                        print('Removed from Favorites');
+                                      });
                                     },
                                   ),
                                 ],

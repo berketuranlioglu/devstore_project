@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:devstore_project/routes/edit_product.dart';
 
 class DBService {
   final CollectionReference userCollection =
@@ -99,20 +102,36 @@ class DBService {
         .catchError((error) => print('Error: ${error.toString()}'));
   }
 
-  Future addItem(String productName, String productDescription,
-      String productPrice, String imageUrl, String token) async {
-    userCollection
-        .doc(token)
+  Future addItem(
+      String productName,
+      String categoryName,
+      String productDescription,
+      int productPrice,
+      List imageUrl,
+      String token,
+      String username,
+      String prodToken) async {
+    productsCollection
+        .doc(prodToken)
         .set({
+          'category': categoryName,
+          'comments': [],
+          'location': null,
+          'overview': 'Ipsum',
+          'previousPrice': productPrice,
+          'salePrice': productPrice,
+          'sellerName': username,
+          'stockCount': 1,
+          'rating': 0.0,
+          'ratingCount': 0,
+          'details': productDescription,
           'productName': productName,
-          'productDescription': productDescription,
-          'userToken': token,
-          'productPrice': productPrice,
-          'imageUrl':
-              'https://st4.depositphotos.com/4668373/25069/v/1600/depositphotos_250696606-stock-illustration-hand-drawn-sketch-of-mobile.jpg',
+          'productBrand': productName + ' ltd',
+          'imageURL': imageUrl,
           'isActive': true,
+          'sellerReference': '/users/' + token,
         })
-        .then((value) => print('User added'))
+        .then((value) => print('Item added'))
         .catchError((error) => print('Error: ${error.toString()}'));
   }
 
