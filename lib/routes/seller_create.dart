@@ -261,7 +261,7 @@ class _SellerItemCreateState extends State<SellerItemCreate> {
                                           },
                                           onChanged: (value) {
                                             if (value != null) {
-                                              productDescription = value;
+                                              productName = value;
                                             }
                                           },
                                         ),

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/objects/order_button.dart';
 import 'package:devstore_project/objects/users.dart';
+import 'package:devstore_project/routes/add_comments.dart';
+import 'package:devstore_project/routes/product_view.dart';
 import 'package:devstore_project/routes/profile.dart';
 import 'package:devstore_project/services/db.dart';
 import 'package:devstore_project/utils/color.dart';
@@ -115,6 +117,53 @@ class _OrdersViewState extends State<OrdersView> {
                             observer: widget.observer,
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                pushNewScreen(
+                                  context,
+                                  screen: AddCommentsView(
+                                    id: usersClass.orders[i]['product'].id.toString(),
+                                    username: usersClass.username,
+                                    analytics: widget.analytics,
+                                    observer: widget.observer,
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Comment about it",
+                                    style: GoogleFonts.openSans(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal, //orders page order date
+                                    ),
+                                  ),
+                                  SizedBox(width:4),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 20,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ],
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                  color: AppColors.primaryColor,
+                                  width: 2,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                 ],
