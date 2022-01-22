@@ -511,7 +511,9 @@ class _productViewState extends State<productView> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          widget.username,
+                                                          productsClass
+                                                              .comments[i]
+                                                                ['username'],
                                                           style:
                                                               productPageSellerText2,
                                                           textAlign:

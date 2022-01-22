@@ -10,34 +10,13 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:intl/intl.dart';
 
 import 'cart.dart';
-
-Future<String> userNameFinal = getUserName(uid);
-final firestoreInstance = FirebaseFirestore.instance;
-void printData() {
-  firestoreInstance.collection('users').doc("password").get();
-}
-
-Future<Map<String, dynamic>?> getUser(String uid) async {
-  var data =
-  await firestoreInstance.collection("users").doc(uid).get().then((value) {
-    return value.data();
-  });
-  return data;
-}
-
-Future<String> getUserName(String uid) async {
-  var userData = {};
-  userData = (await getUser(uid))!;
-  var a = await getUser(uid);
-  print(userData["username"]);
-  return userData["username"];
-}
 
 DBService db = DBService();
 
@@ -77,6 +56,8 @@ void buttonClicked() {
 
 final isSelected = <bool>[true, false, false];
 String comment = "";
+double rating = 0.0;
+final _formKey = GlobalKey<FormState>();
 
 class _AddCommentsViewState extends State<AddCommentsView> {
   final int _current = 0;
@@ -115,155 +96,246 @@ class _AddCommentsViewState extends State<AddCommentsView> {
                     color: Colors.black),
               ),
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.network(
-                    productsClass.imageURL[0],
-                    height: 200,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            body: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Image.network(
+                        productsClass.imageURL[0],
+                        height: 200,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Comment about ${productsClass.productName}",
+                                  style: fav_camp_recomBanner,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: Row(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Comment about ${productsClass.productName}",
-                              style: fav_camp_recomBanner,
+                            Expanded(
+                              flex: 1,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                  hintText: 'Comment',
+                                  hintStyle:
+                                  const TextStyle(fontSize: 14.0),
+                                  prefixIcon: const Icon(
+                                      Icons.comment,
+                                      color: Colors.grey),
+                                  contentPadding:
+                                  const EdgeInsets.all(12.0),
+                                  enabledBorder:
+                                  const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15)),
+                                  ),
+                                ),
+                                maxLines: 3,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Type your comment.';
+                                  } else {
+                                    String trimmedValue =
+                                    value.trim();
+                                    if (trimmedValue.isEmpty) {
+                                      return 'Type your comment.';
+                                    }
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  if (value != null) {
+                                    comment = value;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    comment = value;
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.center,
+                          children: [
+                            const Text("Your rating:"),
+                            const SizedBox(width:12),
+                            Container(
+                              width: 120,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  fillColor: Colors.grey[200],
+                                  filled: true,
+                                  hintText: 'Rating',
+                                  hintStyle:
+                                  const TextStyle(fontSize: 14.0),
+                                  prefixIcon: const Icon(
+                                    Icons.star,
+                                    color: AppColors.starColor,
+                                  ),
+                                  contentPadding:
+                                  const EdgeInsets.all(12.0),
+                                  enabledBorder:
+                                  const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15)),
+                                  ),
+                                ),
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Type your rating.';
+                                  } else {
+                                    String trimmedValue =
+                                    value.trim();
+                                    if (trimmedValue.isEmpty) {
+                                      return 'Type your rating.';
+                                    }
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  if (value != null) {
+                                    rating = double.parse(value);
+                                  }
+                                },
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    rating = double.parse(value);
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                        child: Container(
+                          width: 200,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Posting The Comment!'),
+                                  ),
+                                );
+                              }
+                              DateTime currentPhoneDate =
+                                DateTime.now();
+                              Timestamp myTimeStamp =
+                                Timestamp.fromDate(currentPhoneDate);
+
+                              DocumentReference ref =
+                              FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc(widget.id);
+
+                              Map<String, dynamic> dataUser = {
+                                'comment': comment,
+                                'date': myTimeStamp,
+                                'rating': rating,
+                                'product': ref,
+                              };
+                              Map<String, dynamic> dataProducts = {
+                                'comment': comment,
+                                'date': myTimeStamp,
+                                'rating': rating,
+                                'ppUrl': "https://i.stack.imgur.com/l60Hf.png",
+                                'username': widget.username,
+                              };
+                              FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .update({
+                                'comments':
+                                FieldValue.arrayUnion([dataUser])
+                              }).whenComplete(() {
+                                print('Added to Comments');
+                              });
+                              FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc(widget.id)
+                                  .update({
+                                'comments':
+                                FieldValue.arrayUnion([dataProducts])
+                              }).whenComplete(() {
+                                print('Added to Comments');
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Post your comment",
+                                  style: GoogleFonts.openSans(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal, //orders page order date
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 2,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height:20),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
-                    child: Row(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              fillColor: Colors.grey[200],
-                              filled: true,
-                              hintText: 'Comment',
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0),
-                              prefixIcon: const Icon(
-                                  Icons.comment,
-                                  color: Colors.grey),
-                              contentPadding:
-                              const EdgeInsets.all(12.0),
-                              enabledBorder:
-                              const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(15)),
-                              ),
-                            ),
-                            maxLines: 5,
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Details field cannot be empty';
-                              } else {
-                                String trimmedValue =
-                                value.trim();
-                                if (trimmedValue.isEmpty) {
-                                  return 'Details field cannot be empty';
-                                }
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              if (value != null) {
-                                comment = value;
-                              }
-                            },
-                            onChanged: (value) {
-                              if (value != null) {
-                                comment = value;
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                      children: [
-                        Text("Your rating:"),
-                        SizedBox(width:12),
-                        Container(
-                          width: 120,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              fillColor: Colors.grey[200],
-                              filled: true,
-                              hintText: 'Rating',
-                              hintStyle:
-                              const TextStyle(fontSize: 14.0),
-                              prefixIcon: const Icon(
-                                Icons.star,
-                                color: AppColors.starColor,
-                              ),
-                              contentPadding:
-                              const EdgeInsets.all(12.0),
-                              enabledBorder:
-                              const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(15)),
-                              ),
-                            ),
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Details field cannot be empty';
-                              } else {
-                                String trimmedValue =
-                                value.trim();
-                                if (trimmedValue.isEmpty) {
-                                  return 'Details field cannot be empty';
-                                }
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              if (value != null) {
-                                comment = value;
-                              }
-                            },
-                            onChanged: (value) {
-                              if (value != null) {
-                                comment = value;
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height:20),
-                ],
+                ),
               ),
             ),
           );
