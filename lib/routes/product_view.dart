@@ -10,6 +10,7 @@ import 'package:devstore_project/utils/color.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:devstore_project/utils/dimension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -556,7 +557,64 @@ class _productViewState extends State<productView> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 4),
+                                productsClass.sellerName == widget.username
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                Map<String, dynamic> data = {
+                                                  'comment': productsClass
+                                                      .comments[i]['comment'],
+                                                  'date': productsClass
+                                                      .comments[i]['date'],
+                                                  'ppUrl': productsClass
+                                                      .comments[i]['ppUrl'],
+                                                  'rating': productsClass
+                                                      .comments[i]['rating'],
+                                                  'username': productsClass
+                                                      .comments[i]['username'],
+                                                };
+                                                FirebaseFirestore.instance
+                                                    .collection('products')
+                                                    .doc(widget.id)
+                                                    .update({
+                                                  'comments':
+                                                      FieldValue.arrayRemove(
+                                                          [data])
+                                                }).whenComplete(() {
+                                                  print('Comment Deleted');
+                                                });
+                                              });
+                                            },
+                                            child: Text(
+                                              "Delete",
+                                              style: GoogleFonts.openSans(
+                                                color: AppColors.primaryColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight
+                                                    .normal, //orders page order date
+                                              ),
+                                            ),
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                                color: AppColors.primaryColor,
+                                                width: 2,
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(
+                                        height: 1,
+                                      ),
                               ],
                             ),
                         ],
