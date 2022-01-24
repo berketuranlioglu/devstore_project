@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:devstore_project/routes/checkout_success.dart';
 import 'package:devstore_project/utils/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class CheckoutView extends StatefulWidget {
-  const CheckoutView({Key? key, required this.analytics, required this.observer}) : super(key: key);
+  const CheckoutView({Key? key, required this.prodList, required this.analytics, required this.observer}) : super(key: key);
+  final List<dynamic> prodList;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
@@ -211,7 +213,40 @@ class _CheckoutViewState extends State<CheckoutView> {
                           width: 250,
                           child: OutlinedButton(
                             onPressed: () {
-                              pushNewScreen(context, screen: CheckoutSuccessView(analytics: widget.analytics, observer: widget.observer));
+                              pushNewScreen(
+                                context,
+                                screen: CheckoutSuccessView(
+                                  analytics: widget.analytics,
+                                  observer: widget.observer,
+                                ),
+                              );
+                              DateTime currentPhoneDate =
+                              DateTime.now();
+                              Timestamp myTimeStamp =
+                              Timestamp.fromDate(currentPhoneDate);
+
+                              for (int i = 0; i < widget.prodList.length; i++) {
+                                DocumentReference ref =
+                                FirebaseFirestore.instance
+                                    .collection('products')
+                                    .doc(widget.prodList[i].id);
+
+                                Map<String, dynamic> dataUser = {
+                                  'date': myTimeStamp,
+                                  'product': ref,
+                                  'status': "Processing",
+                                };
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(uid)
+                                    .update({
+                                  'orders':
+                                  FieldValue.arrayUnion([dataUser])
+                                }).whenComplete(() {
+                                  print('Added to Orders');
+                                });
+                              }
+
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4.0),

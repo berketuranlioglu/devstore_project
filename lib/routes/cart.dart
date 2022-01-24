@@ -57,6 +57,10 @@ class _cartState extends State<cart> {
         if (snapshot.connectionState == ConnectionState.done) {
           Users usersClass =
               Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+          List<dynamic> prodList = [];
+          for (int i = 0; i < usersClass.cart.length; i++) {
+            prodList.add(usersClass.cart[i]["prodReference"]);
+          }
 
           return Scaffold(
             appBar: AppBar(
@@ -147,10 +151,12 @@ class _cartState extends State<cart> {
                       child: FlatButton(
                         onPressed: () {
                           pushNewScreen(context,
-                              screen: CheckoutView(
-                                  analytics: widget.analytics,
-                                  observer: widget.observer),
-                              );
+                            screen: CheckoutView(
+                              prodList: prodList,
+                              analytics: widget.analytics,
+                              observer: widget.observer,
+                            ),
+                          );
                         },
                         child: Text(
                           'CHECKOUT',
@@ -172,8 +178,9 @@ class _cartState extends State<cart> {
                         onPressed: () {
                           pushNewScreen(context,
                               screen: FeedView(
-                                  analytics: widget.analytics,
-                                  observer: widget.observer),
+                                analytics: widget.analytics,
+                                observer: widget.observer,
+                              ),
                               withNavBar: true);
                         },
                         child: Text(

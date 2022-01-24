@@ -89,83 +89,88 @@ class _OrdersViewState extends State<OrdersView> {
                 ]),
             body: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for(int i = 0; i < usersClass.orders.length; i++)
-                    Column(
-                      children: [
-                        Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for(int i = 0; i < usersClass.orders.length; i++)
+                        Column(
                           children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                                  child: Text(
+                                    DateFormat('d MMMM y').format(
+                                        usersClass.orders[i]["date"].toDate()
+                                    ),
+                                    style: OrdersPage_Date,
+                                  ),
+                                ),
+                              ],
+                            ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                              child: Text(
-                                DateFormat('d MMMM y').format(
-                                    usersClass.orders[i]["date"].toDate()
-                                ),
-                                style: OrdersPage_Date,
+                              child: OrderButton(
+                                status: usersClass.orders[i]['status'],
+                                reference: usersClass.orders[i]['product'],
+                                analytics: widget.analytics,
+                                observer: widget.observer,
                               ),
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                          child: OrderButton(
-                            status: usersClass.orders[i]['status'],
-                            reference: usersClass.orders[i]['product'],
-                            analytics: widget.analytics,
-                            observer: widget.observer,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                pushNewScreen(
-                                  context,
-                                  screen: AddCommentsView(
-                                    id: usersClass.orders[i]['product'].id.toString(),
-                                    username: usersClass.username,
-                                    analytics: widget.analytics,
-                                    observer: widget.observer,
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    pushNewScreen(
+                                      context,
+                                      screen: AddCommentsView(
+                                        id: usersClass.orders[i]['product'].id.toString(),
+                                        username: usersClass.username,
+                                        analytics: widget.analytics,
+                                        observer: widget.observer,
+                                      ),
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Comment about it",
+                                        style: GoogleFonts.openSans(
+                                          color: AppColors.primaryColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal, //orders page order date
+                                        ),
+                                      ),
+                                      SizedBox(width:4),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        size: 20,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ],
                                   ),
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Comment about it",
-                                    style: GoogleFonts.openSans(
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(
                                       color: AppColors.primaryColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal, //orders page order date
+                                      width: 2,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                   ),
-                                  SizedBox(width:4),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    size: 20,
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ],
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 2,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height:32),
                 ],
               ),
             ),
