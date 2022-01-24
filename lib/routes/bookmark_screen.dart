@@ -89,6 +89,10 @@ class _bookmarkState extends State<bookmark> {
           if (snapshot.connectionState == ConnectionState.done) {
             Users userClass =
             Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+            List<String> id = [];
+            for (int i = 0; i < userClass.bookmarks.length; i++) {
+              id.add(userClass.bookmarks[i]["bookmarkRef"].id);
+            }
             return Padding(
               padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -101,7 +105,22 @@ class _bookmarkState extends State<bookmark> {
                     direction: DismissDirection.endToStart,
                     onDismissed: (direction) {
                       setState(() {
-                        //TODO: BOOKMARKS'TAN SIL
+                        //TODO: FAVORTIES'TEN SIL
+                        DocumentReference ref = FirebaseFirestore.instance
+                            .collection('products')
+                            .doc(id[index]);
+                        Map<String, dynamic> data = {
+                          'bookmarkRef':
+                          ref, // Updating Document Reference
+                        };
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .update({
+                          'bookmarks': FieldValue.arrayRemove([data])
+                        }).whenComplete(() {
+                          print('Removed from Bookmarks');
+                        });
                       });
                     },
                     background: Container(
