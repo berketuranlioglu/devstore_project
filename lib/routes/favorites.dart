@@ -92,6 +92,10 @@ class _favoritesState extends State<favorites> {
           if (snapshot.connectionState == ConnectionState.done) {
             Users userClass =
             Users.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+            List<String> id = [];
+            for (int i = 0; i < userClass.favorites.length; i++) {
+              id.add(userClass.favorites[i]["favRef"].id);
+            }
             return Padding(
               padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -105,9 +109,9 @@ class _favoritesState extends State<favorites> {
                     onDismissed: (direction) {
                       setState(() {
                         //TODO: FAVORTIES'TEN SIL
-                        /*DocumentReference ref = FirebaseFirestore.instance
+                        DocumentReference ref = FirebaseFirestore.instance
                             .collection('products')
-                            .doc(widget.id);
+                            .doc(id[index]);
                         Map<String, dynamic> data = {
                           'favRef':
                           ref, // Updating Document Reference
@@ -119,7 +123,7 @@ class _favoritesState extends State<favorites> {
                           'favorites': FieldValue.arrayRemove([data])
                         }).whenComplete(() {
                           print('Removed from Favorites');
-                        });*/
+                        });
                       });
                     },
                     background: Container(
